@@ -75,7 +75,7 @@ module.exports =
 
 "use strict";
 
-
+console.log('magcore-plugin-youtube-dl start');
 module.exports = __webpack_require__(/*! ./is-implemented */ 54)() ? Symbol : __webpack_require__(/*! ./polyfill */ 55);
 
 /***/ }),

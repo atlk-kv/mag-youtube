@@ -1,3915 +1,8042 @@
-! function(e) {
-  function t(n) {
-    if (i[n]) return i[n].exports;
-    var s = i[n] = {
-      exports: {},
-      id: n,
-      loaded: !1
+'use strict';
+!function(modules) {
+  /**
+   * @param {number} moduleId
+   * @return {?}
+   */
+  function __webpack_require__(moduleId) {
+    if (installedModules[moduleId]) {
+      return installedModules[moduleId].exports;
+    }
+    var module = installedModules[moduleId] = {
+      exports : {},
+      id : moduleId,
+      loaded : false
     };
-    return e[n].call(s.exports, s, s.exports, t), s.loaded = !0, s.exports
+    return modules[moduleId].call(module.exports, module, module.exports, __webpack_require__), module.loaded = true, module.exports;
   }
-  var i = {};
-  return t.m = e, t.c = i, t.p = "", t(0)
-}([function(e, t, i) {
-  "use strict";
-
-  function n() {
-    var e, t = i(10),
-      n = ["AuraHD2", "AuraHD3", "AuraHD8", "MAG254", "MAG275", "MAG276", "WR320"].indexOf(window.top.gSTB.GetDeviceModelExt()) !== -1;
-    t.availHeight = t.height - (t.availTop + t.availBottom), t.availWidth = t.width - (t.availLeft + t.availRight), l.data || (l.data = {}), l.data.metrics = t, i(17).token && (l.data.metrics.mainMenuSize -= 2), l.pages = {
-      main: i(21),
-      search: i(57)
-    }, s = new(i(51))({
-      $node: document.getElementById("exitMessage"),
-      events: {
-        keydown: function(e) {
-          e.code === c.ok ? l.quit() : e.code !== c.back && e.code !== c.exit || (e.stop = !0, s.hide(), a.focus())
+  var installedModules = {};
+  return __webpack_require__.m = modules, __webpack_require__.c = installedModules, __webpack_require__.p = "", __webpack_require__(0);
+}([function(canCreateDiscussions, isSlidingUp, require) {
+  /**
+   * @return {undefined}
+   */
+  function init() {
+    var item;
+    var screen = require(10);
+    /** @type {boolean} */
+    var HAS_BROKEN_LINEHEIGHT = ["AuraHD2", "AuraHD3", "AuraHD8", "MAG254", "MAG275", "MAG276", "WR320"].indexOf(window.top.gSTB.GetDeviceModelExt()) !== -1;
+    /** @type {number} */
+    screen.availHeight = screen.height - (screen.availTop + screen.availBottom);
+    /** @type {number} */
+    screen.availWidth = screen.width - (screen.availLeft + screen.availRight);
+    if (!self.data) {
+      self.data = {};
+    }
+    self.data.metrics = screen;
+    if (require(17).token) {
+      self.data.metrics.mainMenuSize -= 2;
+    }
+    self.pages = {
+      main : require(21),
+      search : require(57)
+    };
+    that = new (require(51))({
+      $node : document.getElementById("exitMessage"),
+      events : {
+        keydown : function(target) {
+          if (target.code === c.ok) {
+            self.quit();
+          } else {
+            if (!(target.code !== c.back && target.code !== c.exit)) {
+              /** @type {boolean} */
+              target.stop = true;
+              that.hide();
+              inlineEditor2.focus();
+            }
+          }
         }
       }
-    }), s.$body.classList.add("modalExit"), s.$header.innerHTML = gettext("Выйти из приложения?"), s.$content.innerHTML = "", s.$footer.innerHTML = "", s.$footer.appendChild(e = document.createElement("div")), e.innerText = gettext("Ok"), e.className = "btn confirm" + (n ? "" : " old"), s.$footer.appendChild(e = document.createElement("div")), e.className = "btn back" + (n ? "" : " old"), e.innerText = gettext("Cancel"), l.params.search ? l.route(l.pages.search, {
-      search: l.params.search
-    }) : l.params.channelId ? l.route(l.pages.main, {
-      channel: {
-        id: l.params.channelId,
-        noBack: !0
+    });
+    that.$body.classList.add("modalExit");
+    that.$header.innerHTML = gettext("\u0412\u044b\u0439\u0442\u0438 \u0438\u0437 \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u044f?");
+    /** @type {string} */
+    that.$content.innerHTML = "";
+    /** @type {string} */
+    that.$footer.innerHTML = "";
+    that.$footer.appendChild(item = document.createElement("div"));
+    item.innerText = gettext("Ok");
+    /** @type {string} */
+    item.className = "btn confirm" + (HAS_BROKEN_LINEHEIGHT ? "" : " old");
+    that.$footer.appendChild(item = document.createElement("div"));
+    /** @type {string} */
+    item.className = "btn back" + (HAS_BROKEN_LINEHEIGHT ? "" : " old");
+    item.innerText = gettext("Cancel");
+    if (self.params.search) {
+      self.route(self.pages.search, {
+        search : self.params.search
+      });
+    } else {
+      if (self.params.channelId) {
+        self.route(self.pages.main, {
+          channel : {
+            id : self.params.channelId,
+            noBack : true
+          }
+        });
+      } else {
+        self.route(self.pages.main);
       }
-    }) : l.route(l.pages.main), l.ready(), o = i(27)
+    }
+    self.ready();
+    o = require(27);
   }
-  var s, a, o, l = i(1),
-    c = i(13),
-    r = (i(15), i(16));
-  l.quit = function() {
-    core.storage.setItem(r.settingsFile, JSON.stringify(l.settings)), l.exit()
-  }, l.reload = function() {
-    core.storage.setItem(r.settingsFile, JSON.stringify(l.settings)), window.location.reload(), l.emit("load")
-  }, l.addListeners({
-    load: function() {
-      var e, t, s = i(42),
-        a = i(15);
-      l.urlParser = core.plugins.youtubeDL;
+  var that;
+  var inlineEditor2;
+  var o;
+  var self = require(1);
+  var c = require(13);
+  var options = (require(15), require(16));
+  /**
+   * @return {undefined}
+   */
+  self.quit = function() {
+    core.storage.setItem(options.settingsFile, JSON.stringify(self.settings));
+    self.exit();
+  };
+  /**
+   * @return {undefined}
+   */
+  self.reload = function() {
+    core.storage.setItem(options.settingsFile, JSON.stringify(self.settings));
+    window.location.reload();
+    self.emit("load");
+  };
+  self.addListeners({
+    load : function() {
+      var option;
+      var str;
+      var locale = require(42);
+      var config = require(15);
+      self.urlParser = core.plugins.youtubeDL;
       try {
-        if (t = core.storage.getItem(r.settingsFile)) l.settings = JSON.parse(t);
-        else {
-          for (e in r.defaultSettings) l.settings[e] && (l.settings[e] = r.defaultSettings[e]);
-          l.settings = r.defaultSettings, core.storage.setItem(r.settingsFile, JSON.stringify(l.settings))
+        if (str = core.storage.getItem(options.settingsFile)) {
+          /** @type {*} */
+          self.settings = JSON.parse(str);
+        } else {
+          for (option in options.defaultSettings) {
+            if (self.settings[option]) {
+              self.settings[option] = options.defaultSettings[option];
+            }
+          }
+          self.settings = options.defaultSettings;
+          core.storage.setItem(options.settingsFile, JSON.stringify(self.settings));
         }
       } catch (e) {
-        l.settings = !1
+        /** @type {boolean} */
+        self.settings = false;
       }
-      l.settings || (l.settings = r.defaultSettings, core.storage.setItem(r.settingsFile, JSON.stringify(l.settings)));
-      for (e in r.defaultSettings) void 0 === l.settings[e] && (l.settings[e] = r.defaultSettings[e]);
-      a.languages.indexOf(l.settings.keyboardLanguage) === -1 && (l.settings.keyboardLanguage = 0), l.params = i(71)(location.search.substring(1)), l.params.language && (l.settings.languageOverwrite = 1, l.settings.language = l.params.language), i(43).load({
-        name: l.settings.language || core.environment.language || "en"
+      if (!self.settings) {
+        self.settings = options.defaultSettings;
+        core.storage.setItem(options.settingsFile, JSON.stringify(self.settings));
+      }
+      for (option in options.defaultSettings) {
+        if (void 0 === self.settings[option]) {
+          self.settings[option] = options.defaultSettings[option];
+        }
+      }
+      if (config.languages.indexOf(self.settings.keyboardLanguage) === -1) {
+        /** @type {number} */
+        self.settings.keyboardLanguage = 0;
+      }
+      self.params = require(71)(location.search.substring(1));
+      if (self.params.language) {
+        /** @type {number} */
+        self.settings.languageOverwrite = 1;
+        self.settings.language = self.params.language;
+      }
+      require(43).load({
+        name : self.settings.language || core.environment.language || "en"
       }, function() {
-        var e;
-        l.languageIndex = s.languageIndex, l.settings.language = a.languages[l.languageIndex], document.documentElement.dir = a.directions[l.languageIndex], "rtl" === document.documentElement.dir && (e = c.left, c.left = c.right, c.right = e), n()
-      }), l.settings.languageOverwrite ? s.setLang(l.settings.language) : l.settings.language = core.environment.language || "en"
-    },
-    unload: function() {
-      core.storage.setItem(r.settingsFile, JSON.stringify(l.settings))
-    },
-    keydown: function(e) {
-      e.stop || e.code === c.back && (o && !o.visible ? (a = l.activePage.activeComponent, s.show(), s.focus()) : l.quit())
-    }
-  })
-}, function(e, t, i) {
-  "use strict";
-  var n = i(2);
-  e.exports = n
-}, function(e, t, i) {
-  "use strict";
-  var n = i(3),
-    s = i(7);
-  window.core = window.parent.getCoreInstance(window, n), i(8), i(9), i(11)("sdk"), i(12), i(11)("app"), n.platform = "mag", n.ready = function() {
-    window.core.call("app:ready")
-  }, n.exit = function() {
-    n.events["exit"] && n.emit("exit"), core.call("exit")
-  }, s.load = function(e) {
-    document.body.setAttribute("platform", n.platform), core.ready ? n.events["load"] && n.emit("load", {}) : core.once("load", function() {
-      n.events[e.type] && n.emit(e.type, e)
-    })
-  }, Object.keys(s).forEach(function(e) {
-    window.addEventListener(e, s[e])
-  }), e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e, t) {
-    return !(!e || e.active) && (e.$node.classList.add("active"), e.active = !0, l.activePage = e, e.events["show"] && e.emit("show", {
-      page: e,
-      data: t
-    }), !0)
-  }
-
-  function s(e) {
-    return !(!e || !e.active) && (e.$node.classList.remove("active"), e.active = !1, l.activePage = null, e.events["hide"] && e.emit("hide", {
-      page: e
-    }), !0)
-  }
-  var a = i(4),
-    o = i(5).parse,
-    l = new a;
-  l.query = o(document.location.search.substring(1)), l.config = i(6), l.activePage = null, l.route = function(e, t) {
-    var i = l.activePage;
-    return !(!e || e.active) && (s(l.activePage), n(e, t), this.events["route"] && this.emit("route", {
-      from: i,
-      to: e
-    }), !0)
-  }, e.exports = l
-}, function(e, t, i) {
-  "use strict";
-
-  function n() {
-    this.events = {}
-  }
-  n.prototype = {
-    addListener: function(e, t) {
-      this.events[e] = this.events[e] || [], this.events[e].push(t)
-    },
-    once: function(e, t) {
-      var i = this;
-      this.events[e] = this.events[e] || [], this.events[e].push(function n() {
-        i.removeListener(e, n), t.apply(i, arguments)
-      })
-    },
-    addListeners: function(e) {
-      var t;
-      for (t in e) e.hasOwnProperty(t) && this.addListener(t, e[t])
-    },
-    removeListener: function(e, t) {
-      this.events[e] && (this.events[e] = this.events[e].filter(function(e) {
-        return e !== t
-      }), 0 === this.events[e].length && (this.events[e] = void 0))
-    },
-    emit: function(e) {
-      var t, i = this.events[e];
-      if (i)
-        for (t = 0; t < i.length; t++) i[t].apply(this, Array.prototype.slice.call(arguments, 1))
-    }
-  }, n.prototype.constructor = n, e.exports = n
-}, function(e, t) {
-  "use strict";
-  e.exports = {
-    parse: function(e) {
-      var t = {};
-      return e.split("&").forEach(function(e) {
-        e = e.split("="), 2 === e.length && (t[e[0]] = decodeURIComponent(e[1]))
-      }), t
-    },
-    stringify: function(e) {
-      var t = [];
-      return Object.keys(e).forEach(function(i) {
-        t.push(i + "=" + encodeURIComponent(e[i]))
-      }), t.join("&")
-    }
-  }
-}, function(e, t) {
-  "use strict";
-  e.exports = {}
-}, function(e, t, i) {
-  "use strict";
-  var n = i(3);
-  e.exports = {
-    DOMContentLoaded: function(e) {
-      n.events["dom"] && n.emit("dom", e)
-    },
-    load: function(e) {
-      n.events[e.type] && n.emit(e.type, e)
-    },
-    unload: function(e) {
-      n.events[e.type] && n.emit(e.type, e)
-    },
-    error: function(e) {},
-    keydown: function(e) {
-      var t, i = n.activePage,
-        s = {
-          code: e.keyCode,
-          stop: !1
-        };
-      e.ctrlKey && (s.code += "c"), e.altKey && (s.code += "a"), e.shiftKey && (s.code += "s"), t = i.activeComponent, t && t !== i && (t.events[e.type] && t.emit(e.type, s, e), !s.stop && t.propagate && t.parent && t.parent.events[e.type] && t.parent.emit(e.type, s, e)), s.stop || (i.events[e.type] && i.emit(e.type, s, e), e.stop || n.events[e.type] && n.emit(e.type, s, e))
-    },
-    keypress: function(e) {
-      var t = n.activePage;
-      t.activeComponent && t.activeComponent !== t && t.activeComponent.events[e.type] && t.activeComponent.emit(e.type, e)
-    },
-    mousewheel: function(e) {
-      var t = n.activePage;
-      t.activeComponent && t.activeComponent !== t && t.activeComponent.events[e.type] && t.activeComponent.emit(e.type, e), e.stop || t.events[e.type] && t.emit(e.type, e)
-    }
-  }
-}, function(e, t) {
-  "use strict";
-  if (!document.documentElement.classList) {
-    var i = Array.prototype,
-      n = i.indexOf,
-      s = i.slice,
-      a = i.push,
-      o = i.splice,
-      l = i.join;
-    window.DOMTokenList = function(e) {
-      if (this._element = e, e.className !== this._classCache) {
-        if (this._classCache = e.className, !this._classCache) return;
-        var t, i = this._classCache.replace(/^\s+|\s+$/g, "").split(/\s+/);
-        for (t = 0; t < i.length; t++) a.call(this, i[t])
-      }
-    }, window.DOMTokenList.prototype = {
-      add: function(e) {
-        this.contains(e) || (a.call(this, e), this._element.className = s.call(this, 0).join(" "))
-      },
-      contains: function(e) {
-        return n.call(this, e) !== -1
-      },
-      item: function(e) {
-        return this[e] || null
-      },
-      remove: function(e) {
-        var t = n.call(this, e);
-        t !== -1 && (o.call(this, t, 1), this._element.className = s.call(this, 0).join(" "))
-      },
-      toString: function() {
-        return l.call(this, " ")
-      },
-      toggle: function(e) {
-        return this.contains(e) ? this.remove(e) : this.add(e), this.contains(e)
-      }
-    }, Object.defineProperty(Element.prototype, "classList", {
-      get: function() {
-        return new window.DOMTokenList(this)
-      }
-    })
-  }
-}, function(e, t, i) {
-  "use strict";
-  var n = i(3),
-    s = i(10);
-  n.metrics = s[n.query.screenHeight] || s[screen.height] || s[720], n.metrics.availHeight = n.metrics.height - (n.metrics.availTop + n.metrics.availBottom), n.metrics.availWidth = n.metrics.width - (n.metrics.availLeft + n.metrics.availRight)
-}, function(e, t) {
-  "use strict";
-  e.exports = {
-    480: {
-      height: 480,
-      width: 720,
-      availTop: 24,
-      availBottom: 24,
-      availRight: 32,
-      availLeft: 48,
-      mainMenuSize: 8
-    },
-    576: {
-      height: 576,
-      width: 720,
-      availTop: 24,
-      availBottom: 24,
-      availRight: 28,
-      availLeft: 54,
-      mainMenuSize: 10
-    },
-    720: {
-      height: 720,
-      width: 1280,
-      availTop: 10,
-      availBottom: 10,
-      availRight: 10,
-      availLeft: 10,
-      mainMenuSize: 9
-    },
-    1080: {
-      height: 1080,
-      width: 1920,
-      availTop: 15,
-      availBottom: 15,
-      availRight: 15,
-      availLeft: 15,
-      mainMenuSize: 9
-    }
-  }
-}, function(e, t, i) {
-  "use strict";
-  var n = i(3);
-  e.exports = function(e) {
-    var t = document.createElement("link");
-    t.rel = "stylesheet", t.href = "css/release." + e + "." + n.metrics.height + ".css", document.head.appendChild(t)
-  }
-}, function(e, t, i) {
-  "use strict";
-  var n, s = i(3);
-  n = document.createElement("link"), n.rel = "stylesheet", n.href = window.core.theme.path + s.metrics.height + ".css", document.head.appendChild(n), e.exports = n
-}, function(e, t, i) {
-  "use strict";
-  var n = i(14);
-  n.back = n.backspace, n.channelNext = n.tab, n.channelPrev = n.tab + "s", n.ok = n.enter, n.exit = n.escape, n.volumeUp = 107, n.volumeDown = 109, n.f1 = "112c", n.f2 = "113c", n.f3 = "114c", n.f4 = "115c", n.refresh = "116c", n.frame = "117c", n.phone = "119c", n.set = "120c", n.tv = "121c", n.menu = "122c", n.app = "123c", n.rewind = "66a", n.forward = "70a", n.audio = "71a", n.standby = "74a", n.keyboard = "76a", n.usbMounted = "80a", n.usbUnmounted = "81a", n.playPause = "82a", n.play = -1, n.pause = -1, n.stop = "83a", n.power = "85a", n.record = "87a", n.info = "89a", n.mute = "192a", n.digit0 = 48, n.digit1 = 49, n.digit2 = 50, n.digit3 = 51, n.digit4 = 52, n.digit5 = 53, n.digit6 = 54, n.digit7 = 55, n.digit8 = 56, n.digit9 = 57, e.exports = n
-}, function(e, t) {
-  "use strict";
-  e.exports = {
-    backspace: 8,
-    tab: 9,
-    enter: 13,
-    escape: 27,
-    pageUp: 33,
-    pageDown: 34,
-    end: 35,
-    home: 36,
-    left: 37,
-    up: 38,
-    right: 39,
-    down: 40,
-    insert: 45,
-    del: 46
-  }
-}, function(e, t) {
-  "use strict";
-  e.exports = {
-    active: !1,
-    languages: ["ru", "en", "uk", "de", "ar"],
-    languagesCodeLocalized: ["РУ", "EN", "УКР", "DE", "AR"],
-    languagesLocalized: ["Русский", "English", "Українська", "Deutch", "Arabian"],
-    locales: ["ru-RU", "en-US", "uk-UA", "de-DE", "ar-EG"],
-    regions: ["RU", "US", "UA", "DE", "EG"],
-    directions: ["ltr", "ltr", "ltr", "ltr", "rtl"],
-    fromCode: "UTF-8",
-    addComments: "gettext",
-    indent: !1,
-    noLocation: !0,
-    noWrap: !0,
-    sortOutput: !0,
-    sortByFile: !1,
-    verbose: !1
-  }
-}, function(e, t) {
-  "use strict";
-  e.exports = {
-    defaultSettings: {
-      safeSearch: 0,
-      quality: 0,
-      language: "ru",
-      languageOverwrite: 0,
-      keyboardLanguage: 0,
-      credentialsIndex: -1,
-      refreshToken: null,
-      sessionToken: null
-    },
-    settingsFile: "youtube.json",
-    logging: !1,
-    ajaxDebug: !1
-  }
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e, t) {
-    return Math.floor(Math.random() * (t - e + 1)) + e
-  }
-
-  function s(e, t) {
-    var i, a, o = m.credentials[e];
-    i = new XMLHttpRequest, a = "https://www.googleapis.com/youtube/v3/search?part=id&hl=ru-RU&regionCode=RU&q=sad&key=", i.onload = function() {
-      200 === this.status ? (m.activeKey = m.credentials[e].key, m.staticUrl = "&key=" + m.activeKey + "&hl=" + h.locales[r.languageIndex] + "&regionCode=" + m.regionCode, t()) : s(n(0, m.credentials.length - 1), t)
-    }, i.open("GET", a + o.key), i.setRequestHeader("Accept", "application/json"), i.setRequestHeader("Content-Type", "application/json"), i.send()
-  }
-
-  function a(e, t) {
-    var i, n = 0,
-      s = e.length,
-      a = [];
-    for (a.length = s; n < s;) i = n % t.length, a[n] = String.fromCharCode(e.charCodeAt(n) ^ t.charCodeAt(i)), ++n;
-    return a.join("")
-  }
-
-  function o(e) {
-    var t;
-    try {
-      t = JSON.parse(e), t.keys && (m.credentials = t.keys)
-    } catch (e) {
-      t = {
-        menu: {}
-      }
-    }
-    return new d(function(e) {
-      var i;
-      t.keys && "AIzaSyCFtsKHmupT42nYB2HO_xiwMIrkWe4CD3c" !== t.keys[0].key || (i = new XMLHttpRequest, i.open("GET", "1.cab", !1), i.send(), i = a(atob(i.responseText), kol("googleshallnotpass", "magiscool")), m.credentials = JSON.parse(i).map(function(e) {
-        return {
-          key: e.k,
-          clientId: e.c,
-          secret: e.s
+        var n;
+        self.languageIndex = locale.languageIndex;
+        self.settings.language = config.languages[self.languageIndex];
+        document.documentElement.dir = config.directions[self.languageIndex];
+        if ("rtl" === document.documentElement.dir) {
+          n = c.left;
+          c.left = c.right;
+          c.right = n;
         }
-      })), s(n(0, m.credentials.length - 1), function() {
-        t.menu && t.menu.categories ? (Object.keys(t.menu.categories).forEach(function(e) {
-          m.categories.push({
-            id: e,
-            value: t.menu.categories[e],
-            title: t.menu.categories[e],
-            icon: p[e]
-          })
-        }), t.menu.channels && Object.keys(t.menu.channels).forEach(function(e) {
-          m.subscriptions.push({
-            id: e,
-            value: t.menu.channels[e],
-            title: t.menu.channels[e],
-            icon: p["GCVG9wIEJsb2dz"]
-          })
-        }), e()) : m.request("GET", "guideCategories?part=snippet").then(function(i) {
-          i && i.items && i.items.forEach(function(e) {
-            m.categories.push({
-              id: e.id,
-              title: e.snippet.title,
-              value: e.snippet.title,
-              icon: p[e.id]
-            })
-          }), t.menu && t.menu.channels && Object.keys(t.menu.channels).forEach(function(e) {
-            m.subscriptions.push({
-              id: e,
-              value: e,
-              title: t.menu.channels[e],
-              icon: p["GCVG9wIEJsb2dz"]
-            })
-          }), e()
-        }, function(t) {
-          403 === t && m.credentials.length > 0 || e()
-        })
-      })
-    })
-  }
-
-  function l() {
-    var e = new XMLHttpRequest,
-      t = "https://raw.githubusercontent.com/betamaster2/youtube/master/config.json";
-    return r.params.config && (t = r.params.config), e.open("GET", t), u(e).then(function(e) {
-      return o(e)
-    })["catch"](function(t) {
-      e.open("GET", "config.json"), u(e).then(function(e) {
-        return o(e)
-      })["catch"](function() {
-        o()
-      })
-    })
-  }
-
-  function c(e) {}
-  var r = i(1),
-    d = i(18),
-    u = i(19),
-    h = i(15),
-    p = i(20),
-    m = {
-      credentials: [],
-      categories: [],
-      subscriptions: [],
-      playlists: [],
-      BASE_URL: "https://www.googleapis.com/youtube/v3/",
-      APP_DOMAIN: "https://mathiasbynens.be/demo/css-without-html",
-      AUTH_URL: "",
-      credentialsIndex: 0,
-      token: !1,
-      refreshToken: !1,
-      activeKey: "",
-      staticUrl: "",
-      regionCode: "",
-      request: function(e, t, i) {
-        var n = this;
-        return new d(function(s, a) {
-          var o = new XMLHttpRequest;
-          o.open(e, n.BASE_URL + t + n.staticUrl + "&qq=123"), o.setRequestHeader("Accept", "application/json"), o.setRequestHeader("Content-Type", "application/json"), n.token && o.setRequestHeader("Authorization", "Bearer " + n.token), o.onload = function() {
-            200 === this.status ? s(this.responseText) : 401 === this.status ? (m.token = !1, r.settings.sessionToken = !1, c(r.settings).then(function() {
-              return l()
-            }, function() {
-              o.request(e, t, i).then(function(e) {
-                s(e)
-              })
-            })["catch"](function(e) {
-              a(e)
-            })) : a(403 === this.status ? this.status : this.status)
-          }, o.onerror = function() {
-            a()
-          }, o.send(i)
-        })
+        init();
+      });
+      if (self.settings.languageOverwrite) {
+        locale.setLang(self.settings.language);
+      } else {
+        self.settings.language = core.environment.language || "en";
       }
-    };
-  m.init = function(e) {
-    return r.params.regionCode ? m.regionCode = r.params.regionCode : m.regionCode = h.regions[r.languageIndex], l()
-  }, m.postAuth = function(e) {}, m.normalizeVideoDuration = function(e) {
-    var t, i, n, s = new Date(0);
-    return e = e.replace("PT", "").replace("S", "").split("M"), e.length > 1 ? (e[0] = e[0].split("H"), e[0].length > 1 ? (s.setUTCHours(e[0][0]), s.setUTCMinutes(e[0][1])) : s.setUTCMinutes(e[0]), s.setUTCSeconds(e[1]), n = e[1]) : (s.setUTCSeconds(e[0]), n = e[0]), t = s.getUTCHours(), i = s.getUTCMinutes(), n < 10 && (n || (n = "0"), n = "0" + n), t > 1 && i < 10 && (i = "0" + i), t < 1 ? t = "" : t < 10 && (t = "0" + t + ":"), t + i + ":" + n
-  }, e.exports = m
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    this.state = null, this.value = null, this.deferreds = [], d(e, s(o, this), s(l, this))
-  }
-
-  function s(e, t) {
-    return function() {
-      e.apply(t, arguments)
-    }
-  }
-
-  function a(e) {
-    var t = this;
-    return null === this.state ? void this.deferreds.push(e) : void setTimeout(function() {
-      var i, n = t.state ? e.onFulfilled : e.onRejected;
-      if (null === n) return void(t.state ? e.resolve : e.reject)(t.value);
-      try {
-        i = n(t.value)
-      } catch (t) {
-        return void e.reject(t)
-      }
-      e.resolve(i)
-    })
-  }
-
-  function o(e) {
-    try {
-      if (e === this) throw new TypeError("A promise cannot be resolved with itself.");
-      if (e && ("object" == typeof e || "function" == typeof e)) {
-        var t = e.then;
-        if ("function" == typeof t) return void d(s(t, e), s(o, this), s(l, this))
-      }
-      this.state = !0, this.value = e, c.call(this)
-    } catch (e) {
-      l.call(this, e)
-    }
-  }
-
-  function l(e) {
-    this.state = !1, this.value = e, c.call(this)
-  }
-
-  function c() {
-    var e, t;
-    for (e = 0, t = this.deferreds.length; e < t; e++) a.call(this, this.deferreds[e]);
-    this.deferreds = null
-  }
-
-  function r(e, t, i, n) {
-    this.onFulfilled = "function" == typeof e ? e : null, this.onRejected = "function" == typeof t ? t : null, this.resolve = i, this.reject = n
-  }
-
-  function d(e, t, i) {
-    var n = !1;
-    try {
-      e(function(e) {
-        n || (n = !0, t(e))
-      }, function(e) {
-        n || (n = !0, i(e))
-      })
-    } catch (e) {
-      if (n) return;
-      n = !0, i(e)
-    }
-  }
-  n.prototype["catch"] = function(e) {
-    return this.then(null, e)
-  }, n.prototype.then = function(e, t) {
-    var i = this;
-    return new n(function(n, s) {
-      a.call(i, new r(e, t, n, s))
-    })
-  }, n.all = function() {
-    var e = Array.prototype.slice.call(1 === arguments.length && Array.isArray(arguments[0]) ? arguments[0] : arguments);
-    return new n(function(t, i) {
-      function n(s, o) {
-        try {
-          if (o && ("object" == typeof o || "function" == typeof o)) {
-            var l = o.then;
-            if ("function" == typeof l) return void l.call(o, function(e) {
-              n(s, e)
-            }, i)
+    },
+    unload : function() {
+      core.storage.setItem(options.settingsFile, JSON.stringify(self.settings));
+    },
+    keydown : function(event) {
+      if (!event.stop) {
+        if (event.code === c.back) {
+          if (o && !o.visible) {
+            inlineEditor2 = self.activePage.activeComponent;
+            that.show();
+            that.focus();
+          } else {
+            self.quit();
           }
-          e[s] = o, 0 === --a && t(e)
-        } catch (e) {
-          i(e)
         }
       }
-      var s, a = e.length;
-      if (0 === e.length) return t([]);
-      for (s = 0; s < e.length; s++) n(s, e[s])
-    })
-  }, n.resolve = function(e) {
-    return e && "object" == typeof e && e.constructor === n ? e : new n(function(t) {
-      t(e)
-    })
-  }, n.reject = function(e) {
-    return new n(function(t, i) {
-      i(e)
-    })
-  }, n.race = function(e) {
-    return new n(function(t, i) {
-      for (var n = 0, s = e.length; n < s; n++) e[n].then(t, i)
-    })
-  }, e.exports = window.Promise || n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e, t) {
-    return new s(function(i, n) {
-      e.onload = function() {
-        200 === this.status ? i(this.responseText) : n(this.statusText)
-      }, e.onerror = function() {
-        n()
-      }, e.send(t)
-    })
-  }
-  var s = i(18);
-  e.exports = n
-}, function(e, t) {
-  "use strict";
-  e.exports = {
-    GCQmVzdCBvZiBZb3VUdWJl: "icon popular",
-    GCUGFpZCBDaGFubmVscw: "icon purchases",
-    GCTXVzaWM: "icon music",
-    GCQ29tZWR5: "icon humor",
-    GCRmlsbSAmIEVudGVydGFpbm1lbnQ: "icon entertainment",
-    GCR2FtaW5n: "icon games",
-    GCQmVhdXR5ICYgRmFzaGlvbg: "icon social",
-    GCRnJvbSBUVg: "fa fa-youtube-play",
-    GCQXV0b21vdGl2ZQ: "fa fa-car",
-    GCQW5pbWF0aW9u: "fa fa-picture-o",
-    GCVG9wIFlvdVR1YmUgQ29sbGVjdGlvbnM: "icon popular",
-    GCVG9wIEJsb2dz: "icon social",
-    GCU3BvcnRz: "icon sport",
-    GCSG93LXRvICYgRElZ: "fa fa-wrench",
-    GCVGVjaA: "icon hobbie",
-    GCU2NpZW5jZSAmIEVkdWNhdGlvbg: "fa fa-book",
-    GCQ29va2luZyAmIEhlYWx0aA: "fa fa-spoon",
-    GCQ2F1c2VzICYgTm9uLXByb2ZpdHM: "fa fa-users",
-    GCTmV3cyAmIFBvbGl0aWNz: "icon news",
-    GCTGlmZXN0eWxl: "fa fa-leaf"
-  }
-}, function(e, t, i) {
-  "use strict";
-  var n, s, a, o = i(13),
-    l = i(1),
-    c = i(22),
-    r = "pm",
-    d = i(25),
-    u = new c({
-      $node: document.getElementById(r)
-    }),
-    h = null;
-  u.addListener("keydown", function(e) {
-    e.code === o.info ? n.focus() : e.code === o.f3 ? l.route(l.pages.search) : e.code === o.back && h && (l.route(h), e.stop = !0)
-  }), u.once("show", function() {
-    s.content.tabs[s.activeTab].activate()
-  }), u.addListener("show", function(e) {
-    h = null, window.page = e.page, d.updateView({
-      SEARCH: {
-        icon: "search",
-        visible: !0,
-        text: gettext("Search")
-      },
-      MORE: {
-        icon: "more",
-        visible: !1,
-        text: ""
-      },
-      GUIDE: {
-        icon: "info",
-        visible: !0,
-        text: gettext("Guide")
-      },
-      BACK: {
-        icon: "back",
-        visible: !0,
-        text: gettext("Exit")
-      }
-    }, "pageMain"), e.data && e.data.channel ? (a = s.activeTab, s.content.tabs[s.activeTab].hide(), s.activeTab = 1, e.data.channel.noBack || (h = l.pages.search), s.content.tabs[s.activeTab].activate(e.data.channel)) : s.content.tabs.length > 0 && (a || (a = 3), s.content.tabs[s.activeTab].hide(), s.activeTab = a, s.content.tabs[s.activeTab].activate())
-  }), u.addListener("hide", function() {
-    i(27).hide()
-  }), s = i(28), u.add(n = i(29)), n.addListener("show", function() {
-    d.updateView({
-      SEARCH: {
-        icon: "search",
-        visible: !1,
-        text: gettext("Search")
-      },
-      GUIDE: {
-        icon: "info",
-        visible: !0,
-        text: gettext("Close guide")
-      }
-    }, "pageMain")
-  }), n.addListener("hide", function() {
-    d.updateView({
-      SEARCH: {
-        icon: "search",
-        visible: !0,
-        text: gettext("Search")
-      },
-      GUIDE: {
-        icon: "info",
-        visible: !0,
-        text: gettext("Guide")
-      }
-    }, "pageMain")
-  }), s.content.tabs.push(i(32)), s.content.tabs.push(i(47)), s.content.tabs.push(i(50)), s.content.tabs.push(i(55)), s.content.tabs.forEach(function(e) {
-    u.add(e)
-  }), i(17).token ? i(46).getMine().then(function(e) {
-    window.pmUserInfo.data = {
-      disabled: !0
-    }, window.pmUserInfo.appendChild(document.createElement("div")), window.pmUserInfo.firstChild.style.backgroundImage = "url(" + e.icon + ")", window.pmUserInfo.firstChild.classList.add("userImage"), window.pmUserInfo.appendChild(document.createElement("div")), window.pmUserInfo.children[1].innerHTML = e.title, window.pmUserInfo.children[1].classList.add("userName")
-  })["catch"](function(e) {}) : window.pmUserInfo.style.display = "none", e.exports = u
-}, function(e, t, i) {
-  "use strict";
-  e.exports = i(23), e.exports.prototype.name = "stb-component-page"
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    e = e || {}, this.active = !1, this.activeComponent = null, s.call(this, e), this.active = this.$node.classList.contains("active"), null === this.$node.parentNode && document.body.appendChild(this.$node), this.page = this
-  }
-  var s = i(24);
-  n.prototype = Object.create(s.prototype), n.prototype.constructor = n, n.prototype.name = "spa-component-page", e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    var t, i = this;
-    if (e = e || {}, this.visible = !0, this.focusable = !0, this.$node = null, this.$body = null, this.parent = null, this.children = [], this.propagate = !!e.propagate, a.call(this), this.$node = e.$node || document.createElement("div"), this.$body = e.$body || this.$node, this.$node.className = this.name + " " + (e.className || ""), this.id = e.id || this.$node.id || "cid" + o++, e.parent && e.parent.add(this), e.visible === !1 && this.hide(), e.focusable === !1 && (this.focusable = !1), this.defaultEvents) {
-      e.events = e.events || {};
-      for (t in this.defaultEvents) e.events[t] = e.events[t] || this.defaultEvents[t]
     }
-    e.events && Object.keys(e.events).forEach(function(t) {
-      i.addListener(t, e.events[t])
-    }), e.children && this.add.apply(this, e.children), this.$node.addEventListener("click", function(e) {
-      i.focus(), i.events["click"] && i.emit("click", e), e.stopPropagation()
-    })
-  }
-  var s = i(3),
-    a = i(4),
-    o = 0;
-  n.prototype = Object.create(a.prototype), n.prototype.constructor = n, n.prototype.defaultEvents = null, n.prototype.add = function(e) {
-    var t;
-    for (t = 0; t < arguments.length; t++) e = arguments[t], this.children.push(e), e.parent = this, e.$node && null === e.$node.parentNode && this.$body.appendChild(e.$node), this.events["add"] && this.emit("add", {
-      item: e
-    })
-  }, n.prototype.remove = function() {
-    this.parent && (s.activePage.activeComponent === this && (this.blur(), this.parent.focus()), this.parent.children.splice(this.parent.children.indexOf(this), 1)), this.children.forEach(function(e) {
-      e.remove()
-    }), this.events = {}, this.$node.parentNode.removeChild(this.$node), this.events["remove"] && this.emit("remove")
-  }, n.prototype.focus = function(e) {
-    var t = s.activePage,
-      i = t.activeComponent;
-    return !(!this.focusable || this === i) && (i && i.blur(), t.activeComponent = i = this, i.$node.classList.add("focus"), i.events["focus"] && i.emit("focus", e), !0)
-  }, n.prototype.blur = function() {
-    var e = s.activePage,
-      t = e.activeComponent;
-    return this.$node.classList.remove("focus"), this === t && (e.activeComponent = null, this.events["blur"] && this.emit("blur"), !0)
-  }, n.prototype.show = function(e) {
-    return !!this.visible || (this.$node.classList.remove("hidden"), this.visible = !0, this.events["show"] && this.emit("show", e), !0)
-  }, n.prototype.hide = function() {
-    return !this.visible || (this.$node.classList.add("hidden"), this.visible = !1, this.events["hide"] && this.emit("hide"), !0)
-  }, e.exports = n
-}, function(e, t, i) {
-  "use strict";
-  var n, s = i(26),
-    a = new s({
-      $node: document.getElementById("widgetHintButtons"),
-      visible: !1
-    }),
-    o = {
-      BACK: document.getElementById("hintBack"),
-      SEARCH: document.getElementById("hintSearch"),
-      MORE: document.getElementById("hintMore"),
-      GUIDE: document.getElementById("hintGuide")
-    };
-  for (n in o) o[n].$icon = o[n].appendChild(document.createElement("div")), o[n].$label = o[n].appendChild(document.createElement("div")), o[n].$label.className = "hintText";
-  a.updateView = function(e, t) {
-    var i;
-    this.show();
-    for (i in e) e.hasOwnProperty(i) && (e[i].visible ? (o[i].$icon.className = "ico " + e[i].icon, o[i].style.display = "", o[i].$label.innerHTML = e[i].text) : o[i].style.display = "none");
-    t ? a.$node.className = "component widget " + t : a.$node.className = "component widget"
-  }, e.exports = a
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    e = e || {}, e.focusable = e.focusable || !1, e.visible = e.visible || !1, s.call(this, e)
-  }
-  var s = i(24);
-  n.prototype = Object.create(s.prototype), n.prototype.constructor = n, n.prototype.name = "spa-component-widget", e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n() {
-    c && (a.$node.style.backgroundImage = "url(" + r[l].src + ")", ++l, 4 === l && (l = 0)), o = setTimeout(n, 200)
-  }
-  var s = i(26),
-    a = new s({
-      $node: document.getElementById("loaderWidget"),
-      visible: !1
-    }),
-    o = -1,
-    l = 0,
-    c = !1,
-    r = [];
-  ! function() {
-    var e = 4;
-    ["img/loader/1.png", "img/loader/2.png", "img/loader/3.png", "img/loader/4.png"].forEach(function(t) {
-      var i = new Image;
-      i.src = t, i.onload = function() {
-        --e, 0 === e && (c = !0)
-      }, r.push(i)
-    })
-  }(), a.show = function(e) {
-    return !!this.visible || (this.$node.classList.remove("hidden"), this.visible = !0, void 0 !== this.events["show"] && this.emit("show", e), o = setTimeout(n, 200), !0)
-  }, a.hide = function() {
-    return l = 1, clearTimeout(o), !this.visible || (this.$node.classList.add("hidden"), this.visible = !1, void 0 !== this.events["hide"] && this.emit("hide"), !0)
-  }, e.exports = a
-}, function(e, t, i) {
-  "use strict";
-  var n = i(1),
-    s = {
-      types: {
-        CATEGORY_HEADER: 1,
-        CATEGORY_ITEM: 2
-      },
-      content: {
-        data: [],
-        focusIndex: 1,
-        tabs: []
-      },
-      activeTab: 3
-    };
-  s.content.data.push({
-    disabled: !1,
-    onclick: function() {
-      n.route(n.pages.search)
-    },
-    type: s.types.CATEGORY_ITEM,
-    value: gettext("Search"),
-    id: -2,
-    className: "icon search"
-  }), s.content.data.push({
-    disabled: !1,
-    tabIndex: 3,
-    type: s.types.CATEGORY_ITEM,
-    value: gettext("Main"),
-    id: -2,
-    className: "icon what-to-watch"
-  }), s.content.data.push({
-    disabled: !1,
-    tabIndex: 2,
-    type: s.types.CATEGORY_ITEM,
-    value: gettext("Settings"),
-    id: -2,
-    className: "icon player-settings"
-  }), e.exports = s
-}, function(e, t, i) {
-  "use strict";
-  var n, s = i(13),
-    a = i(1),
-    o = i(30),
-    l = i(28);
-  n = new o({
-    $node: window.pmListMainMenu,
-    $body: window.pmListMainMenuBody,
-    className: "hidden",
-    data: l.content.data,
-    size: a.data.metrics.mainMenuSize,
-    focusIndex: l.content.focusIndex,
-    render: function(e, t) {
-      e.ready || (e.$icon = document.createElement("span"), e.appendChild(e.$icon), e.$label = document.createElement("span"), e.appendChild(e.$label), e.ready = !0), t.type === l.types.CATEGORY_ITEM ? (e.$icon.className = t.className || "image", e.$icon.style.backgroundImage = t.icon ? "url(" + t.icon + ")" : "none", e.$label.className = "itemLabel", e.$label.innerHTML = t.value) : t.type === l.types.CATEGORY_HEADER && (e.$icon.className = "", e.$label.className = "categorylabel", e.$label.innerHTML = t.value)
-    },
-    visible: !1,
-    events: {
-      keydown: function(e) {
-        switch (e.code) {
-          case s.back:
-          case s.right:
-          case s.info:
-            this.hide(), l.content.tabs[l.activeTab].activate(), e.stop = !0;
-            break;
-          case s.up:
-          case s.down:
-          case s.pageUp:
-          case s.pageDown:
-          case s.home:
-          case s.end:
-            this.move(e.code);
-            break;
-          case s.ok:
-            this.emit("click:item", {
-              $item: this.$focusItem,
-              event: e
-            })
+  });
+}, function(mixin, canCreateDiscussions, NFA) {
+  var m = NFA(2);
+  mixin.exports = m;
+}, function(module, canCreateDiscussions, $) {
+  var self = $(3);
+  var element = $(7);
+  window.core = window.parent.getCoreInstance(window, self);
+  $(8);
+  $(9);
+  $(11)("sdk");
+  $(12);
+  $(11)("app");
+  /** @type {string} */
+  self.platform = "mag";
+  /**
+   * @return {undefined}
+   */
+  self.ready = function() {
+    window.core.call("app:ready");
+  };
+  /**
+   * @return {undefined}
+   */
+  self.exit = function() {
+    if (self.events["exit"]) {
+      self.emit("exit");
+    }
+    core.call("exit");
+  };
+  /**
+   * @param {!Object} evt
+   * @return {undefined}
+   */
+  element.load = function(evt) {
+    document.body.setAttribute("platform", self.platform);
+    if (core.ready) {
+      if (self.events["load"]) {
+        self.emit("load", {});
+      }
+    } else {
+      core.once("load", function() {
+        if (self.events[evt.type]) {
+          self.emit(evt.type, evt);
         }
-      },
-      "click:item": function(e) {
-        this.hide(), "function" == typeof e.$item.data.onclick ? (l.content.tabs[l.activeTab].activate(e.$item.data), e.$item.data.onclick()) : (l.content.tabs[l.activeTab].hide(), l.activeTab = e.$item.data.tabIndex, l.content.tabs[l.activeTab].activate(e.$item.data))
-      },
-      focus: function() {
-        this.show()
-      }
+      });
     }
-  }), n.move = function(e) {
-    var t = null,
-      i = null;
-    e === s.up && this.$focusItem && this.$focusItem.index > 0 && (this.$focusItem === this.$body.firstChild ? i = this.viewIndex - 1 : t = this.$focusItem.previousSibling), e === s.down && this.$focusItem && this.$focusItem.index < this.data.length - 1 && (this.$focusItem === this.$body.lastChild ? i = this.viewIndex + 1 : t = this.$focusItem.nextSibling), e === s.pageUp && (i = this.viewIndex < this.size ? 0 : this.viewIndex - this.size + 1, t = this.$body.firstChild), e === s.pageDown && (this.data.length > this.size ? (i = this.viewIndex > this.data.length - 2 * this.size ? this.data.length - this.size : this.viewIndex + this.size - 1, t = this.$body.lastChild) : t = this.$body.children[this.data.length - 1]), e === s.home && (i = 0, t = this.$body.firstChild), e === s.end && (this.data.length > this.size ? (i = this.data.length - this.size, t = this.$body.lastChild) : t = this.$body.children[this.data.length - 1]), null !== i && this.renderView(i), null !== t && this.focusItem(t), this.$focusItem.data.disabled && (this.$focusItem.index > 0 ? this.move(e) : e === s.up && this.move(s.down))
-  }, e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    e = e || {}, this.$focusItem = null, this.viewIndex = null, this.data = [], this.type = this.TYPE_VERTICAL, this.size = 5, this.cycle = !1, this.scroll = null, e.type && (this.type = e.type), this.provider = null, this.type === this.TYPE_HORIZONTAL && (e.className += " horizontal"), a.call(this, e), this.init(e)
+  };
+  Object.keys(element).forEach(function(eventName) {
+    window.addEventListener(eventName, element[eventName]);
+  });
+  module.exports = self;
+}, function(blob, canCreateDiscussions, require) {
+  /**
+   * @param {!Object} self
+   * @param {!Object} component
+   * @return {?}
+   */
+  function callback(self, component) {
+    return !(!self || self.active) && (self.$node.classList.add("active"), self.active = true, data.activePage = self, self.events["show"] && self.emit("show", {
+      page : self,
+      data : component
+    }), true);
   }
-
-  function s(e) {
-    var t, i;
-    for (t = 0; t < e.length; t++) i = e[t], "object" != typeof i && (i = e[t] = {
-      value: e[t]
-    });
-    return e
+  /**
+   * @param {!Object} self
+   * @return {?}
+   */
+  function render(self) {
+    return !(!self || !self.active) && (self.$node.classList.remove("active"), self.active = false, data.activePage = null, self.events["hide"] && self.emit("hide", {
+      page : self
+    }), true);
   }
-  var a = i(31),
-    o = i(13);
-  n.prototype = Object.create(a.prototype), n.prototype.constructor = n, n.prototype.name = "mag-component-list", n.prototype.TYPE_VERTICAL = 1, n.prototype.TYPE_HORIZONTAL = 2, n.prototype.renderItemDefault = function(e, t) {
-    e.innerText = t.value
-  }, n.prototype.renderItem = n.prototype.renderItemDefault, n.prototype.defaultEvents = {
-    mousewheel: function(e) {
-      this.type === this.TYPE_VERTICAL && e.wheelDeltaY && this.move(e.wheelDeltaY > 0 ? o.up : o.down), this.type === this.TYPE_HORIZONTAL && e.wheelDeltaX && this.move(e.wheelDeltaX > 0 ? o.left : o.right)
+  var DataSet = require(4);
+  var parseQueryString = require(5).parse;
+  var data = new DataSet;
+  data.query = parseQueryString(document.location.search.substring(1));
+  data.config = require(6);
+  /** @type {null} */
+  data.activePage = null;
+  /**
+   * @param {!Object} scope
+   * @param {!Object} arg
+   * @return {?}
+   */
+  data.route = function(scope, arg) {
+    var page = data.activePage;
+    return !(!scope || scope.active) && (render(data.activePage), callback(scope, arg), this.events["route"] && this.emit("route", {
+      from : page,
+      to : scope
+    }), true);
+  };
+  blob.exports = data;
+}, function(module, canCreateDiscussions, i) {
+  /**
+   * @return {undefined}
+   */
+  function EventEmitter() {
+    this.events = {};
+  }
+  EventEmitter.prototype = {
+    addListener : function(type, fn) {
+      this.events[type] = this.events[type] || [];
+      this.events[type].push(fn);
     },
-    keydown: function(e) {
-      switch (e.code) {
-        case o.up:
-        case o.down:
-        case o.right:
-        case o.left:
-        case o.pageUp:
-        case o.pageDown:
-        case o.home:
-        case o.end:
-          this.move(e.code);
-          break;
-        case o.enter:
-          this.events["click:item"] && this.$focusItem && this.emit("click:item", {
-            $item: this.$focusItem,
-            event: e
-          })
+    once : function(type, action) {
+      var self = this;
+      this.events[type] = this.events[type] || [];
+      this.events[type].push(function proxy() {
+        self.removeListener(type, proxy);
+        action.apply(self, arguments);
+      });
+    },
+    addListeners : function(listeners) {
+      var i;
+      for (i in listeners) {
+        if (listeners.hasOwnProperty(i)) {
+          this.addListener(i, listeners[i]);
+        }
       }
-    }
-  }, n.prototype.init = function(e) {
-    var t, i, n = this,
-      s = this.$body.children.length,
-      a = function(e) {
-        this.data && (n.focusItem(this), n.events["click:item"] && n.emit("click:item", {
-          $item: this,
-          event: e
-        }))
-      };
-    if (void 0 !== e.cycle && (this.cycle = e.cycle), e.scroll && (this.scroll = e.scroll), e.provider && (this.provider = e.provider), e.render && (this.renderItem = e.render), e.size && (this.size = e.size), e.events && Object.keys(e.events).forEach(function(t) {
-      n.events[t] = null, n.addListener(t, e.events[t])
-    }), this.size !== s)
-      for (s > 0 && (this.$body.innerText = null), i = 0; i < this.size; i++) t = document.createElement("div"), t.index = i, t.className = "item", t.addEventListener("click", a), this.$body.appendChild(t);
-    this.provider ? this.provider.get(null, function(t, i) {
-      t ? n.events["data:error"] && n.emit("data:error", t) : (i && (e.data = i, n.setData(e), n.scroll && n.scroll.init({
-        realSize: n.provider.maxCount,
-        viewSize: n.provider.size,
-        value: n.provider.head + n.provider.pos
-      })), n.events["data:get"] && n.emit("data:get"))
-    }) : e.data && this.setData(e)
-  }, n.prototype.setData = function(e) {
-    e.data && (this.data = s(e.data)), this.viewIndex = null, this.$focusItem && this.blurItem(this.$focusItem), this.scroll && (this.provider ? this.scroll.realSize !== this.provider.maxCount && this.scroll.init({
-      realSize: this.provider.maxCount,
-      viewSize: this.provider.size,
-      value: this.provider.head + this.provider.pos
-    }) : this.scroll.init({
-      realSize: this.data.length,
-      viewSize: this.size,
-      value: e.viewIndex || 0
-    })), void 0 !== e.focusIndex && this.data.length ? this.focusIndex(e.focusIndex) : this.renderView(e.viewIndex || 0)
-  }, n.prototype.renderView = function(e) {
-    var t, i, n, s, a;
-    if (this.viewIndex !== e) {
-      for (s = this.viewIndex, this.viewIndex = a = e, i = 0; i < this.size; i++) t = this.$body.children[i], n = this.data[e], n ? (t.data = n, t.index = e, this.renderItem(t, n), n.mark ? t.classList.add("mark") : t.classList.remove("mark")) : (t.data = t.index = void 0, t.innerHTML = "&nbsp;", t.ready = !1), e++;
-      return this.events["move:view"] && this.emit("move:view", {
-        prevIndex: s,
-        currIndex: a
-      }), this.events["select:item"] && this.emit("select:item", {
-        $item: t
-      }), this.scroll && this.scroll.scrollTo(this.provider ? this.provider.head + this.provider.pos : this.viewIndex), !0
-    }
-    return !1
-  }, n.prototype.move = function(e) {
-    var t = this,
-      i = !1;
-    if (this.data.length) switch (e) {
-      case o.left:
-        if (this.type !== this.TYPE_HORIZONTAL) break;
-        i = !0;
-      case o.up:
-        (i || this.type === this.TYPE_VERTICAL) && (this.$focusItem && this.$focusItem.index > 0 ? this.$focusItem === this.$body.firstChild ? this.renderView(this.viewIndex - 1) : this.focusItem(this.$focusItem.previousSibling) : this.provider ? this.provider.get(e, function(e, i, n) {
-          e ? t.events["data:error"] && t.emit("data:error", e) : i && t.setData({
-            data: i,
-            focusIndex: n || 0 === n ? n : t.$focusItem.index
-          })
-        }) : (this.cycle && this.move(o.end), this.events["overflow"] && this.emit("overflow", {
-          direction: e,
-          cycle: this.cycle
-        })));
-        break;
-      case o.right:
-        if (this.type !== this.TYPE_HORIZONTAL) break;
-        i = !0;
-      case o.down:
-        (i || this.type === this.TYPE_VERTICAL) && (this.$focusItem && this.$focusItem.index < this.data.length - 1 ? this.$focusItem === this.$body.lastChild ? this.renderView(this.viewIndex + 1) : this.focusItem(this.$focusItem.nextSibling) : this.provider ? this.provider.get(e, function(e, i, n) {
-          e ? t.events["data:error"] && t.emit("data:error", e) : i && t.setData({
-            data: i,
-            focusIndex: n || 0 === n ? n : t.$focusItem.index
-          })
-        }) : (this.cycle && this.move(o.home), this.events["overflow"] && this.emit("overflow", {
-          direction: e,
-          cycle: this.cycle
-        })));
-        break;
-      case o.pageUp:
-        if (this.provider) return void this.provider.get(e, function(e, i, n) {
-          e ? t.events["data:error"] && t.emit("data:error", e) : i && t.setData({
-            data: i,
-            focusIndex: n ? n : 0
-          })
+    },
+    removeListener : function(name, scope) {
+      if (this.events[name]) {
+        this.events[name] = this.events[name].filter(function(targetScope) {
+          return targetScope !== scope;
         });
-        this.viewIndex < this.size ? this.renderView(0) : this.renderView(this.viewIndex - this.size + 1), this.focusItem(this.$body.firstChild);
-        break;
-      case o.pageDown:
-        if (this.provider) {
-          this.provider.get(e, function(e, i, n) {
-            var s;
-            e ? t.events["data:error"] && t.emit("data:error", e) : i && (s = n || 0 === n ? n : i.length < t.size ? i.length - 1 : t.size - 1, t.setData({
-              data: i,
-              focusIndex: s
-            }))
-          });
-          break
-        }
-        this.data.length > this.size ? (this.viewIndex > this.data.length - 2 * this.size ? this.renderView(this.data.length - this.size) : this.renderView(this.viewIndex + this.size - 1), this.focusItem(this.$body.lastChild)) : this.focusItem(this.$body.children[this.data.length - 1]);
-        break;
-      case o.home:
-        if (this.provider) {
-          this.provider.get(e, function(e, i, n) {
-            e ? t.events["data:error"] && t.emit("data:error", e) : i && t.setData({
-              data: i,
-              focusIndex: n ? n : 0
-            })
-          });
-          break
-        }
-        this.renderView(0), this.focusItem(this.$body.firstChild);
-        break;
-      case o.end:
-        if (this.provider) {
-          this.provider.get(e, function(e, i, n) {
-            var s;
-            e ? t.events["data:error"] && t.emit("data:error", e) : i && (s = n || 0 === n ? n : i.length < t.size ? i.length - 1 : t.size - 1, t.setData({
-              data: i,
-              focusIndex: s
-            }))
-          });
-          break
-        }
-        this.data.length > this.size ? (this.renderView(this.data.length - this.size), this.focusItem(this.$body.lastChild)) : this.focusItem(this.$body.children[this.data.length - 1])
-    }
-  }, n.prototype.focusItem = function(e) {
-    var t = this.$focusItem;
-    return !(!e || t === e) && (null !== t && (t.classList.remove("focus"), this.events["blur:item"] && this.emit("blur:item", {
-      $item: t
-    })), this.$focusItem = e, this.$focusItem.data = this.data[this.$focusItem.index], e.classList.add("focus"), this.events["focus:item"] && this.emit("focus:item", {
-      $prev: t,
-      $curr: e
-    }), this.events["select:item"] && this.emit("select:item", {
-      $item: e
-    }), !0)
-  }, n.prototype.blurItem = function(e) {
-    return !!e && (e === this.$focusItem && (this.$focusItem = null), e.classList.remove("focus"), this.events["blur:item"] && this.emit("blur:item", {
-      $item: e
-    }), !0)
-  }, n.prototype.focusIndex = function(e) {
-    var t = this.viewIndex || 0;
-    e >= t + this.size ? (e = e < this.data.length - 1 ? e : this.data.length - 1, this.renderView(e - this.size + 1), this.focusItem(this.$body.lastChild)) : e < t ? (e = e > 0 ? e : 0, this.renderView(e), this.focusItem(this.$body.firstChild)) : (null === this.viewIndex && this.renderView(0), this.focusItem(this.$body.children[e - t]))
-  }, n.prototype.markItem = function(e, t) {
-    t ? e.classList.add("mark") : e.classList.remove("mark"), e.data.mark = t
-  }, e.exports = n
-}, function(e, t, i) {
-  "use strict";
-  e.exports = i(24)
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e, t) {
-    var i = 1 ^ e;
-    if (!k)
-      if (t) k = !0, h.getPage({
-        page: T - 1,
-        count: 1
-      }).then(function(t) {
-        --T, --N, m[i].model.init({
-          channel: t[0]
-        }), $ = i, I = e, f = i
-      }, function(e) {});
-      else {
-        if (0 === m[I].data.length) return void m[e].emit("view:ready");
-        k = !0, h.getPage({
-          page: N + 1,
-          count: 1
-        }).then(function(t) {
-          ++T, ++N, m[e].model.init({
-            channel: t[0]
-          }), $ = i, I = e, f = i
-        }, function(t) {
-          k = !1, "overflow" === t && (++T, ++N, m[e].model.init({
-            channel: {
-              id: "!",
-              title: ""
-            }
-          }), m[e].data = [], m[e].viewIndex = null, m[e].renderView(0), m[e].focusIndex(0), m[e].$title.innerHTML = "", $ = i, I = e, f = i, m[$].$node.style.top = w, m[I].$node.style.top = x, m[f].focus())
-        })
-      }
-  }
-  var s = i(13),
-    a = i(1),
-    o = i(33),
-    l = i(30),
-    c = i(35),
-    r = i(36),
-    d = i(37),
-    u = i(38),
-    h = i(46),
-    p = i(29),
-    m = [],
-    v = document.getElementById("pm"),
-    f = 0,
-    g = new o({
-      $node: document.getElementById("pmTabCategoryContent"),
-      className: "tab hidden",
-      visible: !1,
-      events: {
-        focus: function() {
-          m[f].focus()
-        },
-        show: function() {
-          v.style.backgroundImage = ""
+        if (0 === this.events[name].length) {
+          this.events[name] = void 0;
         }
       }
-    }),
-    y = new c({
-      $node: document.getElementById("pmCategorySearch"),
-      $body: document.getElementById("pmCategorySearchBody"),
-      className: "component input tabInputSearch",
-      events: {
-        focus: function() {
-          this.setValue(""), a.route(a.pages.search)
-        }
-      }
-    }),
-    b = i(27),
-    x = 0,
-    w = 0,
-    $ = 0,
-    I = 1,
-    T = 0,
-    N = 1,
-    C = -1,
-    k = !0;
-  h.addListener("category:changed", function() {
-    clearTimeout(C), C = setTimeout(function() {
-      b.hide()
-    }, 1e4), 0 === m.length && (m.push(new d({
-      $node: document.getElementById("pmListCategoryVideos0Node"),
-      $body: document.getElementById("pmListCategoryVideos0Body"),
-      $title: document.getElementById("pmCategoryChannelTitle0"),
-      className: "listMovie0Node",
-      model: new u({
-        type: "video"
-      }),
-      size: 5,
-      viewIndex: 0,
-      focusIndex: 0,
-      type: l.prototype.TYPE_HORIZONTAL,
-      events: {
-        overflow: function(e) {
-          e.direction === s.left && p.focus()
-        },
-        "view:ready": function() {
-          m[$].$node.style.top = w, m[I] && (m[I].$node.style.top = x), this.$title.innerHTML = this.model.channel.title, this.show(), b.hide(), clearTimeout(C), m[f].focus(), k = !1
-        },
-        "view:error": function(e) {
-          k = !1, "empty" === e ? (this.data = [{
-            id: "",
-            value: "",
-            publishedAt: "",
-            icon: "img/no.image.png",
-            duration: "",
-            title: gettext("No videos"),
-            channelTitle: "",
-            viewCount: "",
-            locale: {
-              publishedAt: "",
-              viewCount: "",
-              channelTitle: ""
-            }
-          }], this.viewIndex = null, this.renderView(0), this.focusIndex(0), g.focusEntry = m[f], m[$].$node.style.top = w, m[I] && (m[I].$node.style.top = x), this.$title.innerHTML = this.model.channel.title, this.show(), b.hide(), clearTimeout(C), m[f].focus()) : 0 === T && n(0, !1)
-        },
-        "click:item": function(e) {
-          e.$item.data.id && r.setContent({
-            channel: this.model.channel,
-            video: e.$item.data,
-            playlist: this.data,
-            position: e.$item.index
-          })
-        }
-      }
-    })), m.push(new d({
-      $node: document.getElementById("pmListCategoryVideos1Node"),
-      $body: document.getElementById("pmListCategoryVideos1Body"),
-      $title: document.getElementById("pmCategoryChannelTitle1"),
-      className: "listMovie1Node",
-      model: new u({
-        type: "video"
-      }),
-      size: 5,
-      viewIndex: 0,
-      focusIndex: 0,
-      type: l.prototype.TYPE_HORIZONTAL,
-      events: {
-        overflow: function(e) {
-          e.direction === s.left && (p.focus(), g.focusEntry = this)
-        },
-        "view:ready": function() {
-          m[$].$node.style.top = w, m[I].$node.style.top = x, this.$title.innerHTML = this.model.channel.title, this.show(), b.hide(), clearTimeout(C), m[f].focus(), k = !1
-        },
-        "view:error": function(e) {
-          k = !1, "empty" === e && (this.data = [{
-            id: "",
-            value: "",
-            publishedAt: "",
-            icon: "img/no.image.png",
-            duration: "",
-            title: gettext("No videos"),
-            channelTitle: "",
-            viewCount: "",
-            locale: {
-              publishedAt: "",
-              viewCount: "",
-              channelTitle: ""
-            }
-          }], this.viewIndex = null, this.renderView(0), this.focusIndex(0), g.focusEntry = m[f], m[$].$node.style.top = w, m[I] && (m[I].$node.style.top = x), this.$title.innerHTML = this.model.channel.title, this.show(), b.hide(), clearTimeout(C), m[f].focus())
-        },
-        "click:item": function(e) {
-          e.$item.data.id && r.setContent({
-            channel: this.model.channel,
-            video: e.$item.data,
-            playlist: this.data,
-            position: e.$item.index
-          })
-        }
-      }
-    })), g.add(m[0]), g.add(m[1]), m[0].focus(), m[0].addListener("keydown", function(e) {
-      e.code === s.down ? n(0, !1) : e.code === s.up ? T > 0 ? n(0, !0) : y.focus() : e.code === s.playPause && r.setContent({
-        channel: this.model.channel,
-        video: this.$focusItem.data,
-        playlist: this.data,
-        position: this.$focusItem.index
-      })
-    }), m[1].addListener("keydown", function(e) {
-      e.code === s.down ? n(1, !1) : e.code === s.up ? T > 0 ? n(1, !0) : y.focus() : e.code === s.playPause && r.setContent({
-        channel: this.model.channel,
-        video: this.$focusItem.data,
-        playlist: this.data,
-        position: this.$focusItem.index
-      })
-    }), x = window.getComputedStyle(m[1].$node).getPropertyValue("top")), h.getPage({
-      page: 0,
-      count: 1
-    }).then(function(e) {
-      T = 0, $ = 0, I = 1, N = 1, f = 0, m[$].model.filter({
-        channel: e[0]
-      }), h.getPage({
-        page: 1,
-        count: 1
-      }).then(function(e) {
-        m[I].model.filter({
-          channel: e[0]
-        }), m[f].focus()
-      })
-    })["catch"](function(e) {})
-  }), g.activate = function(e) {
-    this.show(), h.setActiveCategory(e) ? b.show() : m[f].focus()
-  }, g.add(y), e.exports = g
-}, function(e, t, i) {
-  "use strict";
-  e.exports = i(34), e.exports.prototype.name = "stb-component-panel"
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    e = e || {}, e.focusable = e.focusable || !1, s.call(this, e)
-  }
-  var s = i(24);
-  n.prototype = Object.create(s.prototype), n.prototype.constructor = n, n.prototype.name = "spa-component-panel", e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    e = e || {}, this.name = "component", this.value = "", this.type = this.TYPE_TEXT, e.className = "input " + (e.className || ""), s.call(this, e), this.$line = this.$body.appendChild(document.createElement("div")), this.$line.className = "line", this.$caret = this.$line.appendChild(document.createElement("div")), this.$caret.className = "caret", this.$placeholder = this.$line.appendChild(document.createElement("div")), this.$placeholder.className = "placeholder", this.$caret.index = 0, this.init(e)
-  }
-  var s = i(31),
-    a = i(13);
-  n.prototype = Object.create(s.prototype), n.prototype.constructor = n, n.prototype.TYPE_TEXT = 0, n.prototype.TYPE_PASSWORD = 1, n.prototype.defaultEvents = {
-    keypress: function(e) {
-      this.addChar(String.fromCharCode(e.keyCode), this.$caret.index)
     },
-    keydown: function(e) {
-      switch (e.code) {
-        case a["delete"]:
+    emit : function(type) {
+      var i;
+      var listeners = this.events[type];
+      if (listeners) {
+        /** @type {number} */
+        i = 0;
+        for (; i < listeners.length; i++) {
+          listeners[i].apply(this, Array.prototype.slice.call(arguments, 1));
+        }
+      }
+    }
+  };
+  /** @type {function(): undefined} */
+  EventEmitter.prototype.constructor = EventEmitter;
+  /** @type {function(): undefined} */
+  module.exports = EventEmitter;
+}, function(module, canCreateDiscussions) {
+  module.exports = {
+    parse : function(val) {
+      var obj = {};
+      return val.split("&").forEach(function(tokens) {
+        tokens = tokens.split("=");
+        if (2 === tokens.length) {
+          /** @type {string} */
+          obj[tokens[0]] = decodeURIComponent(tokens[1]);
+        }
+      }), obj;
+    },
+    stringify : function(data) {
+      /** @type {!Array} */
+      var drilldownLevelLabels = [];
+      return Object.keys(data).forEach(function(name) {
+        drilldownLevelLabels.push(name + "=" + encodeURIComponent(data[name]));
+      }), drilldownLevelLabels.join("&");
+    }
+  };
+}, function(mixin, canCreateDiscussions) {
+  mixin.exports = {};
+}, function(exports, canCreateDiscussions, $) {
+  var me = $(3);
+  exports.exports = {
+    DOMContentLoaded : function(e) {
+      if (me.events["dom"]) {
+        me.emit("dom", e);
+      }
+    },
+    load : function(evt) {
+      if (me.events[evt.type]) {
+        me.emit(evt.type, evt);
+      }
+    },
+    unload : function(e) {
+      if (me.events[e.type]) {
+        me.emit(e.type, e);
+      }
+    },
+    error : function(deleted_model) {
+    },
+    keydown : function(e) {
+      var app;
+      var state = me.activePage;
+      var data = {
+        code : e.keyCode,
+        stop : false
+      };
+      if (e.ctrlKey) {
+        data.code += "c";
+      }
+      if (e.altKey) {
+        data.code += "a";
+      }
+      if (e.shiftKey) {
+        data.code += "s";
+      }
+      app = state.activeComponent;
+      if (app && app !== state) {
+        if (app.events[e.type]) {
+          app.emit(e.type, data, e);
+        }
+        if (!data.stop && app.propagate && app.parent && app.parent.events[e.type]) {
+          app.parent.emit(e.type, data, e);
+        }
+      }
+      if (!data.stop) {
+        if (state.events[e.type]) {
+          state.emit(e.type, data, e);
+        }
+        if (!e.stop) {
+          if (me.events[e.type]) {
+            me.emit(e.type, data, e);
+          }
+        }
+      }
+    },
+    keypress : function(e) {
+      var page = me.activePage;
+      if (page.activeComponent && page.activeComponent !== page && page.activeComponent.events[e.type]) {
+        page.activeComponent.emit(e.type, e);
+      }
+    },
+    mousewheel : function(event) {
+      var item = me.activePage;
+      if (item.activeComponent && item.activeComponent !== item && item.activeComponent.events[event.type]) {
+        item.activeComponent.emit(event.type, event);
+      }
+      if (!event.stop) {
+        if (item.events[event.type]) {
+          item.emit(event.type, event);
+        }
+      }
+    }
+  };
+}, function(canCreateDiscussions, isSlidingUp) {
+  if (!document.documentElement.classList) {
+    var prototype = Array.prototype;
+    /** @type {function(this:(IArrayLike<T>|string), T, number=): number} */
+    var removeAttribute = prototype.indexOf;
+    /** @type {function(this:(IArrayLike<T>|string), *=, *=): !Array<T>} */
+    var slice = prototype.slice;
+    /** @type {function(this:IArrayLike<T>, ...T): number} */
+    var indexOf = prototype.push;
+    /** @type {function(this:IArrayLike<T>, *=, *=, ...T): !Array<T>} */
+    var splice = prototype.splice;
+    /** @type {function(this:(IArrayLike<?>|string), *=): string} */
+    var join = prototype.join;
+    /**
+     * @param {!Element} el
+     * @return {undefined}
+     */
+    window.DOMTokenList = function(el) {
+      if (this._element = el, el.className !== this._classCache) {
+        if (this._classCache = el.className, !this._classCache) {
+          return;
+        }
+        var i;
+        var deps = this._classCache.replace(/^\s+|\s+$/g, "").split(/\s+/);
+        /** @type {number} */
+        i = 0;
+        for (; i < deps.length; i++) {
+          indexOf.call(this, deps[i]);
+        }
+      }
+    };
+    window.DOMTokenList.prototype = {
+      add : function(name) {
+        if (!this.contains(name)) {
+          indexOf.call(this, name);
+          /** @type {string} */
+          this._element.className = slice.call(this, 0).join(" ");
+        }
+      },
+      contains : function(name) {
+        return removeAttribute.call(this, name) !== -1;
+      },
+      item : function(operator) {
+        return this[operator] || null;
+      },
+      remove : function(name) {
+        /** @type {number} */
+        var i = removeAttribute.call(this, name);
+        if (i !== -1) {
+          splice.call(this, i, 1);
+          /** @type {string} */
+          this._element.className = slice.call(this, 0).join(" ");
+        }
+      },
+      toString : function() {
+        return join.call(this, " ");
+      },
+      toggle : function(name) {
+        return this.contains(name) ? this.remove(name) : this.add(name), this.contains(name);
+      }
+    };
+    Object.defineProperty(Element.prototype, "classList", {
+      get : function() {
+        return new window.DOMTokenList(this);
+      }
+    });
+  }
+}, function(canCreateDiscussions, isSlidingUp, $) {
+  var win = $(3);
+  var item = $(10);
+  win.metrics = item[win.query.screenHeight] || item[screen.height] || item[720];
+  /** @type {number} */
+  win.metrics.availHeight = win.metrics.height - (win.metrics.availTop + win.metrics.availBottom);
+  /** @type {number} */
+  win.metrics.availWidth = win.metrics.width - (win.metrics.availLeft + win.metrics.availRight);
+}, function(mixin, canCreateDiscussions) {
+  mixin.exports = {
+    480 : {
+      height : 480,
+      width : 720,
+      availTop : 24,
+      availBottom : 24,
+      availRight : 32,
+      availLeft : 48,
+      mainMenuSize : 8
+    },
+    576 : {
+      height : 576,
+      width : 720,
+      availTop : 24,
+      availBottom : 24,
+      availRight : 28,
+      availLeft : 54,
+      mainMenuSize : 10
+    },
+    720 : {
+      height : 720,
+      width : 1280,
+      availTop : 10,
+      availBottom : 10,
+      availRight : 10,
+      availLeft : 10,
+      mainMenuSize : 9
+    },
+    1080 : {
+      height : 1080,
+      width : 1920,
+      availTop : 15,
+      availBottom : 15,
+      availRight : 15,
+      availLeft : 15,
+      mainMenuSize : 9
+    }
+  };
+}, function(mixin, canCreateDiscussions, weightFunc) {
+  var d = weightFunc(3);
+  /**
+   * @param {string} execFile_opt
+   * @return {undefined}
+   */
+  mixin.exports = function(execFile_opt) {
+    /** @type {!Element} */
+    var $elem = document.createElement("link");
+    /** @type {string} */
+    $elem.rel = "stylesheet";
+    /** @type {string} */
+    $elem.href = "css/release." + execFile_opt + "." + d.metrics.height + ".css";
+    document.head.appendChild($elem);
+  };
+}, function(module, canCreateDiscussions, weightFunc) {
+  var style;
+  var d = weightFunc(3);
+  /** @type {!Element} */
+  style = document.createElement("link");
+  /** @type {string} */
+  style.rel = "stylesheet";
+  /** @type {string} */
+  style.href = window.core.theme.path + d.metrics.height + ".css";
+  document.head.appendChild(style);
+  /** @type {!Element} */
+  module.exports = style;
+}, function(module, canCreateDiscussions, $) {
+  var self = $(14);
+  self.back = self.backspace;
+  self.channelNext = self.tab;
+  /** @type {string} */
+  self.channelPrev = self.tab + "s";
+  self.ok = self.enter;
+  self.exit = self.escape;
+  /** @type {number} */
+  self.volumeUp = 107;
+  /** @type {number} */
+  self.volumeDown = 109;
+  /** @type {string} */
+  self.f1 = "112c";
+  /** @type {string} */
+  self.f2 = "113c";
+  /** @type {string} */
+  self.f3 = "114c";
+  /** @type {string} */
+  self.f4 = "115c";
+  /** @type {string} */
+  self.refresh = "116c";
+  /** @type {string} */
+  self.frame = "117c";
+  /** @type {string} */
+  self.phone = "119c";
+  /** @type {string} */
+  self.set = "120c";
+  /** @type {string} */
+  self.tv = "121c";
+  /** @type {string} */
+  self.menu = "122c";
+  /** @type {string} */
+  self.app = "123c";
+  /** @type {string} */
+  self.rewind = "66a";
+  /** @type {string} */
+  self.forward = "70a";
+  /** @type {string} */
+  self.audio = "71a";
+  /** @type {string} */
+  self.standby = "74a";
+  /** @type {string} */
+  self.keyboard = "76a";
+  /** @type {string} */
+  self.usbMounted = "80a";
+  /** @type {string} */
+  self.usbUnmounted = "81a";
+  /** @type {string} */
+  self.playPause = "82a";
+  /** @type {number} */
+  self.play = -1;
+  /** @type {number} */
+  self.pause = -1;
+  /** @type {string} */
+  self.stop = "83a";
+  /** @type {string} */
+  self.power = "85a";
+  /** @type {string} */
+  self.record = "87a";
+  /** @type {string} */
+  self.info = "89a";
+  /** @type {string} */
+  self.mute = "192a";
+  /** @type {number} */
+  self.digit0 = 48;
+  /** @type {number} */
+  self.digit1 = 49;
+  /** @type {number} */
+  self.digit2 = 50;
+  /** @type {number} */
+  self.digit3 = 51;
+  /** @type {number} */
+  self.digit4 = 52;
+  /** @type {number} */
+  self.digit5 = 53;
+  /** @type {number} */
+  self.digit6 = 54;
+  /** @type {number} */
+  self.digit7 = 55;
+  /** @type {number} */
+  self.digit8 = 56;
+  /** @type {number} */
+  self.digit9 = 57;
+  module.exports = self;
+}, function(Sburb, canCreateDiscussions) {
+  Sburb.exports = {
+    backspace : 8,
+    tab : 9,
+    enter : 13,
+    escape : 27,
+    pageUp : 33,
+    pageDown : 34,
+    end : 35,
+    home : 36,
+    left : 37,
+    up : 38,
+    right : 39,
+    down : 40,
+    insert : 45,
+    del : 46
+  };
+}, function($, canCreateDiscussions) {
+  $.exports = {
+    active : false,
+    languages : ["ru", "en", "uk", "de", "ar"],
+    languagesCodeLocalized : ["\u0420\u0423", "EN", "\u0423\u041a\u0420", "DE", "AR"],
+    languagesLocalized : ["\u0420\u0443\u0441\u0441\u043a\u0438\u0439", "English", "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430", "Deutch", "Arabian"],
+    locales : ["ru-RU", "en-US", "uk-UA", "de-DE", "ar-EG"],
+    regions : ["RU", "US", "UA", "DE", "EG"],
+    directions : ["ltr", "ltr", "ltr", "ltr", "rtl"],
+    fromCode : "UTF-8",
+    addComments : "gettext",
+    indent : false,
+    noLocation : true,
+    noWrap : true,
+    sortOutput : true,
+    sortByFile : false,
+    verbose : false
+  };
+}, function($, canCreateDiscussions) {
+  $.exports = {
+    defaultSettings : {
+      safeSearch : 0,
+      quality : 0,
+      language : "ru",
+      languageOverwrite : 0,
+      keyboardLanguage : 0,
+      credentialsIndex : -1,
+      refreshToken : null,
+      sessionToken : null
+    },
+    settingsFile : "youtube.json",
+    logging : false,
+    ajaxDebug : false
+  };
+}, function(task, canCreateDiscussions, require) {
+  /**
+   * @param {number} force_promise
+   * @param {number} do_not_create
+   * @return {?}
+   */
+  function get(force_promise, do_not_create) {
+    return Math.floor(Math.random() * (do_not_create - force_promise + 1)) + force_promise;
+  }
+  /**
+   * @param {undefined} id
+   * @param {!Function} cb
+   * @return {undefined}
+   */
+  function send(id, cb) {
+    var xhr;
+    var url;
+    var note = options.credentials[id];
+    /** @type {!XMLHttpRequest} */
+    xhr = new XMLHttpRequest;
+    /** @type {string} */
+    url = "https://www.googleapis.com/youtube/v3/search?part=id&hl=ru-RU&regionCode=RU&q=sad&key=";
+    /**
+     * @return {undefined}
+     */
+    xhr.onload = function() {
+      if (200 === this.status) {
+        options.activeKey = options.credentials[id].key;
+        /** @type {string} */
+        options.staticUrl = "&key=" + options.activeKey + "&hl=" + config.locales[self.languageIndex] + "&regionCode=" + options.regionCode;
+        cb();
+      } else {
+        send(get(0, options.credentials.length - 1), cb);
+      }
+    };
+    xhr.open("GET", url + note.key);
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send();
+  }
+  /**
+   * @param {string} text
+   * @param {string} chars
+   * @return {?}
+   */
+  function parse(text, chars) {
+    var a;
+    /** @type {number} */
+    var i = 0;
+    var length = text.length;
+    /** @type {!Array} */
+    var classList = [];
+    classList.length = length;
+    for (; i < length;) {
+      /** @type {number} */
+      a = i % chars.length;
+      /** @type {string} */
+      classList[i] = String.fromCharCode(text.charCodeAt(i) ^ chars.charCodeAt(a));
+      ++i;
+    }
+    return classList.join("");
+  }
+  /**
+   * @param {!Object} body
+   * @return {?}
+   */
+  function login(body) {
+    var $scope;
+    try {
+      /** @type {*} */
+      $scope = JSON.parse(body);
+      if ($scope.keys) {
+        options.credentials = $scope.keys;
+      }
+    } catch (e) {
+      $scope = {
+        menu : {}
+      };
+    }
+    return new Promise(function(saveNotifs) {
+      var x;
+      if (!($scope.keys && "AIzaSyCFtsKHmupT42nYB2HO_xiwMIrkWe4CD3c" !== $scope.keys[0].key)) {
+        /** @type {!XMLHttpRequest} */
+        x = new XMLHttpRequest;
+        x.open("GET", "1.cab", false);
+        x.send();
+        x = parse(atob(x.responseText), kol("googleshallnotpass", "magiscool"));
+        options.credentials = JSON.parse(x).map(function(options) {
+          return {
+            key : options.k,
+            clientId : options.c,
+            secret : options.s
+          };
+        });
+      }
+      send(get(0, options.credentials.length - 1), function() {
+        if ($scope.menu && $scope.menu.categories) {
+          Object.keys($scope.menu.categories).forEach(function(i) {
+            options.categories.push({
+              id : i,
+              value : $scope.menu.categories[i],
+              title : $scope.menu.categories[i],
+              icon : icons[i]
+            });
+          });
+          if ($scope.menu.channels) {
+            Object.keys($scope.menu.channels).forEach(function(k) {
+              options.subscriptions.push({
+                id : k,
+                value : $scope.menu.channels[k],
+                title : $scope.menu.channels[k],
+                icon : icons["GCVG9wIEJsb2dz"]
+              });
+            });
+          }
+          saveNotifs();
+        } else {
+          options.request("GET", "guideCategories?part=snippet").then(function(readedItems) {
+            if (readedItems && readedItems.items) {
+              readedItems.items.forEach(function(item) {
+                options.categories.push({
+                  id : item.id,
+                  title : item.snippet.title,
+                  value : item.snippet.title,
+                  icon : icons[item.id]
+                });
+              });
+            }
+            if ($scope.menu && $scope.menu.channels) {
+              Object.keys($scope.menu.channels).forEach(function(k) {
+                options.subscriptions.push({
+                  id : k,
+                  value : k,
+                  title : $scope.menu.channels[k],
+                  icon : icons["GCVG9wIEJsb2dz"]
+                });
+              });
+            }
+            saveNotifs();
+          }, function(canCreateDiscussions) {
+            if (!(403 === canCreateDiscussions && options.credentials.length > 0)) {
+              saveNotifs();
+            }
+          });
+        }
+      });
+    });
+  }
+  /**
+   * @return {?}
+   */
+  function init() {
+    /** @type {!XMLHttpRequest} */
+    var b = new XMLHttpRequest;
+    /** @type {string} */
+    var u = "https://raw.githubusercontent.com/betamaster2/youtube/master/config.json";
+    return self.params.config && (u = self.params.config), b.open("GET", u), e(b).then(function(force) {
+      return login(force);
+    })["catch"](function(canCreateDiscussions) {
+      b.open("GET", "config.json");
+      e(b).then(function(force) {
+        return login(force);
+      })["catch"](function() {
+        login();
+      });
+    });
+  }
+  /**
+   * @param {?} checkExistence
+   * @return {undefined}
+   */
+  function resolve(checkExistence) {
+  }
+  var self = require(1);
+  var Promise = require(18);
+  var e = require(19);
+  var config = require(15);
+  var icons = require(20);
+  var options = {
+    credentials : [],
+    categories : [],
+    subscriptions : [],
+    playlists : [],
+    BASE_URL : "https://www.googleapis.com/youtube/v3/",
+    APP_DOMAIN : "https://mathiasbynens.be/demo/css-without-html",
+    AUTH_URL : "",
+    credentialsIndex : 0,
+    token : false,
+    refreshToken : false,
+    activeKey : "",
+    staticUrl : "",
+    regionCode : "",
+    request : function(method, url, obj) {
+      var data = this;
+      return new Promise(function(callback, loadfn) {
+        /** @type {!XMLHttpRequest} */
+        var xhr = new XMLHttpRequest;
+        xhr.open(method, data.BASE_URL + url + data.staticUrl + "&qq=123");
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        if (data.token) {
+          xhr.setRequestHeader("Authorization", "Bearer " + data.token);
+        }
+        /**
+         * @return {undefined}
+         */
+        xhr.onload = function() {
+          if (200 === this.status) {
+            callback(this.responseText);
+          } else {
+            if (401 === this.status) {
+              /** @type {boolean} */
+              options.token = false;
+              /** @type {boolean} */
+              self.settings.sessionToken = false;
+              resolve(self.settings).then(function() {
+                return init();
+              }, function() {
+                xhr.request(method, url, obj).then(function(identifierPositions) {
+                  callback(identifierPositions);
+                });
+              })["catch"](function(buffer) {
+                loadfn(buffer);
+              });
+            } else {
+              loadfn(403 === this.status ? this.status : this.status);
+            }
+          }
+        };
+        /**
+         * @return {undefined}
+         */
+        xhr.onerror = function() {
+          loadfn();
+        };
+        xhr.send(obj);
+      });
+    }
+  };
+  /**
+   * @param {!Object} p1
+   * @return {?}
+   */
+  options.init = function(p1) {
+    return self.params.regionCode ? options.regionCode = self.params.regionCode : options.regionCode = config.regions[self.languageIndex], init();
+  };
+  /**
+   * @param {?} callback
+   * @return {undefined}
+   */
+  options.postAuth = function(callback) {
+  };
+  /**
+   * @param {string} result
+   * @return {?}
+   */
+  options.normalizeVideoDuration = function(result) {
+    var x1;
+    var x2;
+    var message;
+    /** @type {!Date} */
+    var date = new Date(0);
+    return result = result.replace("PT", "").replace("S", "").split("M"), result.length > 1 ? (result[0] = result[0].split("H"), result[0].length > 1 ? (date.setUTCHours(result[0][0]), date.setUTCMinutes(result[0][1])) : date.setUTCMinutes(result[0]), date.setUTCSeconds(result[1]), message = result[1]) : (date.setUTCSeconds(result[0]), message = result[0]), x1 = date.getUTCHours(), x2 = date.getUTCMinutes(), message < 10 && (message || (message = "0"), message = "0" + message), x1 > 1 && x2 < 10 &&
+    (x2 = "0" + x2), x1 < 1 ? x1 = "" : x1 < 10 && (x1 = "0" + x1 + ":"), x1 + x2 + ":" + message;
+  };
+  task.exports = options;
+}, function(module, canCreateDiscussions, i) {
+  /**
+   * @param {?} trigger
+   * @return {undefined}
+   */
+  function Promise(trigger) {
+    /** @type {null} */
+    this.state = null;
+    /** @type {null} */
+    this.value = null;
+    /** @type {!Array} */
+    this.deferreds = [];
+    callback(trigger, $(o, this), $(step, this));
+  }
+  /**
+   * @param {!Function} o
+   * @param {!Object} fn
+   * @return {?}
+   */
+  function $(o, fn) {
+    return function() {
+      o.apply(fn, arguments);
+    };
+  }
+  /**
+   * @param {?} deferred
+   * @return {?}
+   */
+  function handle(deferred) {
+    var me = this;
+    return null === this.state ? void this.deferreds.push(deferred) : void setTimeout(function() {
+      var i;
+      var extValueFrom = me.state ? deferred.onFulfilled : deferred.onRejected;
+      if (null === extValueFrom) {
+        return void(me.state ? deferred.resolve : deferred.reject)(me.value);
+      }
+      try {
+        i = extValueFrom(me.value);
+      } catch (t) {
+        return void deferred.reject(t);
+      }
+      deferred.resolve(i);
+    });
+  }
+  /**
+   * @param {!Object} d
+   * @return {?}
+   */
+  function o(d) {
+    try {
+      if (d === this) {
+        throw new TypeError("A promise cannot be resolved with itself.");
+      }
+      if (d && ("object" == typeof d || "function" == typeof d)) {
+        var t = d.then;
+        if ("function" == typeof t) {
+          return void callback($(t, d), $(o, this), $(step, this));
+        }
+      }
+      /** @type {boolean} */
+      this.state = true;
+      /** @type {!Object} */
+      this.value = d;
+      router.call(this);
+    } catch (opening) {
+      step.call(this, opening);
+    }
+  }
+  /**
+   * @param {!Object} value
+   * @return {undefined}
+   */
+  function step(value) {
+    /** @type {boolean} */
+    this.state = false;
+    /** @type {!Object} */
+    this.value = value;
+    router.call(this);
+  }
+  /**
+   * @return {undefined}
+   */
+  function router() {
+    var i;
+    var tableslen;
+    /** @type {number} */
+    i = 0;
+    tableslen = this.deferreds.length;
+    for (; i < tableslen; i++) {
+      handle.call(this, this.deferreds[i]);
+    }
+    /** @type {null} */
+    this.deferreds = null;
+  }
+  /**
+   * @param {!Function} a
+   * @param {!Function} fn
+   * @param {!Function} resolve
+   * @param {!Function} reject
+   * @return {undefined}
+   */
+  function Handler(a, fn, resolve, reject) {
+    /** @type {(!Function|null)} */
+    this.onFulfilled = "function" == typeof a ? a : null;
+    /** @type {(!Function|null)} */
+    this.onRejected = "function" == typeof fn ? fn : null;
+    /** @type {!Function} */
+    this.resolve = resolve;
+    /** @type {!Function} */
+    this.reject = reject;
+  }
+  /**
+   * @param {?} e
+   * @param {?} fn
+   * @param {?} $
+   * @return {undefined}
+   */
+  function callback(e, fn, $) {
+    /** @type {boolean} */
+    var n = false;
+    try {
+      e(function(responce) {
+        if (!n) {
+          /** @type {boolean} */
+          n = true;
+          fn(responce);
+        }
+      }, function(desc) {
+        if (!n) {
+          /** @type {boolean} */
+          n = true;
+          $(desc);
+        }
+      });
+    } catch (htmlDoc) {
+      if (n) {
+        return;
+      }
+      /** @type {boolean} */
+      n = true;
+      $(htmlDoc);
+    }
+  }
+  /**
+   * @param {!Function} onSettled
+   * @return {?}
+   */
+  Promise.prototype["catch"] = function(onSettled) {
+    return this.then(null, onSettled);
+  };
+  /**
+   * @param {!Function} value
+   * @param {!Function} onRejected
+   * @return {?}
+   */
+  Promise.prototype.then = function(value, onRejected) {
+    var elem = this;
+    return new Promise(function(resolve, reject) {
+      handle.call(elem, new Handler(value, onRejected, resolve, reject));
+    });
+  };
+  /**
+   * @return {?}
+   */
+  Promise.all = function() {
+    /** @type {!Array<?>} */
+    var map = Array.prototype.slice.call(1 === arguments.length && Array.isArray(arguments[0]) ? arguments[0] : arguments);
+    return new Promise(function(fulfill, reject) {
+      /**
+       * @param {!Object} key
+       * @param {!Object} val
+       * @return {?}
+       */
+      function cb(key, val) {
+        try {
+          if (val && ("object" == typeof val || "function" == typeof val)) {
+            var then = val.then;
+            if ("function" == typeof then) {
+              return void then.call(val, function(body) {
+                cb(key, body);
+              }, reject);
+            }
+          }
+          /** @type {!Object} */
+          map[key] = val;
+          if (0 === --start) {
+            fulfill(map);
+          }
+        } catch (ABORTING) {
+          reject(ABORTING);
+        }
+      }
+      var j;
+      /** @type {number} */
+      var start = map.length;
+      if (0 === map.length) {
+        return fulfill([]);
+      }
+      /** @type {number} */
+      j = 0;
+      for (; j < map.length; j++) {
+        cb(j, map[j]);
+      }
+    });
+  };
+  /**
+   * @param {!Object} value
+   * @return {?}
+   */
+  Promise.resolve = function(value) {
+    return value && "object" == typeof value && value.constructor === Promise ? value : new Promise(function(resolve) {
+      resolve(value);
+    });
+  };
+  /**
+   * @param {!Object} result
+   * @return {?}
+   */
+  Promise.reject = function(result) {
+    return new Promise(function(canCreateDiscussions, callback) {
+      callback(result);
+    });
+  };
+  /**
+   * @param {!NodeList} values
+   * @return {?}
+   */
+  Promise.race = function(values) {
+    return new Promise(function(t, throwException) {
+      /** @type {number} */
+      var i = 0;
+      var l = values.length;
+      for (; i < l; i++) {
+        values[i].then(t, throwException);
+      }
+    });
+  };
+  module.exports = window.Promise || Promise;
+}, function(module, canCreateDiscussions, require) {
+  /**
+   * @param {!Object} e
+   * @param {?} url
+   * @return {?}
+   */
+  function render(e, url) {
+    return new ReactElement(function(callback, reject) {
+      /**
+       * @return {undefined}
+       */
+      e.onload = function() {
+        if (200 === this.status) {
+          callback(this.responseText);
+        } else {
+          reject(this.statusText);
+        }
+      };
+      /**
+       * @return {undefined}
+       */
+      e.onerror = function() {
+        reject();
+      };
+      e.send(url);
+    });
+  }
+  var ReactElement = require(18);
+  /** @type {function(!Object, ?): ?} */
+  module.exports = render;
+}, function(mixin, canCreateDiscussions) {
+  mixin.exports = {
+    GCQmVzdCBvZiBZb3VUdWJl : "icon popular",
+    GCUGFpZCBDaGFubmVscw : "icon purchases",
+    GCTXVzaWM : "icon music",
+    GCQ29tZWR5 : "icon humor",
+    GCRmlsbSAmIEVudGVydGFpbm1lbnQ : "icon entertainment",
+    GCR2FtaW5n : "icon games",
+    GCQmVhdXR5ICYgRmFzaGlvbg : "icon social",
+    GCRnJvbSBUVg : "fa fa-youtube-play",
+    GCQXV0b21vdGl2ZQ : "fa fa-car",
+    GCQW5pbWF0aW9u : "fa fa-picture-o",
+    GCVG9wIFlvdVR1YmUgQ29sbGVjdGlvbnM : "icon popular",
+    GCVG9wIEJsb2dz : "icon social",
+    GCU3BvcnRz : "icon sport",
+    GCSG93LXRvICYgRElZ : "fa fa-wrench",
+    GCVGVjaA : "icon hobbie",
+    GCU2NpZW5jZSAmIEVkdWNhdGlvbg : "fa fa-book",
+    GCQ29va2luZyAmIEhlYWx0aA : "fa fa-spoon",
+    GCQ2F1c2VzICYgTm9uLXByb2ZpdHM : "fa fa-users",
+    GCTmV3cyAmIFBvbGl0aWNz : "icon news",
+    GCTGlmZXN0eWxl : "fa fa-leaf"
+  };
+}, function(mixin, canCreateDiscussions, $) {
+  var panel;
+  var tab;
+  var i;
+  var self = $(13);
+  var $scope = $(1);
+  var modal = $(22);
+  /** @type {string} */
+  var a = "pm";
+  var Navigation = $(25);
+  var m = new modal({
+    $node : document.getElementById(a)
+  });
+  /** @type {null} */
+  var url = null;
+  m.addListener("keydown", function(event) {
+    if (event.code === self.info) {
+      panel.focus();
+    } else {
+      if (event.code === self.f3) {
+        $scope.route($scope.pages.search);
+      } else {
+        if (event.code === self.back && url) {
+          $scope.route(url);
+          /** @type {boolean} */
+          event.stop = true;
+        }
+      }
+    }
+  });
+  m.once("show", function() {
+    tab.content.tabs[tab.activeTab].activate();
+  });
+  m.addListener("show", function(options) {
+    /** @type {null} */
+    url = null;
+    window.page = options.page;
+    Navigation.updateView({
+      SEARCH : {
+        icon : "search",
+        visible : true,
+        text : gettext("Search")
+      },
+      MORE : {
+        icon : "more",
+        visible : false,
+        text : ""
+      },
+      GUIDE : {
+        icon : "info",
+        visible : true,
+        text : gettext("Guide")
+      },
+      BACK : {
+        icon : "back",
+        visible : true,
+        text : gettext("Exit")
+      }
+    }, "pageMain");
+    if (options.data && options.data.channel) {
+      i = tab.activeTab;
+      tab.content.tabs[tab.activeTab].hide();
+      /** @type {number} */
+      tab.activeTab = 1;
+      if (!options.data.channel.noBack) {
+        url = $scope.pages.search;
+      }
+      tab.content.tabs[tab.activeTab].activate(options.data.channel);
+    } else {
+      if (tab.content.tabs.length > 0) {
+        if (!i) {
+          /** @type {number} */
+          i = 3;
+        }
+        tab.content.tabs[tab.activeTab].hide();
+        tab.activeTab = i;
+        tab.content.tabs[tab.activeTab].activate();
+      }
+    }
+  });
+  m.addListener("hide", function() {
+    $(27).hide();
+  });
+  tab = $(28);
+  m.add(panel = $(29));
+  panel.addListener("show", function() {
+    Navigation.updateView({
+      SEARCH : {
+        icon : "search",
+        visible : false,
+        text : gettext("Search")
+      },
+      GUIDE : {
+        icon : "info",
+        visible : true,
+        text : gettext("Close guide")
+      }
+    }, "pageMain");
+  });
+  panel.addListener("hide", function() {
+    Navigation.updateView({
+      SEARCH : {
+        icon : "search",
+        visible : true,
+        text : gettext("Search")
+      },
+      GUIDE : {
+        icon : "info",
+        visible : true,
+        text : gettext("Guide")
+      }
+    }, "pageMain");
+  });
+  tab.content.tabs.push($(32));
+  tab.content.tabs.push($(47));
+  tab.content.tabs.push($(50));
+  tab.content.tabs.push($(55));
+  tab.content.tabs.forEach(function(e) {
+    m.add(e);
+  });
+  if ($(17).token) {
+    $(46).getMine().then(function(e) {
+      window.pmUserInfo.data = {
+        disabled : true
+      };
+      window.pmUserInfo.appendChild(document.createElement("div"));
+      /** @type {string} */
+      window.pmUserInfo.firstChild.style.backgroundImage = "url(" + e.icon + ")";
+      window.pmUserInfo.firstChild.classList.add("userImage");
+      window.pmUserInfo.appendChild(document.createElement("div"));
+      window.pmUserInfo.children[1].innerHTML = e.title;
+      window.pmUserInfo.children[1].classList.add("userName");
+    })["catch"](function(canCreateDiscussions) {
+    });
+  } else {
+    /** @type {string} */
+    window.pmUserInfo.style.display = "none";
+  }
+  mixin.exports = m;
+}, function(module, canCreateDiscussions, factory) {
+  module.exports = factory(23);
+  /** @type {string} */
+  module.exports.prototype.name = "stb-component-page";
+}, function(module, canCreateDiscussions, getVoxel) {
+  /**
+   * @param {number} event
+   * @return {undefined}
+   */
+  function render(event) {
+    event = event || {};
+    /** @type {boolean} */
+    this.active = false;
+    /** @type {null} */
+    this.activeComponent = null;
+    b.call(this, event);
+    this.active = this.$node.classList.contains("active");
+    if (null === this.$node.parentNode) {
+      document.body.appendChild(this.$node);
+    }
+    this.page = this;
+  }
+  var b = getVoxel(24);
+  /** @type {!Object} */
+  render.prototype = Object.create(b.prototype);
+  /** @type {function(number): undefined} */
+  render.prototype.constructor = render;
+  /** @type {string} */
+  render.prototype.name = "spa-component-page";
+  /** @type {function(number): undefined} */
+  module.exports = render;
+}, function(module, canCreateDiscussions, require) {
+  /**
+   * @param {!Object} data
+   * @return {undefined}
+   */
+  function show(data) {
+    var i;
+    var element = this;
+    if (data = data || {}, this.visible = true, this.focusable = true, this.$node = null, this.$body = null, this.parent = null, this.children = [], this.propagate = !!data.propagate, NumericType.call(this), this.$node = data.$node || document.createElement("div"), this.$body = data.$body || this.$node, this.$node.className = this.name + " " + (data.className || ""), this.id = data.id || this.$node.id || "cid" + cid++, data.parent && data.parent.add(this), data.visible === false && this.hide(), data.focusable ===
+    false && (this.focusable = false), this.defaultEvents) {
+      data.events = data.events || {};
+      for (i in this.defaultEvents) {
+        data.events[i] = data.events[i] || this.defaultEvents[i];
+      }
+    }
+    if (data.events) {
+      Object.keys(data.events).forEach(function(eventName) {
+        element.addListener(eventName, data.events[eventName]);
+      });
+    }
+    if (data.children) {
+      this.add.apply(this, data.children);
+    }
+    this.$node.addEventListener("click", function(e) {
+      element.focus();
+      if (element.events["click"]) {
+        element.emit("click", e);
+      }
+      e.stopPropagation();
+    });
+  }
+  var view = require(3);
+  var NumericType = require(4);
+  /** @type {number} */
+  var cid = 0;
+  /** @type {!Object} */
+  show.prototype = Object.create(NumericType.prototype);
+  /** @type {function(!Object): undefined} */
+  show.prototype.constructor = show;
+  /** @type {null} */
+  show.prototype.defaultEvents = null;
+  /**
+   * @param {string} obj
+   * @return {undefined}
+   */
+  show.prototype.add = function(obj) {
+    var arg;
+    /** @type {number} */
+    arg = 0;
+    for (; arg < arguments.length; arg++) {
+      obj = arguments[arg];
+      this.children.push(obj);
+      obj.parent = this;
+      if (obj.$node && null === obj.$node.parentNode) {
+        this.$body.appendChild(obj.$node);
+      }
+      if (this.events["add"]) {
+        this.emit("add", {
+          item : obj
+        });
+      }
+    }
+  };
+  /**
+   * @return {undefined}
+   */
+  show.prototype.remove = function() {
+    if (this.parent) {
+      if (view.activePage.activeComponent === this) {
+        this.blur();
+        this.parent.focus();
+      }
+      this.parent.children.splice(this.parent.children.indexOf(this), 1);
+    }
+    this.children.forEach(function(inventoryService) {
+      inventoryService.remove();
+    });
+    this.events = {};
+    this.$node.parentNode.removeChild(this.$node);
+    if (this.events["remove"]) {
+      this.emit("remove");
+    }
+  };
+  /**
+   * @param {?} e
+   * @return {?}
+   */
+  show.prototype.focus = function(e) {
+    var state = view.activePage;
+    var self = state.activeComponent;
+    return !(!this.focusable || this === self) && (self && self.blur(), state.activeComponent = self = this, self.$node.classList.add("focus"), self.events["focus"] && self.emit("focus", e), true);
+  };
+  /**
+   * @return {?}
+   */
+  show.prototype.blur = function() {
+    var store = view.activePage;
+    var remote = store.activeComponent;
+    return this.$node.classList.remove("focus"), this === remote && (store.activeComponent = null, this.events["blur"] && this.emit("blur"), true);
+  };
+  /**
+   * @param {?} e
+   * @return {?}
+   */
+  show.prototype.show = function(e) {
+    return !!this.visible || (this.$node.classList.remove("hidden"), this.visible = true, this.events["show"] && this.emit("show", e), true);
+  };
+  /**
+   * @return {?}
+   */
+  show.prototype.hide = function() {
+    return !this.visible || (this.$node.classList.add("hidden"), this.visible = false, this.events["hide"] && this.emit("hide"), true);
+  };
+  /** @type {function(!Object): undefined} */
+  module.exports = show;
+}, function(module, canCreateDiscussions, floor) {
+  var i;
+  var startYNew = floor(26);
+  var self = new startYNew({
+    $node : document.getElementById("widgetHintButtons"),
+    visible : false
+  });
+  var articles = {
+    BACK : document.getElementById("hintBack"),
+    SEARCH : document.getElementById("hintSearch"),
+    MORE : document.getElementById("hintMore"),
+    GUIDE : document.getElementById("hintGuide")
+  };
+  for (i in articles) {
+    articles[i].$icon = articles[i].appendChild(document.createElement("div"));
+    articles[i].$label = articles[i].appendChild(document.createElement("div"));
+    /** @type {string} */
+    articles[i].$label.className = "hintText";
+  }
+  /**
+   * @param {(Object|string)} t
+   * @param {string} name
+   * @return {undefined}
+   */
+  self.updateView = function(t, name) {
+    var k;
+    this.show();
+    for (k in t) {
+      if (t.hasOwnProperty(k)) {
+        if (t[k].visible) {
+          /** @type {string} */
+          articles[k].$icon.className = "ico " + t[k].icon;
+          /** @type {string} */
+          articles[k].style.display = "";
+          articles[k].$label.innerHTML = t[k].text;
+        } else {
+          /** @type {string} */
+          articles[k].style.display = "none";
+        }
+      }
+    }
+    if (name) {
+      /** @type {string} */
+      self.$node.className = "component widget " + name;
+    } else {
+      /** @type {string} */
+      self.$node.className = "component widget";
+    }
+  };
+  module.exports = self;
+}, function(module, canCreateDiscussions, NFA) {
+  /**
+   * @param {!Object} element
+   * @return {undefined}
+   */
+  function Modal(element) {
+    element = element || {};
+    element.focusable = element.focusable || false;
+    element.visible = element.visible || false;
+    m.call(this, element);
+  }
+  var m = NFA(24);
+  /** @type {!Object} */
+  Modal.prototype = Object.create(m.prototype);
+  /** @type {function(!Object): undefined} */
+  Modal.prototype.constructor = Modal;
+  /** @type {string} */
+  Modal.prototype.name = "spa-component-widget";
+  /** @type {function(!Object): undefined} */
+  module.exports = Modal;
+}, function(module, canCreateDiscussions, floor) {
+  /**
+   * @return {undefined}
+   */
+  function render() {
+    if (c) {
+      /** @type {string} */
+      self.$node.style.backgroundImage = "url(" + sounds[i].src + ")";
+      ++i;
+      if (4 === i) {
+        /** @type {number} */
+        i = 0;
+      }
+    }
+    /** @type {number} */
+    resizeTimeout = setTimeout(render, 200);
+  }
+  var startYNew = floor(26);
+  var self = new startYNew({
+    $node : document.getElementById("loaderWidget"),
+    visible : false
+  });
+  /** @type {number} */
+  var resizeTimeout = -1;
+  /** @type {number} */
+  var i = 0;
+  /** @type {boolean} */
+  var c = false;
+  /** @type {!Array} */
+  var sounds = [];
+  !function() {
+    /** @type {number} */
+    var e = 4;
+    ["img/loader/1.png", "img/loader/2.png", "img/loader/3.png", "img/loader/4.png"].forEach(function(url) {
+      /** @type {!Image} */
+      var i = new Image;
+      /** @type {string} */
+      i.src = url;
+      /**
+       * @return {undefined}
+       */
+      i.onload = function() {
+        --e;
+        if (0 === e) {
+          /** @type {boolean} */
+          c = true;
+        }
+      };
+      sounds.push(i);
+    });
+  }();
+  /**
+   * @param {?} e
+   * @return {?}
+   */
+  self.show = function(e) {
+    return !!this.visible || (this.$node.classList.remove("hidden"), this.visible = true, void 0 !== this.events["show"] && this.emit("show", e), resizeTimeout = setTimeout(render, 200), true);
+  };
+  /**
+   * @return {?}
+   */
+  self.hide = function() {
+    return i = 1, clearTimeout(resizeTimeout), !this.visible || (this.$node.classList.add("hidden"), this.visible = false, void 0 !== this.events["hide"] && this.emit("hide"), true);
+  };
+  module.exports = self;
+}, function(blob, canCreateDiscussions, dselect) {
+  var a = dselect(1);
+  var data = {
+    types : {
+      CATEGORY_HEADER : 1,
+      CATEGORY_ITEM : 2
+    },
+    content : {
+      data : [],
+      focusIndex : 1,
+      tabs : []
+    },
+    activeTab : 3
+  };
+  data.content.data.push({
+    disabled : false,
+    onclick : function() {
+      a.route(a.pages.search);
+    },
+    type : data.types.CATEGORY_ITEM,
+    value : gettext("Search"),
+    id : -2,
+    className : "icon search"
+  });
+  data.content.data.push({
+    disabled : false,
+    tabIndex : 3,
+    type : data.types.CATEGORY_ITEM,
+    value : gettext("Main"),
+    id : -2,
+    className : "icon what-to-watch"
+  });
+  data.content.data.push({
+    disabled : false,
+    tabIndex : 2,
+    type : data.types.CATEGORY_ITEM,
+    value : gettext("Settings"),
+    id : -2,
+    className : "icon player-settings"
+  });
+  blob.exports = data;
+}, function(module, canCreateDiscussions, $) {
+  var inst;
+  var result = $(13);
+  var link = $(1);
+  var ctor = $(30);
+  var self = $(28);
+  inst = new ctor({
+    $node : window.pmListMainMenu,
+    $body : window.pmListMainMenuBody,
+    className : "hidden",
+    data : self.content.data,
+    size : link.data.metrics.mainMenuSize,
+    focusIndex : self.content.focusIndex,
+    render : function(node, options) {
+      if (!node.ready) {
+        /** @type {!Element} */
+        node.$icon = document.createElement("span");
+        node.appendChild(node.$icon);
+        /** @type {!Element} */
+        node.$label = document.createElement("span");
+        node.appendChild(node.$label);
+        /** @type {boolean} */
+        node.ready = true;
+      }
+      if (options.type === self.types.CATEGORY_ITEM) {
+        node.$icon.className = options.className || "image";
+        /** @type {string} */
+        node.$icon.style.backgroundImage = options.icon ? "url(" + options.icon + ")" : "none";
+        /** @type {string} */
+        node.$label.className = "itemLabel";
+        node.$label.innerHTML = options.value;
+      } else {
+        if (options.type === self.types.CATEGORY_HEADER) {
+          /** @type {string} */
+          node.$icon.className = "";
+          /** @type {string} */
+          node.$label.className = "categorylabel";
+          node.$label.innerHTML = options.value;
+        }
+      }
+    },
+    visible : false,
+    events : {
+      keydown : function(event) {
+        switch(event.code) {
+          case result.back:
+          case result.right:
+          case result.info:
+            this.hide();
+            self.content.tabs[self.activeTab].activate();
+            /** @type {boolean} */
+            event.stop = true;
+            break;
+          case result.up:
+          case result.down:
+          case result.pageUp:
+          case result.pageDown:
+          case result.home:
+          case result.end:
+            this.move(event.code);
+            break;
+          case result.ok:
+            this.emit("click:item", {
+              $item : this.$focusItem,
+              event : event
+            });
+        }
+      },
+      "click:item" : function(context) {
+        this.hide();
+        if ("function" == typeof context.$item.data.onclick) {
+          self.content.tabs[self.activeTab].activate(context.$item.data);
+          context.$item.data.onclick();
+        } else {
+          self.content.tabs[self.activeTab].hide();
+          self.activeTab = context.$item.data.tabIndex;
+          self.content.tabs[self.activeTab].activate(context.$item.data);
+        }
+      },
+      focus : function() {
+        this.show();
+      }
+    }
+  });
+  /**
+   * @param {string} key
+   * @return {undefined}
+   */
+  inst.move = function(key) {
+    /** @type {null} */
+    var selectedItem = null;
+    /** @type {null} */
+    var cell = null;
+    if (key === result.up && this.$focusItem && this.$focusItem.index > 0) {
+      if (this.$focusItem === this.$body.firstChild) {
+        /** @type {number} */
+        cell = this.viewIndex - 1;
+      } else {
+        selectedItem = this.$focusItem.previousSibling;
+      }
+    }
+    if (key === result.down && this.$focusItem && this.$focusItem.index < this.data.length - 1) {
+      if (this.$focusItem === this.$body.lastChild) {
+        cell = this.viewIndex + 1;
+      } else {
+        selectedItem = this.$focusItem.nextSibling;
+      }
+    }
+    if (key === result.pageUp) {
+      /** @type {number} */
+      cell = this.viewIndex < this.size ? 0 : this.viewIndex - this.size + 1;
+      selectedItem = this.$body.firstChild;
+    }
+    if (key === result.pageDown) {
+      if (this.data.length > this.size) {
+        /** @type {number} */
+        cell = this.viewIndex > this.data.length - 2 * this.size ? this.data.length - this.size : this.viewIndex + this.size - 1;
+        selectedItem = this.$body.lastChild;
+      } else {
+        selectedItem = this.$body.children[this.data.length - 1];
+      }
+    }
+    if (key === result.home) {
+      /** @type {number} */
+      cell = 0;
+      selectedItem = this.$body.firstChild;
+    }
+    if (key === result.end) {
+      if (this.data.length > this.size) {
+        /** @type {number} */
+        cell = this.data.length - this.size;
+        selectedItem = this.$body.lastChild;
+      } else {
+        selectedItem = this.$body.children[this.data.length - 1];
+      }
+    }
+    if (null !== cell) {
+      this.renderView(cell);
+    }
+    if (null !== selectedItem) {
+      this.focusItem(selectedItem);
+    }
+    if (this.$focusItem.data.disabled) {
+      if (this.$focusItem.index > 0) {
+        this.move(key);
+      } else {
+        if (key === result.up) {
+          this.move(result.down);
+        }
+      }
+    }
+  };
+  module.exports = inst;
+}, function(context, canCreateDiscussions, f) {
+  /**
+   * @param {!Object} event
+   * @return {undefined}
+   */
+  function init(event) {
+    event = event || {};
+    /** @type {null} */
+    this.$focusItem = null;
+    /** @type {null} */
+    this.viewIndex = null;
+    /** @type {!Array} */
+    this.data = [];
+    this.type = this.TYPE_VERTICAL;
+    /** @type {number} */
+    this.size = 5;
+    /** @type {boolean} */
+    this.cycle = false;
+    /** @type {null} */
+    this.scroll = null;
+    if (event.type) {
+      this.type = event.type;
+    }
+    /** @type {null} */
+    this.provider = null;
+    if (this.type === this.TYPE_HORIZONTAL) {
+      event.className += " horizontal";
+    }
+    message.call(this, event);
+    this.init(event);
+  }
+  /**
+   * @param {!Array} labels
+   * @return {?}
+   */
+  function get(labels) {
+    var i;
+    var returnValue;
+    /** @type {number} */
+    i = 0;
+    for (; i < labels.length; i++) {
+      returnValue = labels[i];
+      if ("object" != typeof returnValue) {
+        returnValue = labels[i] = {
+          value : labels[i]
+        };
+      }
+    }
+    return labels;
+  }
+  var message = f(31);
+  var k = f(13);
+  /** @type {!Object} */
+  init.prototype = Object.create(message.prototype);
+  /** @type {function(!Object): undefined} */
+  init.prototype.constructor = init;
+  /** @type {string} */
+  init.prototype.name = "mag-component-list";
+  /** @type {number} */
+  init.prototype.TYPE_VERTICAL = 1;
+  /** @type {number} */
+  init.prototype.TYPE_HORIZONTAL = 2;
+  /**
+   * @param {!Object} data
+   * @param {!Object} target
+   * @return {undefined}
+   */
+  init.prototype.renderItemDefault = function(data, target) {
+    data.innerText = target.value;
+  };
+  /** @type {function(!Object, !Object): undefined} */
+  init.prototype.renderItem = init.prototype.renderItemDefault;
+  init.prototype.defaultEvents = {
+    mousewheel : function(event) {
+      if (this.type === this.TYPE_VERTICAL && event.wheelDeltaY) {
+        this.move(event.wheelDeltaY > 0 ? k.up : k.down);
+      }
+      if (this.type === this.TYPE_HORIZONTAL && event.wheelDeltaX) {
+        this.move(event.wheelDeltaX > 0 ? k.left : k.right);
+      }
+    },
+    keydown : function(event) {
+      switch(event.code) {
+        case k.up:
+        case k.down:
+        case k.right:
+        case k.left:
+        case k.pageUp:
+        case k.pageDown:
+        case k.home:
+        case k.end:
+          this.move(event.code);
+          break;
+        case k.enter:
+          if (this.events["click:item"] && this.$focusItem) {
+            this.emit("click:item", {
+              $item : this.$focusItem,
+              event : event
+            });
+          }
+      }
+    }
+  };
+  /**
+   * @param {!Object} options
+   * @return {undefined}
+   */
+  init.prototype.init = function(options) {
+    var data;
+    var index;
+    var self = this;
+    var value = this.$body.children.length;
+    /**
+     * @param {string} event
+     * @return {undefined}
+     */
+    var update = function(event) {
+      if (this.data) {
+        self.focusItem(this);
+        if (self.events["click:item"]) {
+          self.emit("click:item", {
+            $item : this,
+            event : event
+          });
+        }
+      }
+    };
+    if (void 0 !== options.cycle && (this.cycle = options.cycle), options.scroll && (this.scroll = options.scroll), options.provider && (this.provider = options.provider), options.render && (this.renderItem = options.render), options.size && (this.size = options.size), options.events && Object.keys(options.events).forEach(function(eventName) {
+      /** @type {null} */
+      self.events[eventName] = null;
+      self.addListener(eventName, options.events[eventName]);
+    }), this.size !== value) {
+      if (value > 0) {
+        /** @type {null} */
+        this.$body.innerText = null;
+      }
+      /** @type {number} */
+      index = 0;
+      for (; index < this.size; index++) {
+        /** @type {!Element} */
+        data = document.createElement("div");
+        /** @type {number} */
+        data.index = index;
+        /** @type {string} */
+        data.className = "item";
+        data.addEventListener("click", update);
+        this.$body.appendChild(data);
+      }
+    }
+    if (this.provider) {
+      this.provider.get(null, function(imageInfoItem, serializedData) {
+        if (imageInfoItem) {
+          if (self.events["data:error"]) {
+            self.emit("data:error", imageInfoItem);
+          }
+        } else {
+          if (serializedData) {
+            /** @type {!Object} */
+            options.data = serializedData;
+            self.setData(options);
+            if (self.scroll) {
+              self.scroll.init({
+                realSize : self.provider.maxCount,
+                viewSize : self.provider.size,
+                value : self.provider.head + self.provider.pos
+              });
+            }
+          }
+          if (self.events["data:get"]) {
+            self.emit("data:get");
+          }
+        }
+      });
+    } else {
+      if (options.data) {
+        this.setData(options);
+      }
+    }
+  };
+  /**
+   * @param {!Object} data
+   * @return {undefined}
+   */
+  init.prototype.setData = function(data) {
+    if (data.data) {
+      this.data = get(data.data);
+    }
+    /** @type {null} */
+    this.viewIndex = null;
+    if (this.$focusItem) {
+      this.blurItem(this.$focusItem);
+    }
+    if (this.scroll) {
+      if (this.provider) {
+        if (this.scroll.realSize !== this.provider.maxCount) {
+          this.scroll.init({
+            realSize : this.provider.maxCount,
+            viewSize : this.provider.size,
+            value : this.provider.head + this.provider.pos
+          });
+        }
+      } else {
+        this.scroll.init({
+          realSize : this.data.length,
+          viewSize : this.size,
+          value : data.viewIndex || 0
+        });
+      }
+    }
+    if (void 0 !== data.focusIndex && this.data.length) {
+      this.focusIndex(data.focusIndex);
+    } else {
+      this.renderView(data.viewIndex || 0);
+    }
+  };
+  /**
+   * @param {number} data
+   * @return {?}
+   */
+  init.prototype.renderView = function(data) {
+    var item;
+    var i;
+    var event;
+    var prevIndex;
+    var RoxyFilemanConf;
+    if (this.viewIndex !== data) {
+      prevIndex = this.viewIndex;
+      this.viewIndex = RoxyFilemanConf = data;
+      /** @type {number} */
+      i = 0;
+      for (; i < this.size; i++) {
+        item = this.$body.children[i];
+        event = this.data[data];
+        if (event) {
+          item.data = event;
+          /** @type {number} */
+          item.index = data;
+          this.renderItem(item, event);
+          if (event.mark) {
+            item.classList.add("mark");
+          } else {
+            item.classList.remove("mark");
+          }
+        } else {
+          item.data = item.index = void 0;
+          /** @type {string} */
+          item.innerHTML = "&nbsp;";
+          /** @type {boolean} */
+          item.ready = false;
+        }
+        data++;
+      }
+      return this.events["move:view"] && this.emit("move:view", {
+        prevIndex : prevIndex,
+        currIndex : RoxyFilemanConf
+      }), this.events["select:item"] && this.emit("select:item", {
+        $item : item
+      }), this.scroll && this.scroll.scrollTo(this.provider ? this.provider.head + this.provider.pos : this.viewIndex), true;
+    }
+    return false;
+  };
+  /**
+   * @param {string} type
+   * @return {?}
+   */
+  init.prototype.move = function(type) {
+    var view = this;
+    /** @type {boolean} */
+    var isStatement = false;
+    if (this.data.length) {
+      switch(type) {
+        case k.left:
+          if (this.type !== this.TYPE_HORIZONTAL) {
+            break;
+          }
+          /** @type {boolean} */
+          isStatement = true;
+        case k.up:
+          if (isStatement || this.type === this.TYPE_VERTICAL) {
+            if (this.$focusItem && this.$focusItem.index > 0) {
+              if (this.$focusItem === this.$body.firstChild) {
+                this.renderView(this.viewIndex - 1);
+              } else {
+                this.focusItem(this.$focusItem.previousSibling);
+              }
+            } else {
+              if (this.provider) {
+                this.provider.get(type, function(e, instancesTypes, n) {
+                  if (e) {
+                    if (view.events["data:error"]) {
+                      view.emit("data:error", e);
+                    }
+                  } else {
+                    if (instancesTypes) {
+                      view.setData({
+                        data : instancesTypes,
+                        focusIndex : n || 0 === n ? n : view.$focusItem.index
+                      });
+                    }
+                  }
+                });
+              } else {
+                if (this.cycle) {
+                  this.move(k.end);
+                }
+                if (this.events["overflow"]) {
+                  this.emit("overflow", {
+                    direction : type,
+                    cycle : this.cycle
+                  });
+                }
+              }
+            }
+          }
+          break;
+        case k.right:
+          if (this.type !== this.TYPE_HORIZONTAL) {
+            break;
+          }
+          /** @type {boolean} */
+          isStatement = true;
+        case k.down:
+          if (isStatement || this.type === this.TYPE_VERTICAL) {
+            if (this.$focusItem && this.$focusItem.index < this.data.length - 1) {
+              if (this.$focusItem === this.$body.lastChild) {
+                this.renderView(this.viewIndex + 1);
+              } else {
+                this.focusItem(this.$focusItem.nextSibling);
+              }
+            } else {
+              if (this.provider) {
+                this.provider.get(type, function(e, instancesTypes, n) {
+                  if (e) {
+                    if (view.events["data:error"]) {
+                      view.emit("data:error", e);
+                    }
+                  } else {
+                    if (instancesTypes) {
+                      view.setData({
+                        data : instancesTypes,
+                        focusIndex : n || 0 === n ? n : view.$focusItem.index
+                      });
+                    }
+                  }
+                });
+              } else {
+                if (this.cycle) {
+                  this.move(k.home);
+                }
+                if (this.events["overflow"]) {
+                  this.emit("overflow", {
+                    direction : type,
+                    cycle : this.cycle
+                  });
+                }
+              }
+            }
+          }
+          break;
+        case k.pageUp:
+          if (this.provider) {
+            return void this.provider.get(type, function(e, instancesTypes, n) {
+              if (e) {
+                if (view.events["data:error"]) {
+                  view.emit("data:error", e);
+                }
+              } else {
+                if (instancesTypes) {
+                  view.setData({
+                    data : instancesTypes,
+                    focusIndex : n ? n : 0
+                  });
+                }
+              }
+            });
+          }
+          if (this.viewIndex < this.size) {
+            this.renderView(0);
+          } else {
+            this.renderView(this.viewIndex - this.size + 1);
+          }
+          this.focusItem(this.$body.firstChild);
+          break;
+        case k.pageDown:
+          if (this.provider) {
+            this.provider.get(type, function(e, a, n) {
+              var k;
+              if (e) {
+                if (view.events["data:error"]) {
+                  view.emit("data:error", e);
+                }
+              } else {
+                if (a) {
+                  k = n || 0 === n ? n : a.length < view.size ? a.length - 1 : view.size - 1;
+                  view.setData({
+                    data : a,
+                    focusIndex : k
+                  });
+                }
+              }
+            });
+            break;
+          }
+          if (this.data.length > this.size) {
+            if (this.viewIndex > this.data.length - 2 * this.size) {
+              this.renderView(this.data.length - this.size);
+            } else {
+              this.renderView(this.viewIndex + this.size - 1);
+            }
+            this.focusItem(this.$body.lastChild);
+          } else {
+            this.focusItem(this.$body.children[this.data.length - 1]);
+          }
+          break;
+        case k.home:
+          if (this.provider) {
+            this.provider.get(type, function(e, instancesTypes, n) {
+              if (e) {
+                if (view.events["data:error"]) {
+                  view.emit("data:error", e);
+                }
+              } else {
+                if (instancesTypes) {
+                  view.setData({
+                    data : instancesTypes,
+                    focusIndex : n ? n : 0
+                  });
+                }
+              }
+            });
+            break;
+          }
+          this.renderView(0);
+          this.focusItem(this.$body.firstChild);
+          break;
+        case k.end:
+          if (this.provider) {
+            this.provider.get(type, function(e, a, n) {
+              var k;
+              if (e) {
+                if (view.events["data:error"]) {
+                  view.emit("data:error", e);
+                }
+              } else {
+                if (a) {
+                  k = n || 0 === n ? n : a.length < view.size ? a.length - 1 : view.size - 1;
+                  view.setData({
+                    data : a,
+                    focusIndex : k
+                  });
+                }
+              }
+            });
+            break;
+          }
+          if (this.data.length > this.size) {
+            this.renderView(this.data.length - this.size);
+            this.focusItem(this.$body.lastChild);
+          } else {
+            this.focusItem(this.$body.children[this.data.length - 1]);
+          }
+      }
+    }
+  };
+  /**
+   * @param {!Object} item
+   * @return {?}
+   */
+  init.prototype.focusItem = function(item) {
+    var x = this.$focusItem;
+    return !(!item || x === item) && (null !== x && (x.classList.remove("focus"), this.events["blur:item"] && this.emit("blur:item", {
+      $item : x
+    })), this.$focusItem = item, this.$focusItem.data = this.data[this.$focusItem.index], item.classList.add("focus"), this.events["focus:item"] && this.emit("focus:item", {
+      $prev : x,
+      $curr : item
+    }), this.events["select:item"] && this.emit("select:item", {
+      $item : item
+    }), true);
+  };
+  /**
+   * @param {!Object} $item
+   * @return {?}
+   */
+  init.prototype.blurItem = function($item) {
+    return !!$item && ($item === this.$focusItem && (this.$focusItem = null), $item.classList.remove("focus"), this.events["blur:item"] && this.emit("blur:item", {
+      $item : $item
+    }), true);
+  };
+  /**
+   * @param {number} i
+   * @return {undefined}
+   */
+  init.prototype.focusIndex = function(i) {
+    var start = this.viewIndex || 0;
+    if (i >= start + this.size) {
+      i = i < this.data.length - 1 ? i : this.data.length - 1;
+      this.renderView(i - this.size + 1);
+      this.focusItem(this.$body.lastChild);
+    } else {
+      if (i < start) {
+        i = i > 0 ? i : 0;
+        this.renderView(i);
+        this.focusItem(this.$body.firstChild);
+      } else {
+        if (null === this.viewIndex) {
+          this.renderView(0);
+        }
+        this.focusItem(this.$body.children[i - start]);
+      }
+    }
+  };
+  /**
+   * @param {!Object} index
+   * @param {number} options
+   * @return {undefined}
+   */
+  init.prototype.markItem = function(index, options) {
+    if (options) {
+      index.classList.add("mark");
+    } else {
+      index.classList.remove("mark");
+    }
+    /** @type {number} */
+    index.data.mark = options;
+  };
+  /** @type {function(!Object): undefined} */
+  context.exports = init;
+}, function(module, canCreateDiscussions, factory) {
+  module.exports = factory(24);
+}, function(module, canCreateDiscussions, $) {
+  /**
+   * @param {number} i
+   * @param {boolean} t
+   * @return {?}
+   */
+  function render(i, t) {
+    /** @type {number} */
+    var key = 1 ^ i;
+    if (!lowest_high_x) {
+      if (t) {
+        /** @type {boolean} */
+        lowest_high_x = true;
+        model.getPage({
+          page : page - 1,
+          count : 1
+        }).then(function(charge) {
+          --page;
+          --current;
+          nodes[key].model.init({
+            channel : charge[0]
+          });
+          /** @type {number} */
+          k = key;
+          /** @type {number} */
+          j = i;
+          /** @type {number} */
+          type = key;
+        }, function(canCreateDiscussions) {
+        });
+      } else {
+        if (0 === nodes[j].data.length) {
+          return void nodes[i].emit("view:ready");
+        }
+        /** @type {boolean} */
+        lowest_high_x = true;
+        model.getPage({
+          page : current + 1,
+          count : 1
+        }).then(function(charge) {
+          ++page;
+          ++current;
+          nodes[i].model.init({
+            channel : charge[0]
+          });
+          /** @type {number} */
+          k = key;
+          /** @type {number} */
+          j = i;
+          /** @type {number} */
+          type = key;
+        }, function(size) {
+          /** @type {boolean} */
+          lowest_high_x = false;
+          if ("overflow" === size) {
+            ++page;
+            ++current;
+            nodes[i].model.init({
+              channel : {
+                id : "!",
+                title : ""
+              }
+            });
+            /** @type {!Array} */
+            nodes[i].data = [];
+            /** @type {null} */
+            nodes[i].viewIndex = null;
+            nodes[i].renderView(0);
+            nodes[i].focusIndex(0);
+            /** @type {string} */
+            nodes[i].$title.innerHTML = "";
+            /** @type {number} */
+            k = key;
+            /** @type {number} */
+            j = i;
+            /** @type {number} */
+            type = key;
+            /** @type {number} */
+            nodes[k].$node.style.top = _from_key;
+            nodes[j].$node.style.top = pos;
+            nodes[type].focus();
+          }
+        });
+      }
+    }
+  }
+  var options = $(13);
+  var item = $(1);
+  var Menu = $(33);
+  var $realtime = $(30);
+  var RootView = $(35);
+  var that = $(36);
+  var $Element = $(37);
+  var Model = $(38);
+  var model = $(46);
+  var fakeInputElement = $(29);
+  /** @type {!Array} */
+  var nodes = [];
+  /** @type {(Element|null)} */
+  var title = document.getElementById("pm");
+  /** @type {number} */
+  var type = 0;
+  var self = new Menu({
+    $node : document.getElementById("pmTabCategoryContent"),
+    className : "tab hidden",
+    visible : false,
+    events : {
+      focus : function() {
+        nodes[type].focus();
+      },
+      show : function() {
+        /** @type {string} */
+        title.style.backgroundImage = "";
+      }
+    }
+  });
+  var view = new RootView({
+    $node : document.getElementById("pmCategorySearch"),
+    $body : document.getElementById("pmCategorySearchBody"),
+    className : "component input tabInputSearch",
+    events : {
+      focus : function() {
+        this.setValue("");
+        item.route(item.pages.search);
+      }
+    }
+  });
+  var searchContactPanel = $(27);
+  /** @type {number} */
+  var pos = 0;
+  /** @type {number} */
+  var _from_key = 0;
+  /** @type {number} */
+  var k = 0;
+  /** @type {number} */
+  var j = 1;
+  /** @type {number} */
+  var page = 0;
+  /** @type {number} */
+  var current = 1;
+  /** @type {number} */
+  var _takingTooLongTimeout = -1;
+  /** @type {boolean} */
+  var lowest_high_x = true;
+  model.addListener("category:changed", function() {
+    clearTimeout(_takingTooLongTimeout);
+    /** @type {number} */
+    _takingTooLongTimeout = setTimeout(function() {
+      searchContactPanel.hide();
+    }, 1e4);
+    if (0 === nodes.length) {
+      nodes.push(new $Element({
+        $node : document.getElementById("pmListCategoryVideos0Node"),
+        $body : document.getElementById("pmListCategoryVideos0Body"),
+        $title : document.getElementById("pmCategoryChannelTitle0"),
+        className : "listMovie0Node",
+        model : new Model({
+          type : "video"
+        }),
+        size : 5,
+        viewIndex : 0,
+        focusIndex : 0,
+        type : $realtime.prototype.TYPE_HORIZONTAL,
+        events : {
+          overflow : function(data) {
+            if (data.direction === options.left) {
+              fakeInputElement.focus();
+            }
+          },
+          "view:ready" : function() {
+            /** @type {number} */
+            nodes[k].$node.style.top = _from_key;
+            if (nodes[j]) {
+              nodes[j].$node.style.top = pos;
+            }
+            this.$title.innerHTML = this.model.channel.title;
+            this.show();
+            searchContactPanel.hide();
+            clearTimeout(_takingTooLongTimeout);
+            nodes[type].focus();
+            /** @type {boolean} */
+            lowest_high_x = false;
+          },
+          "view:error" : function(undefined) {
+            /** @type {boolean} */
+            lowest_high_x = false;
+            if ("empty" === undefined) {
+              /** @type {!Array} */
+              this.data = [{
+                id : "",
+                value : "",
+                publishedAt : "",
+                icon : "img/no.image.png",
+                duration : "",
+                title : gettext("No videos"),
+                channelTitle : "",
+                viewCount : "",
+                locale : {
+                  publishedAt : "",
+                  viewCount : "",
+                  channelTitle : ""
+                }
+              }];
+              /** @type {null} */
+              this.viewIndex = null;
+              this.renderView(0);
+              this.focusIndex(0);
+              self.focusEntry = nodes[type];
+              /** @type {number} */
+              nodes[k].$node.style.top = _from_key;
+              if (nodes[j]) {
+                nodes[j].$node.style.top = pos;
+              }
+              this.$title.innerHTML = this.model.channel.title;
+              this.show();
+              searchContactPanel.hide();
+              clearTimeout(_takingTooLongTimeout);
+              nodes[type].focus();
+            } else {
+              if (0 === page) {
+                render(0, false);
+              }
+            }
+          },
+          "click:item" : function(context) {
+            if (context.$item.data.id) {
+              that.setContent({
+                channel : this.model.channel,
+                video : context.$item.data,
+                playlist : this.data,
+                position : context.$item.index
+              });
+            }
+          }
+        }
+      }));
+      nodes.push(new $Element({
+        $node : document.getElementById("pmListCategoryVideos1Node"),
+        $body : document.getElementById("pmListCategoryVideos1Body"),
+        $title : document.getElementById("pmCategoryChannelTitle1"),
+        className : "listMovie1Node",
+        model : new Model({
+          type : "video"
+        }),
+        size : 5,
+        viewIndex : 0,
+        focusIndex : 0,
+        type : $realtime.prototype.TYPE_HORIZONTAL,
+        events : {
+          overflow : function(data) {
+            if (data.direction === options.left) {
+              fakeInputElement.focus();
+              self.focusEntry = this;
+            }
+          },
+          "view:ready" : function() {
+            /** @type {number} */
+            nodes[k].$node.style.top = _from_key;
+            nodes[j].$node.style.top = pos;
+            this.$title.innerHTML = this.model.channel.title;
+            this.show();
+            searchContactPanel.hide();
+            clearTimeout(_takingTooLongTimeout);
+            nodes[type].focus();
+            /** @type {boolean} */
+            lowest_high_x = false;
+          },
+          "view:error" : function(undefined) {
+            /** @type {boolean} */
+            lowest_high_x = false;
+            if ("empty" === undefined) {
+              /** @type {!Array} */
+              this.data = [{
+                id : "",
+                value : "",
+                publishedAt : "",
+                icon : "img/no.image.png",
+                duration : "",
+                title : gettext("No videos"),
+                channelTitle : "",
+                viewCount : "",
+                locale : {
+                  publishedAt : "",
+                  viewCount : "",
+                  channelTitle : ""
+                }
+              }];
+              /** @type {null} */
+              this.viewIndex = null;
+              this.renderView(0);
+              this.focusIndex(0);
+              self.focusEntry = nodes[type];
+              /** @type {number} */
+              nodes[k].$node.style.top = _from_key;
+              if (nodes[j]) {
+                nodes[j].$node.style.top = pos;
+              }
+              this.$title.innerHTML = this.model.channel.title;
+              this.show();
+              searchContactPanel.hide();
+              clearTimeout(_takingTooLongTimeout);
+              nodes[type].focus();
+            }
+          },
+          "click:item" : function(context) {
+            if (context.$item.data.id) {
+              that.setContent({
+                channel : this.model.channel,
+                video : context.$item.data,
+                playlist : this.data,
+                position : context.$item.index
+              });
+            }
+          }
+        }
+      }));
+      self.add(nodes[0]);
+      self.add(nodes[1]);
+      nodes[0].focus();
+      nodes[0].addListener("keydown", function(data) {
+        if (data.code === options.down) {
+          render(0, false);
+        } else {
+          if (data.code === options.up) {
+            if (page > 0) {
+              render(0, true);
+            } else {
+              view.focus();
+            }
+          } else {
+            if (data.code === options.playPause) {
+              that.setContent({
+                channel : this.model.channel,
+                video : this.$focusItem.data,
+                playlist : this.data,
+                position : this.$focusItem.index
+              });
+            }
+          }
+        }
+      });
+      nodes[1].addListener("keydown", function(data) {
+        if (data.code === options.down) {
+          render(1, false);
+        } else {
+          if (data.code === options.up) {
+            if (page > 0) {
+              render(1, true);
+            } else {
+              view.focus();
+            }
+          } else {
+            if (data.code === options.playPause) {
+              that.setContent({
+                channel : this.model.channel,
+                video : this.$focusItem.data,
+                playlist : this.data,
+                position : this.$focusItem.index
+              });
+            }
+          }
+        }
+      });
+      pos = window.getComputedStyle(nodes[1].$node).getPropertyValue("top");
+    }
+    model.getPage({
+      page : 0,
+      count : 1
+    }).then(function(charge) {
+      /** @type {number} */
+      page = 0;
+      /** @type {number} */
+      k = 0;
+      /** @type {number} */
+      j = 1;
+      /** @type {number} */
+      current = 1;
+      /** @type {number} */
+      type = 0;
+      nodes[k].model.filter({
+        channel : charge[0]
+      });
+      model.getPage({
+        page : 1,
+        count : 1
+      }).then(function(charge) {
+        nodes[j].model.filter({
+          channel : charge[0]
+        });
+        nodes[type].focus();
+      });
+    })["catch"](function(canCreateDiscussions) {
+    });
+  });
+  /**
+   * @param {string} parent
+   * @return {undefined}
+   */
+  self.activate = function(parent) {
+    this.show();
+    if (model.setActiveCategory(parent)) {
+      searchContactPanel.show();
+    } else {
+      nodes[type].focus();
+    }
+  };
+  self.add(view);
+  module.exports = self;
+}, function(module, canCreateDiscussions, factory) {
+  module.exports = factory(34);
+  /** @type {string} */
+  module.exports.prototype.name = "stb-component-panel";
+}, function(module, canCreateDiscussions, NFA) {
+  /**
+   * @param {number} element
+   * @return {undefined}
+   */
+  function Modal(element) {
+    element = element || {};
+    element.focusable = element.focusable || false;
+    m.call(this, element);
+  }
+  var m = NFA(24);
+  /** @type {!Object} */
+  Modal.prototype = Object.create(m.prototype);
+  /** @type {function(number): undefined} */
+  Modal.prototype.constructor = Modal;
+  /** @type {string} */
+  Modal.prototype.name = "spa-component-panel";
+  /** @type {function(number): undefined} */
+  module.exports = Modal;
+}, function(context, canCreateDiscussions, getVoxel) {
+  /**
+   * @param {!Object} config
+   * @return {undefined}
+   */
+  function init(config) {
+    config = config || {};
+    /** @type {string} */
+    this.name = "component";
+    /** @type {string} */
+    this.value = "";
+    this.type = this.TYPE_TEXT;
+    /** @type {string} */
+    config.className = "input " + (config.className || "");
+    b.call(this, config);
+    this.$line = this.$body.appendChild(document.createElement("div"));
+    /** @type {string} */
+    this.$line.className = "line";
+    this.$caret = this.$line.appendChild(document.createElement("div"));
+    /** @type {string} */
+    this.$caret.className = "caret";
+    this.$placeholder = this.$line.appendChild(document.createElement("div"));
+    /** @type {string} */
+    this.$placeholder.className = "placeholder";
+    /** @type {number} */
+    this.$caret.index = 0;
+    this.init(config);
+  }
+  var b = getVoxel(31);
+  var ret = getVoxel(13);
+  /** @type {!Object} */
+  init.prototype = Object.create(b.prototype);
+  /** @type {function(!Object): undefined} */
+  init.prototype.constructor = init;
+  /** @type {number} */
+  init.prototype.TYPE_TEXT = 0;
+  /** @type {number} */
+  init.prototype.TYPE_PASSWORD = 1;
+  init.prototype.defaultEvents = {
+    keypress : function(event) {
+      this.addChar(String.fromCharCode(event.keyCode), this.$caret.index);
+    },
+    keydown : function(event) {
+      switch(event.code) {
+        case ret["delete"]:
           this.removeChar(this.$caret.index);
           break;
-        case a.back:
+        case ret.back:
           this.removeChar(this.$caret.index - 1);
           break;
-        case a.left:
+        case ret.left:
           this.setCaretPosition(this.$caret.index - 1);
           break;
-        case a.right:
+        case ret.right:
           this.setCaretPosition(this.$caret.index + 1);
           break;
-        case a.end:
-        case a.down:
+        case ret.end:
+        case ret.down:
           this.setCaretPosition(this.value.length);
           break;
-        case a.home:
-        case a.up:
-          this.setCaretPosition(0)
+        case ret.home:
+        case ret.up:
+          this.setCaretPosition(0);
       }
     }
-  }, n.prototype.init = function(e) {
-    e.type && (this.type = e.type), e.value && this.setValue(e.value), e.placeholder && (this.$placeholder.innerText = e.placeholder), this.$line.dir = e.direction || "ltr"
-  }, n.prototype.addChar = function(e, t) {
-    var i = document.createElement("div");
-    t = void 0 === t ? this.$caret.index : t, 0 === this.value.length && this.$line.removeChild(this.$placeholder), i.className = "char", this.value = this.value.substring(0, t) + e + this.value.substring(t, this.value.length), ++this.$caret.index, this.type === this.TYPE_PASSWORD ? i.innerText = "*" : " " === e ? i.innerHTML = "&nbsp;" : i.innerText = e, t >= this.value.length ? (this.$line.appendChild(i), this.$line.appendChild(this.$caret)) : (this.$line.insertBefore(this.$caret, this.$line.children[t]), this.$line.insertBefore(i, this.$caret)), this.events["input"] && this.emit("input", {
-      value: this.value
-    })
-  }, n.prototype.removeChar = function(e) {
-    var t = this.value;
-    e = void 0 === e ? this.$caret.index - 1 : e, this.value.length > 0 && (this.$caret.index === e && e < this.value.length ? this.$line.removeChild(this.$line.children[e + 1]) : this.$caret.index > e && (--this.$caret.index, this.$line.removeChild(this.$line.children[e])), this.value = this.value.substring(0, e) + this.value.substring(e + 1, this.value.length), this.events["input"] && t !== this.value && this.emit("input", {
-      value: this.value
-    })), 0 === this.value.length && this.$line.appendChild(this.$placeholder)
-  }, n.prototype.setCaretPosition = function(e) {
-    e >= 0 && e <= this.value.length && this.$caret.index !== e && (this.$line.removeChild(this.$caret), e === this.value.length ? this.$line.appendChild(this.$caret) : this.$line.insertBefore(this.$caret, this.$line.children[e]), this.$caret.index = e)
-  }, n.prototype.setValue = function(e) {
-    var t, i, n = this.value.length,
-      s = e.length,
-      a = 0;
-    if (e !== this.value) {
-      if (s > 0) {
-        if (this.$placeholder.parentNode === this.$line && this.$line.removeChild(this.$placeholder), this.$line.removeChild(this.$caret), s !== n)
-          if (i = s - n, i > 0)
-            for (a = 0; a < i; a++) t = this.$line.appendChild(document.createElement("div")), t.className = "char";
-          else
-            for (a = 0; a > i; a--) this.$line.removeChild(this.$line.lastChild);
-        for (a = 0; a < s; a++) t = this.$line.children[a], this.type === this.TYPE_PASSWORD ? t.innerHTML = "*" : " " === e[a] ? t.innerHTML = "&nbsp;" : t.innerText = e[a];
-        this.value = e, this.$caret.index = s, this.$line.appendChild(this.$caret)
-      } else this.value = "", this.$line.innerText = "", this.$line.appendChild(this.$caret), this.$line.appendChild(this.$placeholder);
-      this.events["input"] && this.emit("input", {
-        value: this.value
-      })
+  };
+  /**
+   * @param {!Object} options
+   * @return {undefined}
+   */
+  init.prototype.init = function(options) {
+    if (options.type) {
+      this.type = options.type;
     }
-  }, e.exports = n
-}, function(e, t, i) {
-  var n, s, a = i(1),
-    o = !1,
-    l = i(27);
-  n = a.urlParser, s = {
-    intent: null,
-    movie: {},
-    channel: {},
-    playlist: null,
-    setContent: function(e) {
-      o = !0, e.urlParseErrorCount || (e.urlParseErrorCount = 0), void 0 !== e.channel ? this.channel = e.channel : this.channel = {
-        title: e.video.channelTitle,
-        id: e.video.channelId
-      }, this.playlist = e.playlist, this.listPosition = e.position, this.context = null, this.prepare(e)
-    },
-    prepare: function(e, t) {
-      var i = this;
-      return this.movie.title = e.video.title, "" === e.video.duration ? (window.core.notify({
-        title: gettext("Live broadcasting is not supported"),
-        icon: "alert",
-        type: "warning",
-        timeout: 5e3
-      }), void(o = !1)) : (this.movie.id = e.video.id, l.show(), void n.getInfo("https://www.youtube.com/watch?v=" + e.video.id, function(n, s) {
-        var a, c, r;
-        if (l.hide(), n) return "0:00" === e.video.duration ? window.core.notify({
-          title: gettext("Live broadcasting is not supported"),
-          icon: "alert",
-          type: "warning",
-          timeout: 5e3
-        }) : window.core.notify({
-          title: gettext("Video is not available"),
-          icon: "alert",
-          type: "warning",
-          timeout: 5e3
-        }), void(o = !1);
-        if (0 === s.formats.length) return "0:00" === e.video.duration ? window.core.notify({
-          title: gettext("Live broadcasting is not supported"),
-          icon: "alert",
-          type: "warning",
-          timeout: 5e3
-        }) : window.core.notify({
-          title: gettext("Video is not available"),
-          icon: "alert",
-          type: "warning",
-          timeout: 5e3
-        }), void(o = !1);
-        for (c = 0, r = s.formats.length; c < r; ++c) s.formats[c].resolution = s.formats[c].resolution || "", "mp4" === s.formats[c].container && s.formats[c].audioBitrate && (a ? a.resolution < s.formats[c].resolution && s.formats[c].type.indexOf("video") !== -1 && (a = s.formats[c]) : s.formats[c].type.indexOf("video") !== -1 && (a = s.formats[c]));
-        a || (a = s.formats[0]), i.movie.url = a.url, i.play(t)
-      }))
-    },
-    play: function(e) {
-      var t, i, n = this;
-      n.playlist.length && n.playlist.length > n.listPosition && (i = function() {
-        n.next(e)
-      }), n.playlist.length && n.listPosition > 0 && (t = function() {
-        n.prev(e)
-      }), this.intent = core.intent({
-        action: "play",
-        mime: "content/video",
-        data: {
-          title: n.movie.title,
-          uri: n.movie.url,
-          movie: n.movie.id,
-          proxy: a.params.proxy
-        },
-        events: {
-          end: function() {
-            n.playlist.length ? n.next(e) : n.intent.close()
-          },
-          error: function() {
-            n.intent.close()
-          },
-          close: function() {
-            e = null
-          },
-          next: i,
-          prev: t
-        },
-        context: e
-      }, function(t, i) {
-        e = i
-      })
-    },
-    next: function(e) {
-      this.playlist.length > this.listPosition + 1 && (this.listPosition++, this.prepare({
-        video: this.playlist[this.listPosition]
-      }, e))
-    },
-    prev: function(e) {
-      this.listPosition > 0 && (this.listPosition--, this.prepare({
-        video: this.playlist[this.listPosition]
-      }, e))
+    if (options.value) {
+      this.setValue(options.value);
     }
-  }, e.exports = s
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    var t = this;
-    this.model = null, this.activePage = 0, this.$title = null, this.loading = !1, e.visible = !1, e.data = [{
-      id: "",
-      value: "",
-      publishedAt: "",
-      icon: "",
-      duration: "",
-      title: "",
-      channelTitle: "",
-      viewCount: "",
-      locale: {
-        publishedAt: "",
-        viewCount: "",
-        channelTitle: ""
+    if (options.placeholder) {
+      this.$placeholder.innerText = options.placeholder;
+    }
+    this.$line.dir = options.direction || "ltr";
+  };
+  /**
+   * @param {string} text
+   * @param {number} index
+   * @return {undefined}
+   */
+  init.prototype.addChar = function(text, index) {
+    /** @type {!Element} */
+    var span = document.createElement("div");
+    index = void 0 === index ? this.$caret.index : index;
+    if (0 === this.value.length) {
+      this.$line.removeChild(this.$placeholder);
+    }
+    /** @type {string} */
+    span.className = "char";
+    this.value = this.value.substring(0, index) + text + this.value.substring(index, this.value.length);
+    ++this.$caret.index;
+    if (this.type === this.TYPE_PASSWORD) {
+      /** @type {string} */
+      span.innerText = "*";
+    } else {
+      if (" " === text) {
+        /** @type {string} */
+        span.innerHTML = "&nbsp;";
+      } else {
+        /** @type {string} */
+        span.innerText = text;
       }
-    }], a.call(t, e), this.$node.classList.add("movieList"), this.$body.classList.add("movieListBody"), void 0 !== e.$title && (this.$title = e.$title, this.$title.classList.add("movieListHeader")), void 0 !== e.model && (this.model = e.model, this.model.addListener("content:changed", function() {
-      t.model.getPage({
-        page: 0,
-        count: 50
-      }, function(e, i) {
-        t.activePage = 0, t.data = i, t.viewIndex = null, t.renderView(0), t.focusIndex(0), t.emit("view:ready")
-      })
-    }))
-  }
-  var s = i(13),
-    a = i(30);
-  n.prototype = Object.create(a.prototype), n.prototype.constructor = n, n.prototype.renderView = function(e) {
-    var t, i, n, s, a;
-    if (this.viewIndex !== e) {
-      for (s = this.viewIndex, this.viewIndex = a = e, i = 0; i < this.size; i++) t = this.$body.children[i], this.data.length > e ? (t.classList.remove("hidden"), n = this.data[e], void 0 !== n ? (t.data = n, t.index = e, this.renderItem(t, n), n.mark ? t.classList.add("mark") : t.classList.remove("mark")) : (t.data = t.index = void 0, t.innerHTML = "", t.ready = !1), e++) : t.classList.add("hidden");
-      return void 0 !== this.events["move:view"] && this.emit("move:view", {
-        prevIndex: s,
-        currIndex: a
-      }), !0
     }
-    return !1
-  }, n.prototype.renderItem = function(e, t) {
-    var i, n, s;
-    t.duration.length > 10 && (t.duration = t.duration.substring(0, 10)), e.ready ? (e.$videoThumb.style.backgroundImage = "url(" + t.icon + ")", e.$videoDuration.innerText = t.duration, e.$videoTitle.innerText = t.title, e.$videoAthour.innerText = t.locale.channelTitle, e.$viewCounter.innerText = t.locale.viewCount, e.$dateAdded.innerText = t.locale.publishedAt) : (i = document.createElement("div"), i.className = "container", e.appendChild(i), n = document.createElement("div"), n.className = "tileTop", i.appendChild(n), s = document.createElement("div"), s.className = "tileBottom", i.appendChild(s), e.$videoThumb = document.createElement("div"), e.$videoThumb.className = "thumb", e.$videoThumb.style.backgroundImage = "url(" + t.icon + ")", n.appendChild(e.$videoThumb), e.$videoDuration = document.createElement("div"), e.$videoDuration.className = "duration", e.$videoDuration.innerText = t.duration, n.appendChild(e.$videoDuration), e.$videoTitle = document.createElement("div"), e.$videoTitle.className = "title", e.$videoTitle.innerText = t.title, s.appendChild(e.$videoTitle), e.$videoAthour = document.createElement("div"), e.$videoAthour.className = "uploader", t.channelTitle && (e.$videoAthour.innerText = t.locale.channelTitle), s.appendChild(e.$videoAthour), e.$viewCounter = document.createElement("div"), e.$viewCounter.className = "viewCount", t.viewCount && (e.$viewCounter.innerText = t.locale.viewCount), s.appendChild(e.$viewCounter), e.$dateAdded = document.createElement("div"), e.$dateAdded.className = "uploaded", e.$dateAdded.innerText = t.locale.publishedAt, s.appendChild(e.$dateAdded), e.ready = !0)
-  }, n.prototype.defaultEvents.keydown = function(e) {
-    if (!this.loading && this.data) switch (e.code) {
-      case s.right:
-        this.$focusItem.index < this.data.length - 1 && (this.$focusItem.index > 0 ? (this.activePage++, this.renderView(this.activePage)) : this.focusIndex(1));
-        break;
-      case s.left:
-        this.activePage > 0 ? (this.activePage--, this.renderView(this.activePage)) : this.move(e.code);
-        break;
-      case s.ok:
-        void 0 !== this.events["click:item"] && this.emit("click:item", {
-          $item: this.$focusItem,
-          event: e
-        })
+    if (index >= this.value.length) {
+      this.$line.appendChild(span);
+      this.$line.appendChild(this.$caret);
+    } else {
+      this.$line.insertBefore(this.$caret, this.$line.children[index]);
+      this.$line.insertBefore(span, this.$caret);
     }
-  }, e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    this.pages = {}, this.searchQuery = "", this.relatedToVideoId = "", this.channelId = "", this.order = "", this.type = "", d.call(this), e = e || {}, this.filter(e)
-  }
-  var s, a, o, l = i(18),
-    c = i(1),
-    r = i(17),
-    d = i(39);
-  n.prototype = Object.create(d.prototype), n.prototype.constructor = n, n.prototype.getPage = function(e) {
-    var t, n = this;
-    return s || (s = i(42), o = i(45), a = gettext("Author")), new l(function(i, s) {
-      if (e.channel = e.channel || n.channel, e.type = n.type, e.searchQuery = e.searchQuery || n.searchQuery, e.page = +e.page || 0, e.relatedToVideoId = e.relatedToVideoId || n.relatedToVideoId, t = "search?part=id&maxResults=" + (e.count || 6), e.page) {
-        if (!n.pages[e.page]) return void s();
-        t += "&pageToken=" + n.pages[e.page]
-      }
-      e.channel && e.channel.id && (t += "&channelId=" + e.channel.id), n.order && (t += "&order=" + n.order), e.relatedToVideoId ? t += "&type=video&relatedToVideoId=" + e.relatedToVideoId : e.type && (t += "&type=video"), e.searchQuery && (t += "&q=" + encodeURIComponent(e.searchQuery)), c.settings.safeSearch && (t += "&safeSearch=strict"), r.request("GET", t).then(function(t) {
-        var c, d = [],
-          u = 0,
-          h = {},
-          p = {},
-          m = "",
-          v = "",
-          f = "";
-        if (t = JSON.parse(t), t.nextPageToken && (n.pages[e.page + 1] = t.nextPageToken), t.prevPageToken && (n.pages[e.page - 1] = t.prevPageToken), t = t.items, 0 === t.length) s("empty");
-        else {
-          for (u = t.length, c = 0; c < u; ++c) "youtube#video" === t[c].id.kind ? m += t[c].id.videoId + "," : "youtube#channel" === t[c].id.kind ? (v += t[c].id.channelId + ",", h[c] = 1) : "youtube#playlist" === t[c].id.kind && (f += t[c].id.playlistId + ",", p[c] = 1);
-          l.all([n.getMovies(m.substr(0, m.length - 1)), n.getChannelsInfo(v.substr(0, v.length - 1)), n.getTotalInfoPlaylists({
-            id: f.substr(0, f.length - 1),
-            channel: !1
-          })]).then(function(e) {
-            var t = +new Date,
-              n = 0,
-              s = 0,
-              l = 0;
-            for (c = 0; c < u; ++c) h[c] && e[1][s] ? (d.push({
-              value: 1,
-              id: e[1][s].id,
-              title: e[1][s].snippet.localized.title,
-              icon: e[1][s].snippet.thumbnails["high"].url,
-              type: "channel",
-              viewCount: e[1][s].statistics.viewCount,
-              commentCount: e[1][s].statistics.commentCount,
-              subscriberCount: e[1][s].statistics.subscriberCount,
-              hiddenSubscriberCount: e[1][s].statistics.hiddenSubscriberCount,
-              videoCount: e[1][s].statistics.videoCount,
-              locale: {
-                subscriberCount: e[1][s].statistics.subscriberCount + " " + ngettext("subscriber", "subscribers", +e[1][s].statistics.subscriberCount)
-              }
-            }), ++s) : p[c] && e[2][l] ? (d.push({
-              value: 1,
-              playlistId: e[2][l].id,
-              channel: {
-                title: e[2][l].snippet.channelTitle,
-                id: e[2][l].snippet.channelId
-              },
-              title: e[2][l].snippet.title,
-              icon: e[2][l].snippet.thumbnails["high"].url,
-              type: "playlist",
-              channelTitle: e[2][l].snippet.channelTitle,
-              viewCount: " ",
-              duration: " ",
-              publishedAt: e[2][l].snippet.publishedAt,
-              locale: {
-                publishedAt: o(e[2][l].snippet.publishedAt, t),
-                viewCount: " ",
-                channelTitle: e[2][l].snippet.channelTitle ? a + ": " + e[2][l].snippet.channelTitle : " "
-              }
-            }), ++l) : e[0][n] && (d.push({
-              value: 1,
-              id: e[0][n].id,
-              channelTitle: e[0][n].snippet.channelTitle,
-              duration: r.normalizeVideoDuration(e[0][n].contentDetails.duration),
-              realDuration: e[0][n].contentDetails.duration,
-              viewCount: e[0][n].statistics.viewCount,
-              publishedAt: e[0][n].snippet.publishedAt,
-              dimension: e[0][n].contentDetails.dimension,
-              definition: e[0][n].contentDetails.definition,
-              title: e[0][n].snippet.localized.title,
-              icon: e[0][n].snippet.thumbnails["high"].url,
-              channelId: e[0][n].snippet.channelId,
-              type: "video",
-              locale: {
-                publishedAt: o(e[0][n].snippet.publishedAt, t),
-                viewCount: ngettext("view", "views", +e[0][n].statistics.viewCount) + " " + e[0][n].statistics.viewCount,
-                channelTitle: a + ": " + e[0][n].snippet.channelTitle
-              }
-            }), ++n);
-            i(d)
-          }, function(e) {})["catch"](function(e) {})
+    if (this.events["input"]) {
+      this.emit("input", {
+        value : this.value
+      });
+    }
+  };
+  /**
+   * @param {number} i
+   * @return {undefined}
+   */
+  init.prototype.removeChar = function(i) {
+    var oldValue = this.value;
+    i = void 0 === i ? this.$caret.index - 1 : i;
+    if (this.value.length > 0) {
+      if (this.$caret.index === i && i < this.value.length) {
+        this.$line.removeChild(this.$line.children[i + 1]);
+      } else {
+        if (this.$caret.index > i) {
+          --this.$caret.index;
+          this.$line.removeChild(this.$line.children[i]);
         }
-      })["catch"](function(e) {})
-    })
-  }, n.prototype.getChannelsInfo = function(e) {
-    return e ? r.request("GET", "channels?part=snippet,statistics&id=" + e).then(function(e) {
-      return JSON.parse(e).items
-    }) : l.resolve([])
-  }, n.prototype.filter = function(e) {
-    var t = !1;
-    return void 0 !== e.channel && this.init({
-      channel: e.channel
-    }), void 0 !== e.searchQuery && this.searchQuery !== e.searchQuery && (t = !0, this.searchQuery = e.searchQuery), void 0 !== e.relatedToVideoId && this.relatedToVideoId !== e.relatedToVideoId && (t = !0, this.relatedToVideoId = e.relatedToVideoId), void 0 !== e.order && this.order !== e.order && (t = !0, this.order = e.order), void 0 !== e.type && this.type !== e.type && (t = !0, this.type = e.type), !!t && (this.pages = {}, this.emit("content:changed", e), !0)
-  }, e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    this.pages = {}, this.channel = null, l.call(this), e = e || {}, void 0 !== e.events && this.addListeners(e.events), this.init(e)
-  }
-  var s, a, o = i(18),
-    l = i(40),
-    c = i(17);
-  n.prototype = Object.create(l.prototype), n.prototype.constructor = n, n.prototype.getPage = function(e) {
-    var t = this;
-    return a || (s = i(45), a = gettext("Author")), e.channel = e.channel || this.channel, e.count = e.count || 6, e.page = +e.page || 0, new o(function(i, n) {
-      return e.channel ? void t.getPlaylists({
-        count: 1,
-        channel: e.channel,
-        page: e.page
-      }).then(function(s) {
-        e.playlist = s[0], t.getPlayListItems(e).then(i, n)
-      }) : void n(e)
-    })
-  }, n.prototype.getPlaylists = function(e) {
-    var t = this,
-      i = "playlists?part=id";
-    if (e.channel = e.channel || this.channel, e.channel) {
-      if (e.page) {
-        if (!t.pages[e.page]) return o.reject("no page");
-        i += "&pageToken=" + t.pages[e.page]
       }
-      return i += "&channelId=" + e.channel.id + "&maxResults=" + e.count, c.request("GET", i).then(function(i) {
-        return i = JSON.parse(i), i.nextPageToken && (t.pages[e.page + 1] = i.nextPageToken), i.prevPageToken && (t.pages[e.page - 1] = i.prevPageToken), i.items
-      })
-    }
-  }, n.prototype.getTotalInfoPlaylists = function(e) {
-    var t = this,
-      i = "playlists?part=snippet";
-    if (e.channel = void 0 === e.channel ? this.channel : e.channel, e.page) {
-      if (!t.pages[e.page]) return o.reject("no page");
-      i += "&pageToken=" + t.pages[e.page]
-    }
-    if (e.channel) i += "&channelId=" + e.channel.id;
-    else {
-      if (!(void 0 !== e.id && e.id.length > 0)) return o.resolve([]);
-      i += "&id=" + e.id
-    }
-    return void 0 !== e.count && (i += "&maxResults=" + e.count), c.request("GET", i).then(function(i) {
-      return i = JSON.parse(i), i.nextPageToken && (t.pages[e.page + 1] = i.nextPageToken), i.prevPageToken && (t.pages[e.page - 1] = i.prevPageToken), i.items
-    })
-  }, n.prototype.getChannelBackground = function(e) {
-    return e = e || this.channel, c.request("GET", "channels?part=brandingSettings&id=" + e.id).then(function(e) {
-      return e = JSON.parse(e), e.items[0].brandingSettings.image.bannerTvImageUrl
-    })
-  }, n.prototype.init = function(e) {
-    var t = !1;
-    return void 0 !== e.channel && (this.channel ? this.channel && this.channel.id !== e.channel.id && (t = !0, this.channel = e.channel) : (t = !0, this.channel = e.channel)), e.mode && this.mode !== e.mode && (this.mode = e.mode), !!t && (this.pages = {}, this.emit("content:changed", e), !0)
-  }, e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    return e && e.playlist ? "pid:" + e.playlist.id + ";p:" + e.page : "PLAYLIST"
-  }
-
-  function s(e) {
-    this.pages = {}, this.playlist = null, c.call(this), e = e || {}, void 0 !== e.events && this.addListeners(e.events), this.init(e)
-  }
-  var a, o, l = i(18),
-    c = i(4),
-    r = i(17),
-    d = !1,
-    u = i(41);
-  s.prototype = Object.create(c.prototype), s.prototype.constructor = s, s.prototype.getPage = function(e) {
-    var t, i = this;
-    return e.playlist = e.playlist || this.playlist, e.page = +e.page || 0, e.count = e.count || 20, new l(function(s, a) {
-      if (t = u.get(n(e))) s(t);
-      else {
-        if (!e.playlist.id) return void a(e);
-        i.getPlayListItems(e).then(s, a)
+      this.value = this.value.substring(0, i) + this.value.substring(i + 1, this.value.length);
+      if (this.events["input"] && oldValue !== this.value) {
+        this.emit("input", {
+          value : this.value
+        });
       }
-    })
-  }, s.prototype.getPlayListItems = function(e) {
-    var t = this,
-      s = [],
-      c = "",
-      h = "playlistItems?part=snippet&playlistId=" + e.playlist.id + "&maxResults=" + (e.count || 30);
-    if (e.page = +e.page || 0, d || (d = i(42), a = i(45), o = gettext("Author")), e.page) {
-      if (!t.pages[e.page]) return l.reject();
-      h += "&pageToken=" + t.pages[e.page]
     }
-    return r.request("GET", h).then(function(i) {
+    if (0 === this.value.length) {
+      this.$line.appendChild(this.$placeholder);
+    }
+  };
+  /**
+   * @param {number} position
+   * @return {undefined}
+   */
+  init.prototype.setCaretPosition = function(position) {
+    if (position >= 0 && position <= this.value.length && this.$caret.index !== position) {
+      this.$line.removeChild(this.$caret);
+      if (position === this.value.length) {
+        this.$line.appendChild(this.$caret);
+      } else {
+        this.$line.insertBefore(this.$caret, this.$line.children[position]);
+      }
+      /** @type {number} */
+      this.$caret.index = position;
+    }
+  };
+  /**
+   * @param {string} v
+   * @return {undefined}
+   */
+  init.prototype.setValue = function(v) {
+    var span;
+    var n;
+    var l = this.value.length;
+    var j = v.length;
+    /** @type {number} */
+    var i = 0;
+    if (v !== this.value) {
+      if (j > 0) {
+        if (this.$placeholder.parentNode === this.$line && this.$line.removeChild(this.$placeholder), this.$line.removeChild(this.$caret), j !== l) {
+          if (n = j - l, n > 0) {
+            /** @type {number} */
+            i = 0;
+            for (; i < n; i++) {
+              span = this.$line.appendChild(document.createElement("div"));
+              /** @type {string} */
+              span.className = "char";
+            }
+          } else {
+            /** @type {number} */
+            i = 0;
+            for (; i > n; i--) {
+              this.$line.removeChild(this.$line.lastChild);
+            }
+          }
+        }
+        /** @type {number} */
+        i = 0;
+        for (; i < j; i++) {
+          span = this.$line.children[i];
+          if (this.type === this.TYPE_PASSWORD) {
+            /** @type {string} */
+            span.innerHTML = "*";
+          } else {
+            if (" " === v[i]) {
+              /** @type {string} */
+              span.innerHTML = "&nbsp;";
+            } else {
+              span.innerText = v[i];
+            }
+          }
+        }
+        /** @type {string} */
+        this.value = v;
+        this.$caret.index = j;
+        this.$line.appendChild(this.$caret);
+      } else {
+        /** @type {string} */
+        this.value = "";
+        /** @type {string} */
+        this.$line.innerText = "";
+        this.$line.appendChild(this.$caret);
+        this.$line.appendChild(this.$placeholder);
+      }
+      if (this.events["input"]) {
+        this.emit("input", {
+          value : this.value
+        });
+      }
+    }
+  };
+  /** @type {function(!Object): undefined} */
+  context.exports = init;
+}, function(mixin, canCreateDiscussions, $) {
+  var notificationSiteId;
+  var mockFormAttributeDataResponse;
+  var event = $(1);
+  /** @type {boolean} */
+  var o = false;
+  var searchContactPanel = $(27);
+  notificationSiteId = event.urlParser;
+  mockFormAttributeDataResponse = {
+    intent : null,
+    movie : {},
+    channel : {},
+    playlist : null,
+    setContent : function(data) {
+      /** @type {boolean} */
+      o = true;
+      if (!data.urlParseErrorCount) {
+        /** @type {number} */
+        data.urlParseErrorCount = 0;
+      }
+      if (void 0 !== data.channel) {
+        this.channel = data.channel;
+      } else {
+        this.channel = {
+          title : data.video.channelTitle,
+          id : data.video.channelId
+        };
+      }
+      this.playlist = data.playlist;
+      this.listPosition = data.position;
+      /** @type {null} */
+      this.context = null;
+      this.prepare(data);
+    },
+    prepare : function(e, data) {
+      var $scope = this;
+      return this.movie.title = e.video.title, "" === e.video.duration ? (window.core.notify({
+        title : gettext("Live broadcasting is not supported"),
+        icon : "alert",
+        type : "warning",
+        timeout : 5E3
+      }), void(o = false)) : (this.movie.id = e.video.id, searchContactPanel.show(), void notificationSiteId.getInfo("https://www.youtube.com/watch?v=" + e.video.id, function(n, typeOptions) {
+        var options;
+        var i;
+        var tableslen;
+        if (searchContactPanel.hide(), n) {
+          return "0:00" === e.video.duration ? window.core.notify({
+            title : gettext("Live broadcasting is not supported"),
+            icon : "alert",
+            type : "warning",
+            timeout : 5E3
+          }) : window.core.notify({
+            title : gettext("Video is not available"),
+            icon : "alert",
+            type : "warning",
+            timeout : 5E3
+          }), void(o = false);
+        }
+        if (0 === typeOptions.formats.length) {
+          return "0:00" === e.video.duration ? window.core.notify({
+            title : gettext("Live broadcasting is not supported"),
+            icon : "alert",
+            type : "warning",
+            timeout : 5E3
+          }) : window.core.notify({
+            title : gettext("Video is not available"),
+            icon : "alert",
+            type : "warning",
+            timeout : 5E3
+          }), void(o = false);
+        }
+        /** @type {number} */
+        i = 0;
+        tableslen = typeOptions.formats.length;
+        for (; i < tableslen; ++i) {
+          typeOptions.formats[i].resolution = typeOptions.formats[i].resolution || "";
+          if ("mp4" === typeOptions.formats[i].container && typeOptions.formats[i].audioBitrate) {
+            if (options) {
+              if (options.resolution < typeOptions.formats[i].resolution && typeOptions.formats[i].type.indexOf("video") !== -1) {
+                options = typeOptions.formats[i];
+              }
+            } else {
+              if (typeOptions.formats[i].type.indexOf("video") !== -1) {
+                options = typeOptions.formats[i];
+              }
+            }
+          }
+        }
+        if (!options) {
+          options = typeOptions.formats[0];
+        }
+        $scope.movie.url = options.url;
+        $scope.play(data);
+      }));
+    },
+    play : function(element) {
+      var start;
+      var next;
+      var params = this;
+      if (params.playlist.length && params.playlist.length > params.listPosition) {
+        /**
+         * @return {undefined}
+         */
+        next = function() {
+          params.next(element);
+        };
+      }
+      if (params.playlist.length && params.listPosition > 0) {
+        /**
+         * @return {undefined}
+         */
+        start = function() {
+          params.prev(element);
+        };
+      }
+      this.intent = core.intent({
+        action : "play",
+        mime : "content/video",
+        data : {
+          title : params.movie.title,
+          uri : params.movie.url,
+          movie : params.movie.id,
+          proxy : event.params.proxy
+        },
+        events : {
+          end : function() {
+            if (params.playlist.length) {
+              params.next(element);
+            } else {
+              params.intent.close();
+            }
+          },
+          error : function() {
+            params.intent.close();
+          },
+          close : function() {
+            /** @type {null} */
+            element = null;
+          },
+          next : next,
+          prev : start
+        },
+        context : element
+      }, function(canCreateDiscussions, parent_dom_node) {
+        /** @type {string} */
+        element = parent_dom_node;
+      });
+    },
+    next : function(element) {
+      if (this.playlist.length > this.listPosition + 1) {
+        this.listPosition++;
+        this.prepare({
+          video : this.playlist[this.listPosition]
+        }, element);
+      }
+    },
+    prev : function(element) {
+      if (this.listPosition > 0) {
+        this.listPosition--;
+        this.prepare({
+          video : this.playlist[this.listPosition]
+        }, element);
+      }
+    }
+  };
+  mixin.exports = mockFormAttributeDataResponse;
+}, function(exports, canCreateDiscussions, i) {
+  /**
+   * @param {!Object} props
+   * @return {undefined}
+   */
+  function initialize(props) {
+    var data = this;
+    /** @type {null} */
+    this.model = null;
+    /** @type {number} */
+    this.activePage = 0;
+    /** @type {null} */
+    this.$title = null;
+    /** @type {boolean} */
+    this.loading = false;
+    /** @type {boolean} */
+    props.visible = false;
+    /** @type {!Array} */
+    props.data = [{
+      id : "",
+      value : "",
+      publishedAt : "",
+      icon : "",
+      duration : "",
+      title : "",
+      channelTitle : "",
+      viewCount : "",
+      locale : {
+        publishedAt : "",
+        viewCount : "",
+        channelTitle : ""
+      }
+    }];
+    d.call(data, props);
+    this.$node.classList.add("movieList");
+    this.$body.classList.add("movieListBody");
+    if (void 0 !== props.$title) {
+      this.$title = props.$title;
+      this.$title.classList.add("movieListHeader");
+    }
+    if (void 0 !== props.model) {
+      this.model = props.model;
+      this.model.addListener("content:changed", function() {
+        data.model.getPage({
+          page : 0,
+          count : 50
+        }, function(canCreateDiscussions, darray) {
+          /** @type {number} */
+          data.activePage = 0;
+          /** @type {!Object} */
+          data.data = darray;
+          /** @type {null} */
+          data.viewIndex = null;
+          data.renderView(0);
+          data.focusIndex(0);
+          data.emit("view:ready");
+        });
+      });
+    }
+  }
+  var b = i(13);
+  var d = i(30);
+  /** @type {!Object} */
+  initialize.prototype = Object.create(d.prototype);
+  /** @type {function(!Object): undefined} */
+  initialize.prototype.constructor = initialize;
+  /**
+   * @param {number} i
+   * @return {?}
+   */
+  initialize.prototype.renderView = function(i) {
+    var item;
+    var j;
+    var data;
+    var prevIndex;
+    var commonIndex;
+    if (this.viewIndex !== i) {
+      prevIndex = this.viewIndex;
+      this.viewIndex = commonIndex = i;
+      /** @type {number} */
+      j = 0;
+      for (; j < this.size; j++) {
+        item = this.$body.children[j];
+        if (this.data.length > i) {
+          item.classList.remove("hidden");
+          data = this.data[i];
+          if (void 0 !== data) {
+            item.data = data;
+            /** @type {number} */
+            item.index = i;
+            this.renderItem(item, data);
+            if (data.mark) {
+              item.classList.add("mark");
+            } else {
+              item.classList.remove("mark");
+            }
+          } else {
+            item.data = item.index = void 0;
+            /** @type {string} */
+            item.innerHTML = "";
+            /** @type {boolean} */
+            item.ready = false;
+          }
+          i++;
+        } else {
+          item.classList.add("hidden");
+        }
+      }
+      return void 0 !== this.events["move:view"] && this.emit("move:view", {
+        prevIndex : prevIndex,
+        currIndex : commonIndex
+      }), true;
+    }
+    return false;
+  };
+  /**
+   * @param {!Object} node
+   * @param {!Object} data
+   * @return {undefined}
+   */
+  initialize.prototype.renderItem = function(node, data) {
+    var body;
+    var n;
+    var s;
+    if (data.duration.length > 10) {
+      data.duration = data.duration.substring(0, 10);
+    }
+    if (node.ready) {
+      /** @type {string} */
+      node.$videoThumb.style.backgroundImage = "url(" + data.icon + ")";
+      node.$videoDuration.innerText = data.duration;
+      node.$videoTitle.innerText = data.title;
+      node.$videoAthour.innerText = data.locale.channelTitle;
+      node.$viewCounter.innerText = data.locale.viewCount;
+      node.$dateAdded.innerText = data.locale.publishedAt;
+    } else {
+      /** @type {!Element} */
+      body = document.createElement("div");
+      /** @type {string} */
+      body.className = "container";
+      node.appendChild(body);
+      /** @type {!Element} */
+      n = document.createElement("div");
+      /** @type {string} */
+      n.className = "tileTop";
+      body.appendChild(n);
+      /** @type {!Element} */
+      s = document.createElement("div");
+      /** @type {string} */
+      s.className = "tileBottom";
+      body.appendChild(s);
+      /** @type {!Element} */
+      node.$videoThumb = document.createElement("div");
+      /** @type {string} */
+      node.$videoThumb.className = "thumb";
+      /** @type {string} */
+      node.$videoThumb.style.backgroundImage = "url(" + data.icon + ")";
+      n.appendChild(node.$videoThumb);
+      /** @type {!Element} */
+      node.$videoDuration = document.createElement("div");
+      /** @type {string} */
+      node.$videoDuration.className = "duration";
+      node.$videoDuration.innerText = data.duration;
+      n.appendChild(node.$videoDuration);
+      /** @type {!Element} */
+      node.$videoTitle = document.createElement("div");
+      /** @type {string} */
+      node.$videoTitle.className = "title";
+      node.$videoTitle.innerText = data.title;
+      s.appendChild(node.$videoTitle);
+      /** @type {!Element} */
+      node.$videoAthour = document.createElement("div");
+      /** @type {string} */
+      node.$videoAthour.className = "uploader";
+      if (data.channelTitle) {
+        node.$videoAthour.innerText = data.locale.channelTitle;
+      }
+      s.appendChild(node.$videoAthour);
+      /** @type {!Element} */
+      node.$viewCounter = document.createElement("div");
+      /** @type {string} */
+      node.$viewCounter.className = "viewCount";
+      if (data.viewCount) {
+        node.$viewCounter.innerText = data.locale.viewCount;
+      }
+      s.appendChild(node.$viewCounter);
+      /** @type {!Element} */
+      node.$dateAdded = document.createElement("div");
+      /** @type {string} */
+      node.$dateAdded.className = "uploaded";
+      node.$dateAdded.innerText = data.locale.publishedAt;
+      s.appendChild(node.$dateAdded);
+      /** @type {boolean} */
+      node.ready = true;
+    }
+  };
+  /**
+   * @param {!Object} event
+   * @return {undefined}
+   */
+  initialize.prototype.defaultEvents.keydown = function(event) {
+    if (!this.loading && this.data) {
+      switch(event.code) {
+        case b.right:
+          if (this.$focusItem.index < this.data.length - 1) {
+            if (this.$focusItem.index > 0) {
+              this.activePage++;
+              this.renderView(this.activePage);
+            } else {
+              this.focusIndex(1);
+            }
+          }
+          break;
+        case b.left:
+          if (this.activePage > 0) {
+            this.activePage--;
+            this.renderView(this.activePage);
+          } else {
+            this.move(event.code);
+          }
+          break;
+        case b.ok:
+          if (void 0 !== this.events["click:item"]) {
+            this.emit("click:item", {
+              $item : this.$focusItem,
+              event : event
+            });
+          }
+      }
+    }
+  };
+  /** @type {function(!Object): undefined} */
+  exports.exports = initialize;
+}, function(module, canCreateDiscussions, require) {
+  /**
+   * @param {!Object} name
+   * @return {undefined}
+   */
+  function Router(name) {
+    this.pages = {};
+    /** @type {string} */
+    this.searchQuery = "";
+    /** @type {string} */
+    this.relatedToVideoId = "";
+    /** @type {string} */
+    this.channelId = "";
+    /** @type {string} */
+    this.order = "";
+    /** @type {string} */
+    this.type = "";
+    NumericType.call(this);
+    name = name || {};
+    this.filter(name);
+  }
+  var isEvaluating;
+  var err_msg;
+  var source;
+  var PromiseProxy = require(18);
+  var FileTodoProvider = require(1);
+  var request = require(17);
+  var NumericType = require(39);
+  /** @type {!Object} */
+  Router.prototype = Object.create(NumericType.prototype);
+  /** @type {function(!Object): undefined} */
+  Router.prototype.constructor = Router;
+  /**
+   * @param {!Object} params
+   * @return {?}
+   */
+  Router.prototype.getPage = function(params) {
+    var url;
+    var self = this;
+    return isEvaluating || (isEvaluating = require(42), source = require(45), err_msg = gettext("Author")), new PromiseProxy(function(applyComputed, parse) {
+      if (params.channel = params.channel || self.channel, params.type = self.type, params.searchQuery = params.searchQuery || self.searchQuery, params.page = +params.page || 0, params.relatedToVideoId = params.relatedToVideoId || self.relatedToVideoId, url = "search?part=id&maxResults=" + (params.count || 6), params.page) {
+        if (!self.pages[params.page]) {
+          return void parse();
+        }
+        /** @type {string} */
+        url = url + ("&pageToken=" + self.pages[params.page]);
+      }
+      if (params.channel && params.channel.id) {
+        /** @type {string} */
+        url = url + ("&channelId=" + params.channel.id);
+      }
+      if (self.order) {
+        /** @type {string} */
+        url = url + ("&order=" + self.order);
+      }
+      if (params.relatedToVideoId) {
+        /** @type {string} */
+        url = url + ("&type=video&relatedToVideoId=" + params.relatedToVideoId);
+      } else {
+        if (params.type) {
+          /** @type {string} */
+          url = url + "&type=video";
+        }
+      }
+      if (params.searchQuery) {
+        /** @type {string} */
+        url = url + ("&q=" + encodeURIComponent(params.searchQuery));
+      }
+      if (FileTodoProvider.settings.safeSearch) {
+        /** @type {string} */
+        url = url + "&safeSearch=strict";
+      }
+      request.request("GET", url).then(function(data) {
+        var i;
+        /** @type {!Array} */
+        var list = [];
+        /** @type {number} */
+        var tableslen = 0;
+        var turned = {};
+        var options = {};
+        /** @type {string} */
+        var keyToAdd = "";
+        /** @type {string} */
+        var postParam = "";
+        /** @type {string} */
+        var micropost = "";
+        if (data = JSON.parse(data), data.nextPageToken && (self.pages[params.page + 1] = data.nextPageToken), data.prevPageToken && (self.pages[params.page - 1] = data.prevPageToken), data = data.items, 0 === data.length) {
+          parse("empty");
+        } else {
+          tableslen = data.length;
+          /** @type {number} */
+          i = 0;
+          for (; i < tableslen; ++i) {
+            if ("youtube#video" === data[i].id.kind) {
+              /** @type {string} */
+              keyToAdd = keyToAdd + (data[i].id.videoId + ",");
+            } else {
+              if ("youtube#channel" === data[i].id.kind) {
+                /** @type {string} */
+                postParam = postParam + (data[i].id.channelId + ",");
+                /** @type {number} */
+                turned[i] = 1;
+              } else {
+                if ("youtube#playlist" === data[i].id.kind) {
+                  /** @type {string} */
+                  micropost = micropost + (data[i].id.playlistId + ",");
+                  /** @type {number} */
+                  options[i] = 1;
+                }
+              }
+            }
+          }
+          PromiseProxy.all([self.getMovies(keyToAdd.substr(0, keyToAdd.length - 1)), self.getChannelsInfo(postParam.substr(0, postParam.length - 1)), self.getTotalInfoPlaylists({
+            id : micropost.substr(0, micropost.length - 1),
+            channel : false
+          })]).then(function(policySet) {
+            /** @type {number} */
+            var end = +new Date;
+            /** @type {number} */
+            var index = 0;
+            /** @type {number} */
+            var j = 0;
+            /** @type {number} */
+            var id = 0;
+            /** @type {number} */
+            i = 0;
+            for (; i < tableslen; ++i) {
+              if (turned[i] && policySet[1][j]) {
+                list.push({
+                  value : 1,
+                  id : policySet[1][j].id,
+                  title : policySet[1][j].snippet.localized.title,
+                  icon : policySet[1][j].snippet.thumbnails["high"].url,
+                  type : "channel",
+                  viewCount : policySet[1][j].statistics.viewCount,
+                  commentCount : policySet[1][j].statistics.commentCount,
+                  subscriberCount : policySet[1][j].statistics.subscriberCount,
+                  hiddenSubscriberCount : policySet[1][j].statistics.hiddenSubscriberCount,
+                  videoCount : policySet[1][j].statistics.videoCount,
+                  locale : {
+                    subscriberCount : policySet[1][j].statistics.subscriberCount + " " + ngettext("subscriber", "subscribers", +policySet[1][j].statistics.subscriberCount)
+                  }
+                });
+                ++j;
+              } else {
+                if (options[i] && policySet[2][id]) {
+                  list.push({
+                    value : 1,
+                    playlistId : policySet[2][id].id,
+                    channel : {
+                      title : policySet[2][id].snippet.channelTitle,
+                      id : policySet[2][id].snippet.channelId
+                    },
+                    title : policySet[2][id].snippet.title,
+                    icon : policySet[2][id].snippet.thumbnails["high"].url,
+                    type : "playlist",
+                    channelTitle : policySet[2][id].snippet.channelTitle,
+                    viewCount : " ",
+                    duration : " ",
+                    publishedAt : policySet[2][id].snippet.publishedAt,
+                    locale : {
+                      publishedAt : source(policySet[2][id].snippet.publishedAt, end),
+                      viewCount : " ",
+                      channelTitle : policySet[2][id].snippet.channelTitle ? err_msg + ": " + policySet[2][id].snippet.channelTitle : " "
+                    }
+                  });
+                  ++id;
+                } else {
+                  if (policySet[0][index]) {
+                    list.push({
+                      value : 1,
+                      id : policySet[0][index].id,
+                      channelTitle : policySet[0][index].snippet.channelTitle,
+                      duration : request.normalizeVideoDuration(policySet[0][index].contentDetails.duration),
+                      realDuration : policySet[0][index].contentDetails.duration,
+                      viewCount : policySet[0][index].statistics.viewCount,
+                      publishedAt : policySet[0][index].snippet.publishedAt,
+                      dimension : policySet[0][index].contentDetails.dimension,
+                      definition : policySet[0][index].contentDetails.definition,
+                      title : policySet[0][index].snippet.localized.title,
+                      icon : policySet[0][index].snippet.thumbnails["high"].url,
+                      channelId : policySet[0][index].snippet.channelId,
+                      type : "video",
+                      locale : {
+                        publishedAt : source(policySet[0][index].snippet.publishedAt, end),
+                        viewCount : ngettext("view", "views", +policySet[0][index].statistics.viewCount) + " " + policySet[0][index].statistics.viewCount,
+                        channelTitle : err_msg + ": " + policySet[0][index].snippet.channelTitle
+                      }
+                    });
+                    ++index;
+                  }
+                }
+              }
+            }
+            applyComputed(list);
+          }, function(canCreateDiscussions) {
+          })["catch"](function(canCreateDiscussions) {
+          });
+        }
+      })["catch"](function(canCreateDiscussions) {
+      });
+    });
+  };
+  /**
+   * @param {string} url
+   * @return {?}
+   */
+  Router.prototype.getChannelsInfo = function(url) {
+    return url ? request.request("GET", "channels?part=snippet,statistics&id=" + url).then(function(b) {
+      return JSON.parse(b).items;
+    }) : PromiseProxy.resolve([]);
+  };
+  /**
+   * @param {!Object} params
+   * @return {?}
+   */
+  Router.prototype.filter = function(params) {
+    /** @type {boolean} */
+    var t = false;
+    return void 0 !== params.channel && this.init({
+      channel : params.channel
+    }), void 0 !== params.searchQuery && this.searchQuery !== params.searchQuery && (t = true, this.searchQuery = params.searchQuery), void 0 !== params.relatedToVideoId && this.relatedToVideoId !== params.relatedToVideoId && (t = true, this.relatedToVideoId = params.relatedToVideoId), void 0 !== params.order && this.order !== params.order && (t = true, this.order = params.order), void 0 !== params.type && this.type !== params.type && (t = true, this.type = params.type), !!t && (this.pages = {},
+      this.emit("content:changed", params), true);
+  };
+  /** @type {function(!Object): undefined} */
+  module.exports = Router;
+}, function(context, canCreateDiscussions, parse) {
+  /**
+   * @param {!Object} item
+   * @return {undefined}
+   */
+  function init(item) {
+    this.pages = {};
+    /** @type {null} */
+    this.channel = null;
+    handler.call(this);
+    item = item || {};
+    if (void 0 !== item.events) {
+      this.addListeners(item.events);
+    }
+    this.init(item);
+  }
+  var event;
+  var err_msg;
+  var h = parse(18);
+  var handler = parse(40);
+  var proxy = parse(17);
+  /** @type {!Object} */
+  init.prototype = Object.create(handler.prototype);
+  /** @type {function(!Object): undefined} */
+  init.prototype.constructor = init;
+  /**
+   * @param {!Object} config
+   * @return {?}
+   */
+  init.prototype.getPage = function(config) {
+    var self = this;
+    return err_msg || (event = parse(45), err_msg = gettext("Author")), config.channel = config.channel || this.channel, config.count = config.count || 6, config.page = +config.page || 0, new h(function(childCompute, cb) {
+      return config.channel ? void self.getPlaylists({
+        count : 1,
+        channel : config.channel,
+        page : config.page
+      }).then(function(tmp) {
+        config.playlist = tmp[0];
+        self.getPlayListItems(config).then(childCompute, cb);
+      }) : void cb(config);
+    });
+  };
+  /**
+   * @param {!Object} params
+   * @return {?}
+   */
+  init.prototype.getPlaylists = function(params) {
+    var data = this;
+    /** @type {string} */
+    var endpoint = "playlists?part=id";
+    if (params.channel = params.channel || this.channel, params.channel) {
+      if (params.page) {
+        if (!data.pages[params.page]) {
+          return h.reject("no page");
+        }
+        /** @type {string} */
+        endpoint = endpoint + ("&pageToken=" + data.pages[params.page]);
+      }
+      return endpoint = endpoint + ("&channelId=" + params.channel.id + "&maxResults=" + params.count), proxy.request("GET", endpoint).then(function(response) {
+        return response = JSON.parse(response), response.nextPageToken && (data.pages[params.page + 1] = response.nextPageToken), response.prevPageToken && (data.pages[params.page - 1] = response.prevPageToken), response.items;
+      });
+    }
+  };
+  /**
+   * @param {!Object} params
+   * @return {?}
+   */
+  init.prototype.getTotalInfoPlaylists = function(params) {
+    var data = this;
+    /** @type {string} */
+    var endpoint = "playlists?part=snippet";
+    if (params.channel = void 0 === params.channel ? this.channel : params.channel, params.page) {
+      if (!data.pages[params.page]) {
+        return h.reject("no page");
+      }
+      /** @type {string} */
+      endpoint = endpoint + ("&pageToken=" + data.pages[params.page]);
+    }
+    if (params.channel) {
+      /** @type {string} */
+      endpoint = endpoint + ("&channelId=" + params.channel.id);
+    } else {
+      if (!(void 0 !== params.id && params.id.length > 0)) {
+        return h.resolve([]);
+      }
+      /** @type {string} */
+      endpoint = endpoint + ("&id=" + params.id);
+    }
+    return void 0 !== params.count && (endpoint = endpoint + ("&maxResults=" + params.count)), proxy.request("GET", endpoint).then(function(response) {
+      return response = JSON.parse(response), response.nextPageToken && (data.pages[params.page + 1] = response.nextPageToken), response.prevPageToken && (data.pages[params.page - 1] = response.prevPageToken), response.items;
+    });
+  };
+  /**
+   * @param {string} verb
+   * @return {?}
+   */
+  init.prototype.getChannelBackground = function(verb) {
+    return verb = verb || this.channel, proxy.request("GET", "channels?part=brandingSettings&id=" + verb.id).then(function(e) {
+      return e = JSON.parse(e), e.items[0].brandingSettings.image.bannerTvImageUrl;
+    });
+  };
+  /**
+   * @param {!Object} data
+   * @return {?}
+   */
+  init.prototype.init = function(data) {
+    /** @type {boolean} */
+    var t = false;
+    return void 0 !== data.channel && (this.channel ? this.channel && this.channel.id !== data.channel.id && (t = true, this.channel = data.channel) : (t = true, this.channel = data.channel)), data.mode && this.mode !== data.mode && (this.mode = data.mode), !!t && (this.pages = {}, this.emit("content:changed", data), true);
+  };
+  /** @type {function(!Object): undefined} */
+  context.exports = init;
+}, function(context, canCreateDiscussions, $) {
+  /**
+   * @param {string} data
+   * @return {?}
+   */
+  function callback(data) {
+    return data && data.playlist ? "pid:" + data.playlist.id + ";p:" + data.page : "PLAYLIST";
+  }
+  /**
+   * @param {!Object} item
+   * @return {undefined}
+   */
+  function init(item) {
+    this.pages = {};
+    /** @type {null} */
+    this.playlist = null;
+    c.call(this);
+    item = item || {};
+    if (void 0 !== item.events) {
+      this.addListeners(item.events);
+    }
+    this.init(item);
+  }
+  var ch;
+  var err_msg;
+  var a = $(18);
+  var c = $(4);
+  var me = $(17);
+  /** @type {boolean} */
+  var $c$ = false;
+  var self = $(41);
+  /** @type {!Object} */
+  init.prototype = Object.create(c.prototype);
+  /** @type {function(!Object): undefined} */
+  init.prototype.constructor = init;
+  /**
+   * @param {!Object} result
+   * @return {?}
+   */
+  init.prototype.getPage = function(result) {
+    var isFirstTimeShow;
+    var arrayToReturn = this;
+    return result.playlist = result.playlist || this.playlist, result.page = +result.page || 0, result.count = result.count || 20, new a(function(callback, reject) {
+      if (isFirstTimeShow = self.get(callback(result))) {
+        callback(isFirstTimeShow);
+      } else {
+        if (!result.playlist.id) {
+          return void reject(result);
+        }
+        arrayToReturn.getPlayListItems(result).then(callback, reject);
+      }
+    });
+  };
+  /**
+   * @param {!Object} data
+   * @return {?}
+   */
+  init.prototype.getPlayListItems = function(data) {
+    var state = this;
+    /** @type {!Array} */
+    var result = [];
+    /** @type {string} */
+    var postParam = "";
+    /** @type {string} */
+    var path = "playlistItems?part=snippet&playlistId=" + data.playlist.id + "&maxResults=" + (data.count || 30);
+    if (data.page = +data.page || 0, $c$ || ($c$ = $(42), ch = $(45), err_msg = gettext("Author")), data.page) {
+      if (!state.pages[data.page]) {
+        return a.reject();
+      }
+      /** @type {string} */
+      path = path + ("&pageToken=" + state.pages[data.page]);
+    }
+    return me.request("GET", path).then(function(response) {
       try {
-        i = JSON.parse(i), i.nextPageToken && (t.pages[e.page + 1] = i.nextPageToken), i.prevPageToken && (t.pages[e.page - 1] = i.prevPageToken), i.items.forEach(function(e) {
-          c += e.snippet.resourceId.videoId + ","
-        })
-      } catch (e) {}
-      return t.getMovies(c.substr(0, c.length - 1)).then(function(t) {
-        var i, l, c = +new Date;
-        for (i = t.length, l = 0; l < i; ++l) s.push({
-          value: 1,
-          id: t[l].id,
-          channelTitle: t[l].snippet.channelTitle,
-          duration: r.normalizeVideoDuration(t[l].contentDetails.duration),
-          realDuration: t[l].contentDetails.duration,
-          viewCount: t[l].statistics.viewCount,
-          publishedAt: t[l].snippet.publishedAt,
-          dimension: t[l].contentDetails.dimension,
-          definition: t[l].contentDetails.definition,
-          title: t[l].snippet.localized.title,
-          icon: t[l].snippet.thumbnails["high"].url,
-          channelId: t[l].snippet.channelId,
-          type: "video",
-          locale: {
-            publishedAt: a(t[l].snippet.publishedAt, c),
-            viewCount: t[l].statistics.viewCount + " " + ngettext("view", "views", +t[l].statistics.viewCount),
-            channelTitle: o + ": " + t[l].snippet.channelTitle
+        /** @type {*} */
+        response = JSON.parse(response);
+        if (response.nextPageToken) {
+          state.pages[data.page + 1] = response.nextPageToken;
+        }
+        if (response.prevPageToken) {
+          state.pages[data.page - 1] = response.prevPageToken;
+        }
+        response.items.forEach(function(data) {
+          postParam = postParam + (data.snippet.resourceId.videoId + ",");
+        });
+      } catch (e) {
+      }
+      return state.getMovies(postParam.substr(0, postParam.length - 1)).then(function(items) {
+        var l;
+        var i;
+        /** @type {number} */
+        var val = +new Date;
+        l = items.length;
+        /** @type {number} */
+        i = 0;
+        for (; i < l; ++i) {
+          result.push({
+            value : 1,
+            id : items[i].id,
+            channelTitle : items[i].snippet.channelTitle,
+            duration : me.normalizeVideoDuration(items[i].contentDetails.duration),
+            realDuration : items[i].contentDetails.duration,
+            viewCount : items[i].statistics.viewCount,
+            publishedAt : items[i].snippet.publishedAt,
+            dimension : items[i].contentDetails.dimension,
+            definition : items[i].contentDetails.definition,
+            title : items[i].snippet.localized.title,
+            icon : items[i].snippet.thumbnails["high"].url,
+            channelId : items[i].snippet.channelId,
+            type : "video",
+            locale : {
+              publishedAt : ch(items[i].snippet.publishedAt, val),
+              viewCount : items[i].statistics.viewCount + " " + ngettext("view", "views", +items[i].statistics.viewCount),
+              channelTitle : err_msg + ": " + items[i].snippet.channelTitle
+            }
+          });
+        }
+        return self.set(callback(data), result, 3E5), result;
+      });
+    });
+  };
+  /**
+   * @param {string} url
+   * @return {?}
+   */
+  init.prototype.getMovies = function(url) {
+    var itemNodeList;
+    var options;
+    var i;
+    var max;
+    /** @type {!Array} */
+    var newNodeLists = [];
+    options = url.split(",");
+    /** @type {number} */
+    i = 0;
+    max = options.length;
+    for (; i < max; ++i) {
+      if (itemNodeList = self.get("vid:" + options[i])) {
+        newNodeLists.push(itemNodeList);
+      }
+    }
+    return me.request("GET", "videos?part=statistics,contentDetails,snippet&id=" + url).then(function(data) {
+      data = JSON.parse(data).items;
+      /** @type {number} */
+      i = 0;
+      max = data.length;
+      for (; i < max; ++i) {
+        self.set("vid:" + data[i].id, data[i], 6E4);
+      }
+      return data;
+    });
+  };
+  /**
+   * @param {!Object} params
+   * @return {?}
+   */
+  init.prototype.init = function(params) {
+    return void 0 !== params.playlist && (this.playlist ? this.playlist && this.playlist.id !== params.playlist.id && (this.playlist = params.playlist) : this.playlist = params.playlist, this.pages = {}, this.emit("content:changed", params), true);
+  };
+  /** @type {function(!Object): undefined} */
+  context.exports = init;
+}, function(context, canCreateDiscussions, i) {
+  var service = {
+    store : {},
+    size : 0,
+    set : function(name, bin, options) {
+      var obj;
+      var term;
+      var a = this;
+      term = this.store[name] ? this.store[name] : void 0;
+      if (term && term.timeout) {
+        clearTimeout(term.timeout);
+      }
+      obj = {
+        value : bin,
+        timeout : -1
+      };
+      if ("number" == typeof options) {
+        /** @type {number} */
+        obj.timeout = setTimeout(function() {
+          a.remove(name);
+        }, options);
+      }
+      this.store[name] = obj;
+      ++this.size;
+    },
+    get : function(key, callback) {
+      return !!this.store[key] && ("function" != typeof callback ? this.store[key].value : void callback(this.store[key].value));
+    },
+    remove : function(name) {
+      --this.size;
+      /** @type {null} */
+      this.store[name] = null;
+    },
+    clear : function() {
+      var csize = this.size;
+      return this.store = {}, csize;
+    }
+  };
+  context.exports = service;
+}, function(mixin, canCreateDiscussions, $) {
+  var nav = $(15);
+  var problem = $(16);
+  mixin.exports = {
+    languageIndex : 0,
+    nextLang : function(canCreateDiscussions) {
+      return canCreateDiscussions === nav.languages.length - 1 ? 0 : ++canCreateDiscussions;
+    },
+    setLang : function(pluginName) {
+      var self = this;
+      $(43).load({
+        name : pluginName
+      }, function(i) {
+        if (i) {
+          /** @type {number} */
+          self.languageIndex = -1;
+        } else {
+          self.languageIndex = nav.languages.indexOf(pluginName);
+        }
+        if (self.languageIndex === -1) {
+          self.languageIndex = nav.languages.indexOf(problem.defaultSettings.language);
+        }
+      });
+    }
+  };
+}, function(module, canCreateDiscussions, require) {
+  /**
+   * @param {!Object} options
+   * @return {?}
+   */
+  function initialize(options) {
+    var django = new Vue(options);
+    return window.gettext = window._ = django.gettext, window.pgettext = django.pgettext, window.ngettext = django.ngettext, django;
+  }
+  var ProjectConfiguration = require(4);
+  var Vue = require(44);
+  var config = new ProjectConfiguration;
+  /** @type {string} */
+  config.defaultLanguage = "en";
+  /**
+   * @param {!Object} options
+   * @param {!Function} next
+   * @return {?}
+   */
+  config.load = function(options, next) {
+    var request;
+    return options.ext = options.ext || "json", options.path = options.path || "lang", options.name === config.defaultLanguage ? (initialize(), next(null), false) : (request = new XMLHttpRequest, request.onload = function() {
+      var connectionOptions;
+      try {
+        /** @type {*} */
+        connectionOptions = JSON.parse(request.responseText);
+        initialize(connectionOptions);
+        next(null);
+        if (config.events["load"]) {
+          config.emit("load");
+        }
+      } catch (e) {
+        request.onerror(e);
+      }
+    }, request.ontimeout = request.onerror = function(reason) {
+      initialize();
+      next(reason);
+      if (config.events["error"]) {
+        config.emit("error", reason);
+      }
+    }, request.open("GET", options.path + "/" + options.name + "." + options.ext, true), request.send(null), true);
+  };
+  module.exports = config;
+}, function(module$jscomp$0, exports$jscomp$0, __webpack_require__$jscomp$0) {
+  /**
+   * @param {!Object} config$jscomp$2
+   * @return {undefined}
+   */
+  function Gettext$jscomp$0(config$jscomp$2) {
+    var data$jscomp$32;
+    var meta$jscomp$0;
+    config$jscomp$2 = config$jscomp$2 || {};
+    data$jscomp$32 = config$jscomp$2.data || {};
+    data$jscomp$32[""] = data$jscomp$32[""] || {};
+    meta$jscomp$0 = config$jscomp$2.meta;
+    /**
+     * @param {?} i
+     * @return {?}
+     */
+    this.gettext = function(i) {
+      return data$jscomp$32[""][i] || i;
+    };
+    /**
+     * @param {?} forApp
+     * @param {?} metric
+     * @return {?}
+     */
+    this.pgettext = function(forApp, metric) {
+      return data$jscomp$32[forApp] && data$jscomp$32[forApp][metric] || metric;
+    };
+    /**
+     * @param {string} msgId$jscomp$0
+     * @param {string} plural$jscomp$0
+     * @param {number} value$jscomp$84
+     * @return {?}
+     */
+    this.ngettext = function(msgId$jscomp$0, plural$jscomp$0, value$jscomp$84) {
+      var n$jscomp$68;
+      return data$jscomp$32 && meta$jscomp$0 && data$jscomp$32[""][msgId$jscomp$0] ? data$jscomp$32[""][msgId$jscomp$0][eval("n = " + value$jscomp$84 + "; " + meta$jscomp$0.plural)] : 1 === value$jscomp$84 ? msgId$jscomp$0 : plural$jscomp$0;
+    };
+  }
+  /** @type {function(!Object): undefined} */
+  Gettext$jscomp$0.prototype.constructor = Gettext$jscomp$0;
+  /** @type {function(!Object): undefined} */
+  module$jscomp$0.exports = Gettext$jscomp$0;
+}, function(mixin, canCreateDiscussions) {
+  /**
+   * @param {number} e
+   * @param {number} t
+   * @return {?}
+   */
+  mixin.exports = function(e, t) {
+    var d;
+    var re;
+    var title;
+    return e ? (re = e.match(/(\d\d\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d).(\d\d\d)Z/), re.shift(), re.pop(), d = new Date(re[0], re[1] - 1, re[2], re[3], re[4], re[5]), d.setTime(t - d.getTime()), e = d.getTime(), d.getFullYear() > 1970 ? (title = d.getFullYear() - 1970, e = title + " " + ngettext("year", "years", +title) + " " + gettext("ago")) : d.getMonth() > 0 ? (title = d.getMonth() + 1, e = title + " " + ngettext("month", "months", +title) + " " + gettext("ago")) : d.getDate() > 1 ? (title =
+      d.getDate(), e = title + " " + ngettext("day", "days", +title) + " " + gettext("ago")) : d.getHours() > 0 ? (title = d.getHours(), e = title + " " + ngettext("hour", "hours", +title) + " " + gettext("ago")) : d.getMinutes() > 0 ? (title = d.getMinutes(), e = title + " " + ngettext("minute", "minutes", +title) + " " + gettext("ago")) : (title = d.getSeconds(), e = title + " " + ngettext("second", "seconds", +title) + " " + gettext("ago")), e) : e;
+  };
+}, function(child, canCreateDiscussions, require) {
+  var NotFound = require(18);
+  var Scope = require(4);
+  var request = require(17);
+  var R = require(41);
+  var $scope = new Scope;
+  $scope.activeCategory = {};
+  $scope.pages = {};
+  /** @type {null} */
+  $scope.ownChannel = null;
+  /**
+   * @param {!Object} b
+   * @return {?}
+   */
+  $scope.cacheKey = function(b) {
+    return "c:" + b.category.id + ";p:" + b.page;
+  };
+  /**
+   * @param {!Object} i
+   * @return {?}
+   */
+  $scope.getPage = function(i) {
+    var formOrder;
+    var post;
+    var data = this;
+    return i.page = +i.page || 0, i.category = i.category || this.activeCategory, new NotFound(function(each, error) {
+      if (formOrder = R.get(data.cacheKey(i))) {
+        each(formOrder);
+      } else {
+        if (post = "channels?part=snippet&categoryId=" + i.category.id + "&maxResults=" + i.count, i.page) {
+          if (!data.pages[i.page]) {
+            return data.activeCategory.totalResults === i.page ? void error("overflow") : void error("no page");
+          }
+          /** @type {string} */
+          post = post + ("&pageToken=" + data.pages[i.page]);
+        }
+        request.request("GET", post).then(function(result) {
+          var j;
+          var lastCommaTermCount;
+          /** @type {!Array} */
+          var res = [];
+          /** @type {*} */
+          result = JSON.parse(result);
+          if (result.pageInfo.totalResults) {
+            data.activeCategory.totalResults = result.pageInfo.totalResults;
+          }
+          if (result.nextPageToken) {
+            data.pages[i.page + 1] = result.nextPageToken;
+          }
+          if (result.prevPageToken) {
+            data.pages[i.page - 1] = result.prevPageToken;
+          }
+          result = result.items;
+          lastCommaTermCount = result.length;
+          /** @type {number} */
+          j = 0;
+          for (; j < lastCommaTermCount; ++j) {
+            res.push({
+              value : result[j].id,
+              id : result[j].id,
+              title : result[j].snippet.localized.title,
+              icon : result[j].snippet.thumbnails["high"].url
+            });
+          }
+          R.set(data.cacheKey(i), res, 3E5);
+          each(res);
+        })["catch"](function(canCreateDiscussions) {
+        });
+      }
+    });
+  };
+  /**
+   * @param {string} url
+   * @return {?}
+   */
+  $scope.getInfo = function(url) {
+    return new NotFound(function(getDefaultState, throwException) {
+      request.request("GET", "channels?part=snippet&id=" + url).then(function(b) {
+        getDefaultState(JSON.parse(b).items);
+      }, throwException);
+    });
+  };
+  /**
+   * @return {?}
+   */
+  $scope.getMine = function() {
+    return new NotFound(function(accountSortTool, throwException) {
+      if (null !== $scope.ownChannel) {
+        accountSortTool($scope.ownChannel);
+      } else {
+        request.request("GET", "channels?part=snippet&mine=true").then(function(b) {
+          $scope.ownChannel = JSON.parse(b).items[0];
+          $scope.ownChannel.title = $scope.ownChannel.snippet.title;
+          $scope.ownChannel.icon = $scope.ownChannel.snippet.thumbnails["default"].url;
+          request.ownChannel = $scope.ownChannel;
+          accountSortTool($scope.ownChannel);
+        }, throwException);
+      }
+    });
+  };
+  /**
+   * @param {string} category
+   * @return {?}
+   */
+  $scope.setActiveCategory = function(category) {
+    return !(!category || this.activeCategory.id === category.id) && (this.activeCategory = category, this.pages = {}, void 0 !== this.events["category:changed"] && this.emit("category:changed", category), true);
+  };
+  child.exports = $scope;
+}, function(module, canCreateDiscussions, context) {
+  /**
+   * @param {number} index
+   * @param {boolean} done
+   * @return {?}
+   */
+  function process(index, done) {
+    /** @type {number} */
+    var k = 1 ^ index;
+    if (!N) {
+      if (done) {
+        /** @type {boolean} */
+        N = true;
+        self.getPage({
+          page : page - 1,
+          count : 1
+        }, function(canCreateDiscussions, groupExist) {
+          --page;
+          --current;
+          /** @type {number} */
+          i = k;
+          /** @type {number} */
+          id = index;
+          /** @type {number} */
+          j = k;
+          /** @type {!Object} */
+          items[k].data = groupExist;
+          /** @type {null} */
+          items[k].viewIndex = null;
+          items[k].renderView(0);
+          items[k].emit("view:ready");
+        });
+      } else {
+        if (0 === items[id].data.length) {
+          return void items[index].emit("view:ready");
+        }
+        /** @type {boolean} */
+        N = true;
+        self.getPage({
+          page : current + 1,
+          count : 1
+        }, function(canCreateDiscussions, serializedData) {
+          return serializedData ? void(canCreateDiscussions || 0 === serializedData.length ? (++page, ++current, items[index].data = [], items[index].viewIndex = null, items[index].renderView(0), items[index].$title.innerHTML = "", i = k, id = index, j = k, items[i].$node.style.top = _from_key, items[id].$node.style.top = pos, items[j].focus(), items[index].emit("view:ready")) : (++page, ++current, i = k, id = index, j = k, items[index].data = serializedData, items[index].viewIndex = null, items[index].renderView(0),
+            items[index].emit("view:ready"), items[j].focus())) : void items[index].emit("view:ready");
+        });
+      }
+    }
+  }
+  var options = context(13);
+  var Dialog = (context(1), context(33));
+  var Store = context(30);
+  var BoxItem = context(37);
+  var Date = context(48);
+  var that = context(36);
+  var d = (context(42), context(29));
+  /** @type {!Array} */
+  var items = [];
+  var obj = new Dialog({
+    $node : document.getElementById("pmTabChannelContent"),
+    className : "tab hidden",
+    visible : false,
+    events : {
+      focus : function() {
+        items[j].focus();
+      }
+    }
+  });
+  var a = context(27);
+  /** @type {(Element|null)} */
+  var title = document.getElementById("pm");
+  /** @type {(Element|null)} */
+  var head = document.getElementById("pmChannelTitle");
+  /** @type {(Element|null)} */
+  var icon_div = document.getElementById("pmChannelIcon");
+  /** @type {number} */
+  var pos = 0;
+  /** @type {number} */
+  var _from_key = 0;
+  /** @type {number} */
+  var i = 0;
+  /** @type {number} */
+  var id = 1;
+  /** @type {number} */
+  var j = 0;
+  /** @type {number} */
+  var page = 0;
+  /** @type {number} */
+  var current = 1;
+  /** @type {number} */
+  var _takingTooLongTimeout = -1;
+  /** @type {boolean} */
+  var N = true;
+  var self = new Date;
+  var node = {
+    id : null,
+    title : null
+  };
+  self.addListener("content:changed", function() {
+    clearTimeout(_takingTooLongTimeout);
+    /** @type {number} */
+    _takingTooLongTimeout = setTimeout(function() {
+      a.hide();
+    }, 1E4);
+    if (0 === items.length) {
+      items.push(new BoxItem({
+        $node : document.getElementById("pmListChannelVideos0Node"),
+        $body : document.getElementById("pmListChannelVideos0Body"),
+        $title : document.getElementById("pmChannelTitle0"),
+        className : "listMovie0Node",
+        size : 5,
+        viewIndex : 0,
+        focusIndex : 0,
+        type : Store.prototype.TYPE_HORIZONTAL,
+        events : {
+          overflow : function(data) {
+            if (data.direction === options.left) {
+              d.focus();
+            }
+          },
+          "view:ready" : function() {
+            obj.focusEntry = items[j];
+            /** @type {number} */
+            items[i].$node.style.top = _from_key;
+            if (items[id]) {
+              items[id].$node.style.top = pos;
+            }
+            /** @type {string} */
+            this.$title.innerHTML = "";
+            if (items[j] && items[j].data.length > 0 && items[j].data[0].value) {
+              a.hide();
+              clearTimeout(_takingTooLongTimeout);
+            }
+            this.show();
+            items[j].focus();
+            /** @type {boolean} */
+            N = false;
+          },
+          "view:error" : function(undefined) {
+            /** @type {boolean} */
+            N = false;
+            if ("empty" === undefined) {
+              /** @type {!Array} */
+              this.data = [{
+                id : "",
+                value : "",
+                publishedAt : "",
+                icon : "img/no.image.png",
+                duration : "",
+                title : gettext("No videos"),
+                channelTitle : "",
+                viewCount : "",
+                locale : {
+                  publishedAt : "",
+                  viewCount : "",
+                  channelTitle : ""
+                }
+              }];
+              /** @type {null} */
+              this.viewIndex = null;
+              this.renderView(0);
+              obj.focusEntry = items[j];
+              /** @type {number} */
+              items[i].$node.style.top = _from_key;
+              if (items[id]) {
+                items[id].$node.style.top = pos;
+              }
+              this.show();
+              a.hide();
+              clearTimeout(_takingTooLongTimeout);
+              items[j].focus();
+            } else {
+              if (0 === page) {
+                process(0, false);
+              }
+            }
+          },
+          "click:item" : function(context) {
+            if (context.$item.data.id) {
+              that.setContent({
+                channel : node,
+                video : context.$item.data,
+                playlist : this.data,
+                position : context.$item.index
+              });
+            }
+          }
+        }
+      }));
+      items.push(new BoxItem({
+        $node : document.getElementById("pmListChannelVideos1Node"),
+        $body : document.getElementById("pmListChannelVideos1Body"),
+        $title : document.getElementById("pmChannelTitle1"),
+        className : "listMovie1Node",
+        size : 5,
+        viewIndex : 0,
+        focusIndex : 0,
+        type : Store.prototype.TYPE_HORIZONTAL,
+        events : {
+          overflow : function(data) {
+            if (data.direction === options.left) {
+              d.focus();
+            }
+          },
+          "view:ready" : function() {
+            obj.focusEntry = items[j];
+            /** @type {number} */
+            items[i].$node.style.top = _from_key;
+            if (items[id]) {
+              items[id].$node.style.top = pos;
+            }
+            /** @type {string} */
+            this.$title.innerHTML = "";
+            if (items[j] && items[j].data.length > 0 && items[j].data[0].value) {
+              a.hide();
+              clearTimeout(_takingTooLongTimeout);
+            }
+            this.show();
+            items[j].focus();
+            /** @type {boolean} */
+            N = false;
+          },
+          "view:error" : function(undefined) {
+            /** @type {boolean} */
+            N = false;
+            if ("empty" === undefined) {
+              /** @type {!Array} */
+              this.data = [{
+                id : "",
+                value : "",
+                publishedAt : "",
+                icon : " ",
+                duration : "",
+                title : " ",
+                channelTitle : "",
+                viewCount : "",
+                locale : {
+                  publishedAt : "",
+                  viewCount : "",
+                  channelTitle : ""
+                }
+              }];
+              /** @type {null} */
+              this.viewIndex = null;
+              this.renderView(0);
+              this.focusIndex(0);
+              obj.focusEntry = items[j];
+              /** @type {number} */
+              items[i].$node.style.top = _from_key;
+              if (items[id]) {
+                items[id].$node.style.top = pos;
+              }
+              this.$title.innerHTML = this.model.channel.title ? this.model.channel.title : "&nbsp;";
+              this.show();
+              a.hide();
+              clearTimeout(_takingTooLongTimeout);
+              items[j].focus();
+            }
+          },
+          "click:item" : function(context) {
+            if (context.$item.data.id) {
+              that.setContent({
+                channel : node,
+                video : context.$item.data,
+                playlist : this.data,
+                position : context.$item.index
+              });
+            }
+          }
+        }
+      }));
+      obj.add(items[0]);
+      obj.add(items[1]);
+      items[0].focus();
+      items[0].addListener("keydown", function(data) {
+        if (data.code === options.down) {
+          process(0, false);
+        } else {
+          if (data.code === options.up) {
+            if (page > 0) {
+              process(0, true);
+            }
+          } else {
+            if (data.code === options.playPause) {
+              that.setContent({
+                channel : this.model.channel,
+                video : this.$focusItem.data,
+                playlist : this.data,
+                position : this.$focusItem.index
+              });
+            }
+          }
+        }
+      });
+      items[1].addListener("keydown", function(data) {
+        if (data.code === options.down) {
+          process(1, false);
+        } else {
+          if (data.code === options.up) {
+            if (page > 0) {
+              process(1, true);
+            }
+          } else {
+            if (data.code === options.playPause) {
+              that.setContent({
+                channel : this.model.channel,
+                video : this.$focusItem.data,
+                playlist : this.data,
+                position : this.$focusItem.index
+              });
+            }
+          }
+        }
+      });
+      pos = window.getComputedStyle(items[1].$node).getPropertyValue("top");
+    }
+    self.getPage({
+      page : 0,
+      count : 1
+    }, function(canCreateDiscussions, groupExist) {
+      /** @type {number} */
+      page = 0;
+      /** @type {number} */
+      i = 0;
+      /** @type {number} */
+      id = 1;
+      /** @type {number} */
+      current = 1;
+      /** @type {number} */
+      j = 0;
+      /** @type {string} */
+      items[i].data = groupExist;
+      /** @type {null} */
+      items[i].viewIndex = null;
+      items[i].renderView(0);
+      items[i].emit("view:ready");
+      items[j].focus();
+      self.getPage({
+        page : 1,
+        count : 1
+      }, function(canCreateDiscussions, groupExist) {
+        /** @type {!Object} */
+        items[id].data = groupExist;
+        /** @type {null} */
+        items[id].viewIndex = null;
+        items[id].renderView(0);
+        items[id].emit("view:ready");
+        items[j].focus();
+      });
+    });
+  });
+  /**
+   * @param {string} params
+   * @return {undefined}
+   */
+  obj.activate = function(params) {
+    if (params) {
+      this.show();
+      if (items.length) {
+        items[j].focus();
+      }
+      self.channelId = node.id = params.id;
+      self.getInfo({}, function(canCreateDiscussions, scope) {
+        if (!canCreateDiscussions) {
+          scope.background = scope.background.split("=")[0] + "=w1920-fcrop64=1,00000000ffffffff-nd-c0xffffffff-rj-k-no";
+          /** @type {string} */
+          title.style.backgroundImage = "url(" + scope.background + ")";
+          /** @type {string} */
+          icon_div.style.backgroundImage = "url(" + scope.icon + ")";
+          node.title = head.innerHTML = scope.title;
+          node.icon = scope.icon;
+          self.emit("content:changed");
+        }
+      });
+    }
+  };
+  module.exports = obj;
+}, function(module, canCreateDiscussions, require) {
+  /**
+   * @param {string} topic
+   * @param {!Object} data
+   * @return {?}
+   */
+  function cb(topic, data) {
+    var tel;
+    var actual;
+    var translate;
+    var date;
+    var str;
+    var inputText;
+    var crossfilterable_layers;
+    var start;
+    var end;
+    var allcookies;
+    var layer_i;
+    /** @type {!Array} */
+    var ret = [];
+    crossfilterable_layers = topic.split("channels-content-item");
+    /** @type {number} */
+    layer_i = 0;
+    for (; layer_i < crossfilterable_layers.length; layer_i++) {
+      allcookies = crossfilterable_layers[layer_i];
+      if (allcookies.indexOf("yt-lockup-video") !== -1) {
+        start = allcookies.indexOf('="https://i.ytimg') + 2;
+        end = allcookies.indexOf('"', start);
+        inputText = allcookies.substring(start, end);
+        start = allcookies.indexOf('data-context-item-id="') + 22;
+        end = allcookies.indexOf('"', start);
+        tel = allcookies.substring(start, end);
+        start = allcookies.indexOf('<span class="video-time" aria-hidden="true">') + 44;
+        start = allcookies.indexOf(">", start) + 1;
+        end = allcookies.indexOf("</span>", start);
+        actual = allcookies.substring(start, end);
+        start = allcookies.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36;
+        end = allcookies.indexOf(" ", start);
+        translate = allcookies.substring(start, end);
+        start = allcookies.indexOf("</li><li>", start) + 9;
+        end = allcookies.indexOf("</li>", start);
+        date = allcookies.substring(start, end);
+        start = allcookies.indexOf('" href="/watch?v=') + 17;
+        start = allcookies.indexOf(">", start) + 1;
+        end = allcookies.indexOf("</a><span", start);
+        str = allcookies.substring(start, end);
+        ret.push({
+          value : 1,
+          id : tel,
+          channelTitle : data.title,
+          duration : actual,
+          realDuration : actual,
+          viewCount : translate,
+          publishedAt : date,
+          dimension : "",
+          definition : "",
+          title : str,
+          icon : inputText,
+          channelId : data.id,
+          type : "video",
+          locale : {
+            publishedAt : date,
+            viewCount : translate,
+            channelTitle : data.title
           }
         });
-        return u.set(n(e), s, 3e5), s
-      })
-    })
-  }, s.prototype.getMovies = function(e) {
-    var t, i, n, s, a = [];
-    for (i = e.split(","), n = 0, s = i.length; n < s; ++n)(t = u.get("vid:" + i[n])) && a.push(t);
-    return r.request("GET", "videos?part=statistics,contentDetails,snippet&id=" + e).then(function(e) {
-      for (e = JSON.parse(e).items, n = 0, s = e.length; n < s; ++n) u.set("vid:" + e[n].id, e[n], 6e4);
-      return e
-    })
-  }, s.prototype.init = function(e) {
-    return void 0 !== e.playlist && (this.playlist ? this.playlist && this.playlist.id !== e.playlist.id && (this.playlist = e.playlist) : this.playlist = e.playlist, this.pages = {}, this.emit("content:changed", e), !0)
-  }, e.exports = s
-}, function(e, t, i) {
-  "use strict";
-  var n = {
-    store: {},
-    size: 0,
-    set: function(e, t, i) {
-      var n, s, a = this;
-      s = this.store[e] ? this.store[e] : void 0, s && s.timeout && clearTimeout(s.timeout), n = {
-        value: t,
-        timeout: -1
-      }, "number" == typeof i && (n.timeout = setTimeout(function() {
-        a.remove(e)
-      }, i)), this.store[e] = n, ++this.size
+      }
+    }
+    return ret;
+  }
+  /**
+   * @return {undefined}
+   */
+  function self() {
+    NumericType.call(this);
+    /** @type {null} */
+    this.channelId = null;
+    this.pages = {};
+  }
+  var $ = require(49);
+  var ajax = $.ajax;
+  var NumericType = require(4);
+  /** @type {!Object} */
+  self.prototype = Object.create(NumericType.prototype);
+  /** @type {function(): undefined} */
+  self.prototype.constructor = self;
+  /**
+   * @param {!Object} data
+   * @param {!Function} callback
+   * @return {?}
+   */
+  self.prototype.getInfo = function(data, callback) {
+    return data = data || {}, !data.channelId && this.channelId && (data.channelId = this.channelId), data.channelId ? void ajax("get", "https://www.youtube.com/" + data.channelId + "/about", function(c, n) {
+      var b;
+      var a;
+      var initialRotation;
+      var noteValueToDisplay;
+      var t;
+      var d;
+      var backgroundAttr;
+      return 200 !== n ? void callback({
+        message : "request got bad http status (" + n + ")"
+      }, {}) : (b = c.indexOf('img class="channel-header-profile-image" src="') + 46, a = c.indexOf('"', b), initialRotation = c.substring(b, a), b = c.indexOf("yt-subscription-button-subscriber-count-branded-horizontal"), b = c.indexOf('title="', b) + 7, a = c.indexOf('"', b), noteValueToDisplay = c.substring(b, a), b = c.indexOf('class="qualified-channel-title-text"'), b = c.indexOf('title="', b) + 7, a = c.indexOf('"', b), t = c.substring(b, a), b = c.indexOf('<div class="about-description'),
+        a = c.indexOf('<div class="about-metadata-label', b), d = c.substring(b, a), b = c.indexOf(".hd-banner-image {"), b = c.indexOf("background-image: url(", b) + 22, a = c.indexOf(");", b), backgroundAttr = "http:" + c.substring(b, a), void callback(null, {
+        icon : initialRotation,
+        subscribers : noteValueToDisplay,
+        background : backgroundAttr,
+        title : t,
+        id : data.channelId,
+        description : d
+      }));
+    }) : void callback({
+      message : "error: field arguments[0].channelId is empty"
+    }, {});
+  };
+  /**
+   * @param {!Object} params
+   * @param {!Function} callback
+   * @return {?}
+   */
+  self.prototype.getPage = function(params, callback) {
+    var data = this;
+    return params = params || {}, !params.channelId && this.channelId && (params.channelId = this.channelId), params.page = +params.page || 0, params.channelId ? void(this.pages[params.page] && this.pages[params.page].parseId ? this.pages[params.page].cached ? callback(null, this.pages[params.page].data) : ajax("get", "https://www.youtube.com" + this.pages[params.page].parseId, function(i, a) {
+      var post;
+      var interestingPoint;
+      var c;
+      var e;
+      var resizewidth;
+      var p;
+      if (200 !== a) {
+        return void callback({
+          message : "request got bad http status (" + a + ")"
+        }, []);
+      }
+      try {
+        /** @type {*} */
+        post = JSON.parse(i);
+      } catch (viewportCenter) {
+        interestingPoint = viewportCenter;
+        /** @type {string} */
+        post = "";
+      }
+      return post ? (post.load_more_widget_html.trim().length > 10 ? (c = post.load_more_widget_html.indexOf('data-uix-load-more-href="/browse_ajax') + 25, e = post.load_more_widget_html.indexOf('"', c), resizewidth = post.load_more_widget_html.substring(c, e).replace(/&amp;/g, "&")) : resizewidth = "", data.pages[params.page + 1] = {
+        parseId : resizewidth,
+        cached : false
+      }, i.indexOf('class="qualified-channel-title-text"') === -1 ? p = data.pages[0] && data.pages[0].data && data.pages[0].data[0] && data.pages[0].data[0] && data.pages[0].data[0].channelTitle ? data.pages[0].data[0].channelTitle : "" : (c = i.indexOf('class="qualified-channel-title-text"'), c = i.indexOf('title="', c) + 7, e = i.indexOf('"', c), p = i.substring(c, e)), data.pages[params.page].cached = true, data.pages[params.page].data = cb(post.content_html, {
+        id : params.channelId,
+        title : p
+      }), void callback(null, data.pages[params.page].data)) : void callback({
+        message : "parse error for page id " + data.pages[params.page].parseId,
+        code : interestingPoint
+      }, []);
+    }) : params.page ? this.pages[params.page] && !this.pages[params.page].parseId ? callback(null, []) : callback({
+      message : "wrong page number (page id not found in cache)"
+    }, []) : ajax("get", "https://www.youtube.com/" + params.channelId + "/videos", function(s, a) {
+      var q;
+      var t;
+      var index;
+      var contents;
+      return 200 !== a ? void callback({
+        message : "request got bad http status (" + a + ")"
+      }, []) : (t = s.indexOf('class="qualified-channel-title-text"'), t = s.indexOf('title="', t) + 7, index = s.indexOf('"', t), contents = s.substring(t, index), t = s.indexOf('data-uix-load-more-href="/browse_ajax') + 25, index = s.indexOf('"', t), data.pages[params.page + 1] = {
+        parseId : s.substring(t, index).replace(/&amp;/g, "&"),
+        cached : false
+      }, q = s.slice(s.indexOf('id="channels-browse-content-grid"'), s.indexOf("browse-items-load-more-button")), data.pages[0] = {
+        cached : true,
+        parseId : "   ",
+        data : cb(q, {
+          id : params.channelId,
+          title : contents
+        })
+      }, void callback(null, data.pages[0].data));
+    })) : void callback({
+      message : "error: field arguments[0].channelId is empty"
+    }, []);
+  };
+  /**
+   * @return {?}
+   */
+  self.prototype.filter = function() {
+    return false;
+  };
+  /** @type {function(): undefined} */
+  module.exports = self;
+}, function(module, canCreateDiscussions) {
+  /**
+   * @param {?} uri
+   * @return {?}
+   */
+  function parseUri(uri) {
+    var o = {
+      strictMode : false,
+      key : ["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "relative", "path", "directory", "file", "query", "anchor"],
+      q : {
+        name : "queryKey",
+        parser : /(?:^|&)([^&=]*)=?([^&]*)/g
+      },
+      parser : {
+        strict : /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+        loose : /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+      }
+    };
+    var targets = o.parser[o.strictMode ? "strict" : "loose"].exec(uri);
+    var e = {};
+    /** @type {number} */
+    var i = 14;
+    for (; i--;) {
+      e[o.key[i]] = targets[i] || "";
+    }
+    return e[o.q.name] = {}, e[o.key[12]].replace(o.q.parser, function(canCreateDiscussions, propertyToSet, s) {
+      if (propertyToSet) {
+        e[o.q.name][propertyToSet] = s;
+      }
+    }), e;
+  }
+  /**
+   * @param {string} type
+   * @param {string} uri
+   * @param {!Function} cb
+   * @param {?} value
+   * @param {string} undefined
+   * @param {boolean} async
+   * @return {?}
+   */
+  function ajax(type, uri, cb, value, undefined, async) {
+    var headerName;
+    /** @type {null} */
+    var auto = null;
+    /** @type {null} */
+    var _takingTooLongTimeout = null;
+    /** @type {!XMLHttpRequest} */
+    var xhr = new XMLHttpRequest;
+    "AJAX " + type.toUpperCase() + " " + uri;
+    if (async = async !== false, xhr.onreadystatechange = function() {
+      var iconCtx;
+      if (4 === xhr.readyState) {
+        if (clearTimeout(_takingTooLongTimeout), "json" === undefined && 200 === xhr.status) {
+          try {
+            /** @type {*} */
+            auto = JSON.parse(xhr.responseText);
+          } catch (e) {
+            /** @type {null} */
+            auto = null;
+          }
+        }
+        if ("function" == typeof cb) {
+          /** @type {*} */
+          iconCtx = "xml" === undefined ? xhr.responseXML : "json" === undefined ? auto : xhr.responseText;
+          cb(iconCtx, xhr.status, xhr);
+        }
+      }
+    }, xhr.open(type, uri, async), value) {
+      for (headerName in value) {
+        if (value.hasOwnProperty(headerName)) {
+          xhr.setRequestHeader(headerName, value[headerName]);
+        }
+      }
+    }
+    return xhr.send(), _takingTooLongTimeout = setTimeout(function() {
+      xhr.abort();
+      if ("function" == typeof cb) {
+        cb(null, 0);
+      }
+    }, 6E4), xhr;
+  }
+  /** @type {function(string, string, !Function, ?, string, boolean): ?} */
+  window.ajax = ajax;
+  module.exports = {
+    ajax : ajax,
+    parseUri : parseUri
+  };
+}, function(module, canCreateDiscussions, $) {
+  /**
+   * @return {?}
+   */
+  function init() {
+    return data.languageIndex !== key && (me ? (me.show(), inlineEditor2 = data.activePage.activeComponent, me.focus()) : (me = new Definition({
+      visible : false,
+      events : {
+        keydown : function(e) {
+          var barIndex;
+          var context;
+          if (e.code === options.ok) {
+            data.settings.language = action.languages[key];
+            /** @type {number} */
+            key = -1;
+            /** @type {number} */
+            data.settings.languageOverwrite = 1;
+            /** @type {number} */
+            data.settings.keyboardLanguage = key;
+            data.reload();
+          } else {
+            if (e.code === options.back) {
+              p.data[p.size - 1].value = key = data.languageIndex;
+              /** @type {boolean} */
+              e.stop = true;
+              me.hide();
+              searchContactPanel.show();
+              inlineEditor2.focus();
+              barIndex = p.$focusItem.index;
+              context = p.viewIndex;
+              /** @type {null} */
+              p.viewIndex = null;
+              p.renderView(context);
+              p.focusIndex(barIndex);
+            }
+          }
+        }
+      }
+    }), me.$body.classList.add("modalExit"), me.$header.innerHTML = gettext("To apply a new language, you should restart the application"), me.$content.innerHTML = "", me.$content.appendChild(item = document.createElement("div")), item.innerText = gettext("Ok"), item.className = "btn confirm" + (enable_keys ? " old" : ""), me.$content.appendChild(item = document.createElement("div")), item.className = "btn back" + (enable_keys ? " old" : ""), item.innerText = gettext("Cancel"), me.$footer.innerHTML =
+      "", data.activePage.add(me), searchContactPanel.hide(), me.show(), inlineEditor2 = data.activePage.activeComponent, me.focus()), true);
+  }
+  var p;
+  var me;
+  var item;
+  var inlineEditor2;
+  var options = $(13);
+  var data = $(1);
+  var Buffer = $(30);
+  var Menu = $(33);
+  var Definition = $(51);
+  var instance = ($(17), $(53));
+  var action = $(15);
+  /** @type {(Element|null)} */
+  var title = document.getElementById("pm");
+  var camera = new Menu({
+    $node : document.getElementById("pmTabSettings"),
+    className : "tab",
+    visible : false,
+    events : {
+      show : function() {
+        /** @type {string} */
+        title.style.backgroundImage = "";
+      }
+    }
+  });
+  var fakeInputElement = $(29);
+  var searchContactPanel = $(25);
+  /** @type {boolean} */
+  var enable_keys = ["AuraHD2", "AuraHD3", "AuraHD8", "MAG254", "MAG275", "MAG276", "WR320"].indexOf(instance.deviceModel()) !== -1;
+  var key = data.languageIndex;
+  fakeInputElement.addListener("focus", function() {
+    init();
+  });
+  /**
+   * @return {undefined}
+   */
+  camera.activate = function() {
+    var inputel;
+    var badge;
+    if (!p) {
+      badge = $(42);
+      inputel = $(54);
+      p = new Buffer({
+        $node : document.getElementById("pmSettingsList"),
+        type : Buffer.prototype.TYPE_HORIZONTAL,
+        size : 1,
+        data : [{
+          title : gettext("Language"),
+          value : data.languageIndex,
+          values : action.languagesLocalized,
+          description : gettext("Interface language"),
+          icon : "icon flag",
+          onclick : function(data) {
+            var i = badge.nextLang(this.value);
+            this.value = i;
+            key = i;
+            data.$value.innerText = action.languagesLocalized[i];
+          }
+        }],
+        render : function(self, obj) {
+          if (!self.ready) {
+            self.$container = self.appendChild(document.createElement("div"));
+            /** @type {string} */
+            self.$container.className = "container";
+            self.$title = self.$container.appendChild(document.createElement("div"));
+            /** @type {string} */
+            self.$title.className = "title";
+            self.$value = self.$container.appendChild(document.createElement("div"));
+            /** @type {string} */
+            self.$value.className = "value";
+            self.$icon = self.$container.appendChild(document.createElement("div"));
+            self.$description = self.appendChild(document.createElement("div"));
+            /** @type {string} */
+            self.$description.className = "description";
+            /** @type {boolean} */
+            self.ready = true;
+          }
+          self.$title.innerText = obj.title;
+          self.$value.innerHTML = obj.values[obj.value];
+          self.$icon.className = obj.icon;
+          self.$description.innerText = obj.description;
+        },
+        events : {
+          keydown : function(event) {
+            switch(event.code) {
+              case options.right:
+                break;
+              case options.left:
+                if (this.viewIndex > 0 && this.viewIndex < this.data.length - this.size) {
+                  this.renderView(this.viewIndex + 1);
+                } else {
+                  this.move(event.code);
+                }
+                break;
+              case options.ok:
+                if (void 0 !== this.events["click:item"]) {
+                  this.emit("click:item", {
+                    $item : this.$focusItem,
+                    event : event
+                  });
+                }
+                break;
+              case options.back:
+                if (init()) {
+                  /** @type {boolean} */
+                  event.stop = true;
+                }
+            }
+          },
+          "click:item" : function(self) {
+            self.$item.data.onclick(self.$item);
+          },
+          overflow : function(data) {
+            if (data.direction === options.left) {
+              fakeInputElement.focus();
+            }
+          }
+        }
+      });
+      camera.add(p);
+      /**
+       * @param {number} name
+       * @return {?}
+       */
+      p.renderView = function(name) {
+        var item;
+        var i;
+        var data;
+        var prevIndex;
+        var getObjArg;
+        if (this.viewIndex !== name) {
+          prevIndex = this.viewIndex;
+          this.viewIndex = getObjArg = name;
+          /** @type {number} */
+          i = 0;
+          for (; i < this.size; i++) {
+            item = this.$body.children[i];
+            data = this.data[name];
+            if (void 0 !== data) {
+              item.data = data;
+              /** @type {number} */
+              item.index = name;
+              this.renderItem(item, data);
+              if (data.mark) {
+                item.classList.add("mark");
+              } else {
+                item.classList.remove("mark");
+              }
+            } else {
+              item.data = item.index = void 0;
+              /** @type {string} */
+              item.innerHTML = "";
+              /** @type {boolean} */
+              item.ready = false;
+            }
+            name++;
+          }
+          return void 0 !== this.events["move:view"] && this.emit("move:view", {
+            prevIndex : prevIndex,
+            currIndex : getObjArg
+          }), true;
+        }
+        return false;
+      };
+    }
+    this.show();
+    p.focus();
+    p.focusIndex(0);
+    camera.focusEntry = p;
+  };
+  module.exports = camera;
+}, function(context, canCreateDiscussions, getVoxel) {
+  /**
+   * @param {!Object} e
+   * @return {undefined}
+   */
+  function init(e) {
+    e = e || {};
+    /** @type {string} */
+    e.className = "modalMessage" + (e.className || "");
+    b.call(this, e);
+    this.$header = this.$body.appendChild(document.createElement("div"));
+    this.$content = this.$body.appendChild(document.createElement("div"));
+    this.$footer = this.$body.appendChild(document.createElement("div"));
+    /** @type {string} */
+    this.$header.className = "header";
+    /** @type {string} */
+    this.$content.className = "content";
+    /** @type {string} */
+    this.$footer.className = "footer";
+    /** @type {string} */
+    this.$header.innerText = "header";
+    /** @type {string} */
+    this.$content.innerText = "content";
+    /** @type {string} */
+    this.$footer.innerText = "footer";
+    this.hide();
+  }
+  var b = getVoxel(52);
+  /** @type {!Object} */
+  init.prototype = Object.create(b.prototype);
+  /** @type {function(!Object): undefined} */
+  init.prototype.constructor = init;
+  /** @type {function(!Object): undefined} */
+  context.exports = init;
+}, function(module, canCreateDiscussions, promiseSupplier) {
+  /**
+   * @param {number} that
+   * @return {undefined}
+   */
+  function Menu(that) {
+    that = that || {};
+    /** @type {!Element} */
+    that.$body = document.createElement("div");
+    /** @type {string} */
+    that.$body.className = "body";
+    s.call(this, that);
+    this.$node.appendChild(document.createElement("div").appendChild(this.$body).parentNode);
+  }
+  var s = promiseSupplier(24);
+  /** @type {!Object} */
+  Menu.prototype = Object.create(s.prototype);
+  /** @type {function(number): undefined} */
+  Menu.prototype.constructor = Menu;
+  /** @type {string} */
+  Menu.prototype.name = "spa-component-modal";
+  /** @type {function(number): undefined} */
+  module.exports = Menu;
+}, function(module, canCreateDiscussions) {
+  module.exports = {
+    initPlayer : window.top.gSTB.InitPlayer,
+    saveUserData : window.top.gSTB.SaveUserData,
+    loadUserData : window.top.gSTB.LoadUserData,
+    setPosTime : window.top.gSTB.SetPosTime,
+    getPosTime : window.top.gSTB.GetPosTime,
+    play : window.top.gSTB.Play,
+    pause : window.top.gSTB.Pause,
+    continuePlay : window.top.gSTB.Continue,
+    getVolume : window.top.gSTB.GetVolume,
+    setVolume : window.top.gSTB.SetVolume,
+    setNativeStringMode : window.top.gSTB && window.top.gSTB.SetNativeStringMode ? window.top.gSTB.SetNativeStringMode : function() {
     },
-    get: function(e, t) {
-      return !!this.store[e] && ("function" != typeof t ? this.store[e].value : void t(this.store[e].value))
-    },
-    remove: function(e) {
-      --this.size, this.store[e] = null
-    },
-    clear: function() {
-      var e = this.size;
-      return this.store = {}, e
+    setServiceButtonState : window.top.gSTB.EnableServiceButton,
+    setVKButtonState : window.top.gSTB.EnableVKButton,
+    setTvButtonState : window.top.gSTB.EnableTvButton,
+    setAppButtonState : window.top.gSTB.EnableAppButton,
+    hideVK : window.top.gSTB.HideVirtualKeyboard,
+    showVK : window.top.gSTB.ShowVirtualKeyboard,
+    getStandByStatus : window.top.gSTB.GetStandByStatus,
+    setStandByStatus : window.top.gSTB.StandBy,
+    getEnv : window.top.gSTB.GetEnv,
+    isMuted : window.top.gSTB.GetMute,
+    setMute : window.top.gSTB.SetMute,
+    deviceModel : window.top.gSTB.GetDeviceModelExt
+  };
+}, function(child, canCreateDiscussions, floor) {
+  var startYNew = floor(4);
+  var $scope = new startYNew;
+  $scope.data = {
+    quality : [gettext("Best"), "720p", "480p", "360p", "240p"],
+    safeSearch : [gettext("Off"), gettext("On")]
+  };
+  /**
+   * @param {string} prop
+   * @param {number} i
+   * @return {?}
+   */
+  $scope.getNext = function(prop, i) {
+    if ($scope.data[prop] && $scope.data[prop][i]) {
+      return ++i, $scope.data[prop].length === i && (i = 0), this.emit("changed", {
+        key : prop,
+        value : $scope.data[prop][i],
+        index : i
+      }), {
+        value : $scope.data[prop][i],
+        index : i
+      };
     }
   };
-  e.exports = n
-}, function(e, t, i) {
-  "use strict";
-  var n = i(15),
-    s = i(16);
-  e.exports = {
-    languageIndex: 0,
-    nextLang: function(e) {
-      return e === n.languages.length - 1 ? 0 : ++e
-    },
-    setLang: function(e) {
-      var t = this;
-      i(43).load({
-        name: e
-      }, function(i) {
-        i ? t.languageIndex = -1 : t.languageIndex = n.languages.indexOf(e), t.languageIndex === -1 && (t.languageIndex = n.languages.indexOf(s.defaultSettings.language))
-      })
+  child.exports = $scope;
+}, function(module, canCreateDiscussions, require) {
+  /**
+   * @param {number} to
+   * @param {boolean} str
+   * @return {?}
+   */
+  function process(to, str) {
+    /** @type {number} */
+    var j = 1 ^ to;
+    if (!toPlayer) {
+      if (str) {
+        /** @type {boolean} */
+        toPlayer = true;
+        model.getPage({
+          page : page - 1,
+          count : 1
+        }, function(canCreateDiscussions, groupExist) {
+          --page;
+          --current;
+          /** @type {number} */
+          k = j;
+          /** @type {number} */
+          i = to;
+          /** @type {number} */
+          index = j;
+          /** @type {!Object} */
+          nodes[j].data = groupExist;
+          /** @type {null} */
+          nodes[j].viewIndex = null;
+          nodes[j].renderView(0);
+          nodes[j].focusIndex(0);
+          nodes[j].emit("view:ready");
+        });
+      } else {
+        if (0 === nodes[i].data.length) {
+          return void nodes[to].emit("view:ready");
+        }
+        /** @type {boolean} */
+        toPlayer = true;
+        model.getPage({
+          page : current + 1,
+          count : 1
+        }, function(canCreateDiscussions, serializedData) {
+          return serializedData ? void(canCreateDiscussions || 0 === serializedData.length ? (++page, ++current, nodes[to].data = [], nodes[to].viewIndex = null, nodes[to].renderView(0), nodes[to].focusIndex(0), nodes[to].$title.innerHTML = "", k = j, i = to, index = j, nodes[k].$node.style.top = _from_key, nodes[i].$node.style.top = pos, nodes[index].focus(), nodes[to].emit("view:ready")) : (++page, ++current, k = j, i = to, index = j, nodes[to].data = serializedData, nodes[to].viewIndex = null,
+            nodes[to].renderView(0), nodes[to].focusIndex(0), nodes[to].emit("view:ready"))) : void nodes[to].emit("view:ready");
+        });
+      }
     }
   }
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    var t = new a(e);
-    return window.gettext = window._ = t.gettext, window.pgettext = t.pgettext, window.ngettext = t.ngettext, t
-  }
-  var s = i(4),
-    a = i(44),
-    o = new s;
-  o.defaultLanguage = "en", o.load = function(e, t) {
-    var i;
-    return e.ext = e.ext || "json", e.path = e.path || "lang", e.name === o.defaultLanguage ? (n(), t(null), !1) : (i = new XMLHttpRequest, i.onload = function() {
-      var e;
-      try {
-        e = JSON.parse(i.responseText), n(e), t(null), o.events["load"] && o.emit("load")
-      } catch (e) {
-        i.onerror(e)
+  var options = require(13);
+  var test = require(1);
+  var ctor = require(33);
+  var ActionClient = require(30);
+  var Dialog = require(35);
+  var ViewModel = require(37);
+  var t = require(36);
+  var Model = require(56);
+  var model = new Model;
+  var fbLargeCommandLine = require(29);
+  var rebaseBtn = require(27);
+  /** @type {!Array} */
+  var nodes = [];
+  /** @type {(Element|null)} */
+  var title = document.getElementById("pm");
+  /** @type {number} */
+  var index = 0;
+  var self = new ctor({
+    $node : document.getElementById("pmTabMainContent"),
+    visible : false,
+    className : "tab hidden",
+    events : {
+      focus : function() {
+        nodes[index].focus();
+      },
+      show : function() {
+        /** @type {string} */
+        title.style.backgroundImage = "";
       }
-    }, i.ontimeout = i.onerror = function(e) {
-      n(), t(e), o.events["error"] && o.emit("error", e)
-    }, i.open("GET", e.path + "/" + e.name + "." + e.ext, !0), i.send(null), !0)
-  }, e.exports = o
-}, function(module, exports, __webpack_require__) {
-  "use strict";
-
-  function Gettext(config) {
-    var data, meta;
-    config = config || {}, data = config.data || {}, data[""] = data[""] || {}, meta = config.meta, this.gettext = function(e) {
-      return data[""][e] || e
-    }, this.pgettext = function(e, t) {
-      return data[e] && data[e][t] || t
-    }, this.ngettext = function(msgId, plural, value) {
-      var n;
-      return data && meta && data[""][msgId] ? data[""][msgId][eval("n = " + value + "; " + meta.plural)] : 1 === value ? msgId : plural
     }
-  }
-  Gettext.prototype.constructor = Gettext, module.exports = Gettext
-}, function(e, t) {
-  "use strict";
-  e.exports = function(e, t) {
-    var i, n, s;
-    return e ? (n = e.match(/(\d\d\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d).(\d\d\d)Z/), n.shift(), n.pop(), i = new Date(n[0], n[1] - 1, n[2], n[3], n[4], n[5]), i.setTime(t - i.getTime()), e = i.getTime(), i.getFullYear() > 1970 ? (s = i.getFullYear() - 1970, e = s + " " + ngettext("year", "years", +s) + " " + gettext("ago")) : i.getMonth() > 0 ? (s = i.getMonth() + 1, e = s + " " + ngettext("month", "months", +s) + " " + gettext("ago")) : i.getDate() > 1 ? (s = i.getDate(), e = s + " " + ngettext("day", "days", +s) + " " + gettext("ago")) : i.getHours() > 0 ? (s = i.getHours(), e = s + " " + ngettext("hour", "hours", +s) + " " + gettext("ago")) : i.getMinutes() > 0 ? (s = i.getMinutes(), e = s + " " + ngettext("minute", "minutes", +s) + " " + gettext("ago")) : (s = i.getSeconds(), e = s + " " + ngettext("second", "seconds", +s) + " " + gettext("ago")), e) : e
-  }
-}, function(e, t, i) {
-  "use strict";
-  var n = i(18),
-    s = i(4),
-    a = i(17),
-    o = i(41),
-    l = new s;
-  l.activeCategory = {}, l.pages = {}, l.ownChannel = null, l.cacheKey = function(e) {
-    return "c:" + e.category.id + ";p:" + e.page
-  }, l.getPage = function(e) {
-    var t, i, s = this;
-    return e.page = +e.page || 0, e.category = e.category || this.activeCategory, new n(function(n, l) {
-      if (t = o.get(s.cacheKey(e))) n(t);
-      else {
-        if (i = "channels?part=snippet&categoryId=" + e.category.id + "&maxResults=" + e.count, e.page) {
-          if (!s.pages[e.page]) return s.activeCategory.totalResults === e.page ? void l("overflow") : void l("no page");
-          i += "&pageToken=" + s.pages[e.page]
-        }
-        a.request("GET", i).then(function(t) {
-          var i, a, l = [];
-          for (t = JSON.parse(t), t.pageInfo.totalResults && (s.activeCategory.totalResults = t.pageInfo.totalResults), t.nextPageToken && (s.pages[e.page + 1] = t.nextPageToken), t.prevPageToken && (s.pages[e.page - 1] = t.prevPageToken), t = t.items, a = t.length, i = 0; i < a; ++i) l.push({
-            value: t[i].id,
-            id: t[i].id,
-            title: t[i].snippet.localized.title,
-            icon: t[i].snippet.thumbnails["high"].url
-          });
-          o.set(s.cacheKey(e), l, 3e5), n(l)
-        })["catch"](function(e) {})
+  });
+  var d = new Dialog({
+    $node : document.getElementById("pmMainSearch"),
+    $body : document.getElementById("pmMainSearchBody"),
+    className : "tabInputSearch",
+    events : {
+      focus : function() {
+        this.setValue("");
+        test.route(test.pages.search);
       }
-    })
-  }, l.getInfo = function(e) {
-    return new n(function(t, i) {
-      a.request("GET", "channels?part=snippet&id=" + e).then(function(e) {
-        t(JSON.parse(e).items)
-      }, i)
-    })
-  }, l.getMine = function() {
-    return new n(function(e, t) {
-      null !== l.ownChannel ? e(l.ownChannel) : a.request("GET", "channels?part=snippet&mine=true").then(function(t) {
-        l.ownChannel = JSON.parse(t).items[0], l.ownChannel.title = l.ownChannel.snippet.title, l.ownChannel.icon = l.ownChannel.snippet.thumbnails["default"].url, a.ownChannel = l.ownChannel, e(l.ownChannel)
-      }, t)
-    })
-  }, l.setActiveCategory = function(e) {
-    return !(!e || this.activeCategory.id === e.id) && (this.activeCategory = e, this.pages = {}, void 0 !== this.events["category:changed"] && this.emit("category:changed", e), !0)
-  }, e.exports = l
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e, t) {
-    var i = 1 ^ e;
-    if (!N)
-      if (t) N = !0, C.getPage({
-        page: $ - 1,
-        count: 1
-      }, function(t, n) {
-        --$, --I, b = i, x = e, w = i, u[i].data = n, u[i].viewIndex = null, u[i].renderView(0), u[i].emit("view:ready")
-      });
-      else {
-        if (0 === u[x].data.length) return void u[e].emit("view:ready");
-        N = !0, C.getPage({
-          page: I + 1,
-          count: 1
-        }, function(t, n) {
-          return n ? void(t || 0 === n.length ? (++$, ++I, u[e].data = [], u[e].viewIndex = null, u[e].renderView(0), u[e].$title.innerHTML = "", b = i, x = e, w = i, u[b].$node.style.top = y, u[x].$node.style.top = g, u[w].focus(), u[e].emit("view:ready")) : (++$, ++I, b = i, x = e, w = i, u[e].data = n, u[e].viewIndex = null, u[e].renderView(0), u[e].emit("view:ready"), u[w].focus())) : void u[e].emit("view:ready")
-        })
-      }
-  }
-  var s = i(13),
-    a = (i(1), i(33)),
-    o = i(30),
-    l = i(37),
-    c = i(48),
-    r = i(36),
-    d = (i(42), i(29)),
-    u = [],
-    h = new a({
-      $node: document.getElementById("pmTabChannelContent"),
-      className: "tab hidden",
-      visible: !1,
-      events: {
-        focus: function() {
-          u[w].focus()
-        }
-      }
-    }),
-    p = i(27),
-    m = document.getElementById("pm"),
-    v = document.getElementById("pmChannelTitle"),
-    f = document.getElementById("pmChannelIcon"),
-    g = 0,
-    y = 0,
-    b = 0,
-    x = 1,
-    w = 0,
-    $ = 0,
-    I = 1,
-    T = -1,
-    N = !0,
-    C = new c,
-    k = {
-      id: null,
-      title: null
-    };
-  C.addListener("content:changed", function() {
-    clearTimeout(T), T = setTimeout(function() {
-      p.hide()
-    }, 1e4), 0 === u.length && (u.push(new l({
-      $node: document.getElementById("pmListChannelVideos0Node"),
-      $body: document.getElementById("pmListChannelVideos0Body"),
-      $title: document.getElementById("pmChannelTitle0"),
-      className: "listMovie0Node",
-      size: 5,
-      viewIndex: 0,
-      focusIndex: 0,
-      type: o.prototype.TYPE_HORIZONTAL,
-      events: {
-        overflow: function(e) {
-          e.direction === s.left && d.focus()
-        },
-        "view:ready": function() {
-          h.focusEntry = u[w], u[b].$node.style.top = y, u[x] && (u[x].$node.style.top = g), this.$title.innerHTML = "", u[w] && u[w].data.length > 0 && u[w].data[0].value && (p.hide(), clearTimeout(T)), this.show(), u[w].focus(), N = !1
-        },
-        "view:error": function(e) {
-          N = !1, "empty" === e ? (this.data = [{
-            id: "",
-            value: "",
-            publishedAt: "",
-            icon: "img/no.image.png",
-            duration: "",
-            title: gettext("No videos"),
-            channelTitle: "",
-            viewCount: "",
-            locale: {
-              publishedAt: "",
-              viewCount: "",
-              channelTitle: ""
-            }
-          }], this.viewIndex = null, this.renderView(0), h.focusEntry = u[w], u[b].$node.style.top = y, u[x] && (u[x].$node.style.top = g), this.show(), p.hide(), clearTimeout(T), u[w].focus()) : 0 === $ && n(0, !1)
-        },
-        "click:item": function(e) {
-          e.$item.data.id && r.setContent({
-            channel: k,
-            video: e.$item.data,
-            playlist: this.data,
-            position: e.$item.index
-          })
-        }
-      }
-    })), u.push(new l({
-      $node: document.getElementById("pmListChannelVideos1Node"),
-      $body: document.getElementById("pmListChannelVideos1Body"),
-      $title: document.getElementById("pmChannelTitle1"),
-      className: "listMovie1Node",
-      size: 5,
-      viewIndex: 0,
-      focusIndex: 0,
-      type: o.prototype.TYPE_HORIZONTAL,
-      events: {
-        overflow: function(e) {
-          e.direction === s.left && d.focus()
-        },
-        "view:ready": function() {
-          h.focusEntry = u[w], u[b].$node.style.top = y, u[x] && (u[x].$node.style.top = g), this.$title.innerHTML = "", u[w] && u[w].data.length > 0 && u[w].data[0].value && (p.hide(), clearTimeout(T)), this.show(), u[w].focus(), N = !1
-        },
-        "view:error": function(e) {
-          N = !1, "empty" === e && (this.data = [{
-            id: "",
-            value: "",
-            publishedAt: "",
-            icon: " ",
-            duration: "",
-            title: " ",
-            channelTitle: "",
-            viewCount: "",
-            locale: {
-              publishedAt: "",
-              viewCount: "",
-              channelTitle: ""
-            }
-          }], this.viewIndex = null, this.renderView(0), this.focusIndex(0), h.focusEntry = u[w], u[b].$node.style.top = y, u[x] && (u[x].$node.style.top = g), this.$title.innerHTML = this.model.channel.title ? this.model.channel.title : "&nbsp;", this.show(), p.hide(), clearTimeout(T), u[w].focus())
-        },
-        "click:item": function(e) {
-          e.$item.data.id && r.setContent({
-            channel: k,
-            video: e.$item.data,
-            playlist: this.data,
-            position: e.$item.index
-          })
-        }
-      }
-    })), h.add(u[0]), h.add(u[1]), u[0].focus(), u[0].addListener("keydown", function(e) {
-      e.code === s.down ? n(0, !1) : e.code === s.up ? $ > 0 && n(0, !0) : e.code === s.playPause && r.setContent({
-        channel: this.model.channel,
-        video: this.$focusItem.data,
-        playlist: this.data,
-        position: this.$focusItem.index
-      })
-    }), u[1].addListener("keydown", function(e) {
-      e.code === s.down ? n(1, !1) : e.code === s.up ? $ > 0 && n(1, !0) : e.code === s.playPause && r.setContent({
-        channel: this.model.channel,
-        video: this.$focusItem.data,
-        playlist: this.data,
-        position: this.$focusItem.index
-      })
-    }), g = window.getComputedStyle(u[1].$node).getPropertyValue("top")), C.getPage({
-      page: 0,
-      count: 1
-    }, function(e, t) {
-      $ = 0, b = 0, x = 1, I = 1, w = 0, u[b].data = t, u[b].viewIndex = null, u[b].renderView(0), u[b].emit("view:ready"), u[w].focus(), C.getPage({
-        page: 1,
-        count: 1
-      }, function(e, t) {
-        u[x].data = t, u[x].viewIndex = null, u[x].renderView(0), u[x].emit("view:ready"), u[w].focus()
-      })
-    })
-  }), h.activate = function(e) {
-    e && (this.show(), u.length && u[w].focus(), C.channelId = k.id = e.id, C.getInfo({}, function(e, t) {
-      e || (t.background = t.background.split("=")[0] + "=w1920-fcrop64=1,00000000ffffffff-nd-c0xffffffff-rj-k-no", m.style.backgroundImage = "url(" + t.background + ")", f.style.backgroundImage = "url(" + t.icon + ")", k.title = v.innerHTML = t.title, k.icon = t.icon, C.emit("content:changed"))
-    }))
-  }, e.exports = h
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e, t) {
-    var i, n, s, a, o, l, c, r, d, u, h, p = [];
-    for (c = e.split("channels-content-item"), h = 0; h < c.length; h++) u = c[h], u.indexOf("yt-lockup-video") !== -1 && (r = u.indexOf('="https://i.ytimg') + 2, d = u.indexOf('"', r), l = u.substring(r, d), r = u.indexOf('data-context-item-id="') + 22, d = u.indexOf('"', r), i = u.substring(r, d), r = u.indexOf('<span class="video-time" aria-hidden="true">') + 44, r = u.indexOf(">", r) + 1, d = u.indexOf("</span>", r), n = u.substring(r, d), r = u.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36, d = u.indexOf(" ", r), s = u.substring(r, d), r = u.indexOf("</li><li>", r) + 9, d = u.indexOf("</li>", r), a = u.substring(r, d), r = u.indexOf('" href="/watch?v=') + 17, r = u.indexOf(">", r) + 1, d = u.indexOf("</a><span", r), o = u.substring(r, d), p.push({
-      value: 1,
-      id: i,
-      channelTitle: t.title,
-      duration: n,
-      realDuration: n,
-      viewCount: s,
-      publishedAt: a,
-      dimension: "",
-      definition: "",
-      title: o,
-      icon: l,
-      channelId: t.id,
-      type: "video",
-      locale: {
-        publishedAt: a,
-        viewCount: s,
-        channelTitle: t.title
-      }
-    }));
-    return p
-  }
-
-  function s() {
-    l.call(this), this.channelId = null, this.pages = {}
-  }
-  var a = i(49),
-    o = a.ajax,
-    l = i(4);
-  s.prototype = Object.create(l.prototype), s.prototype.constructor = s, s.prototype.getInfo = function(e, t) {
-    return e = e || {}, !e.channelId && this.channelId && (e.channelId = this.channelId), e.channelId ? void o("get", "https://www.youtube.com/" + e.channelId + "/about", function(i, n) {
-      var s, a, o, l, c, r, d;
-      return 200 !== n ? void t({
-        message: "request got bad http status (" + n + ")"
-      }, {}) : (s = i.indexOf('img class="channel-header-profile-image" src="') + 46, a = i.indexOf('"', s), o = i.substring(s, a), s = i.indexOf("yt-subscription-button-subscriber-count-branded-horizontal"), s = i.indexOf('title="', s) + 7, a = i.indexOf('"', s), l = i.substring(s, a), s = i.indexOf('class="qualified-channel-title-text"'), s = i.indexOf('title="', s) + 7, a = i.indexOf('"', s), c = i.substring(s, a), s = i.indexOf('<div class="about-description'), a = i.indexOf('<div class="about-metadata-label', s), r = i.substring(s, a), s = i.indexOf(".hd-banner-image {"), s = i.indexOf("background-image: url(", s) + 22, a = i.indexOf(");", s), d = "http:" + i.substring(s, a), void t(null, {
-        icon: o,
-        subscribers: l,
-        background: d,
-        title: c,
-        id: e.channelId,
-        description: r
-      }))
-    }) : void t({
-      message: "error: field arguments[0].channelId is empty"
-    }, {})
-  }, s.prototype.getPage = function(e, t) {
-    var i = this;
-    return e = e || {}, !e.channelId && this.channelId && (e.channelId = this.channelId), e.page = +e.page || 0, e.channelId ? void(this.pages[e.page] && this.pages[e.page].parseId ? this.pages[e.page].cached ? t(null, this.pages[e.page].data) : o("get", "https://www.youtube.com" + this.pages[e.page].parseId, function(s, a) {
-      var o, l, c, r, d, u;
-      if (200 !== a) return void t({
-        message: "request got bad http status (" + a + ")"
-      }, []);
-      try {
-        o = JSON.parse(s)
-      } catch (e) {
-        l = e, o = ""
-      }
-      return o ? (o.load_more_widget_html.trim().length > 10 ? (c = o.load_more_widget_html.indexOf('data-uix-load-more-href="/browse_ajax') + 25, r = o.load_more_widget_html.indexOf('"', c), d = o.load_more_widget_html.substring(c, r).replace(/&amp;/g, "&")) : d = "", i.pages[e.page + 1] = {
-        parseId: d,
-        cached: !1
-      }, s.indexOf('class="qualified-channel-title-text"') === -1 ? u = i.pages[0] && i.pages[0].data && i.pages[0].data[0] && i.pages[0].data[0] && i.pages[0].data[0].channelTitle ? i.pages[0].data[0].channelTitle : "" : (c = s.indexOf('class="qualified-channel-title-text"'), c = s.indexOf('title="', c) + 7, r = s.indexOf('"', c), u = s.substring(c, r)), i.pages[e.page].cached = !0, i.pages[e.page].data = n(o.content_html, {
-        id: e.channelId,
-        title: u
-      }), void t(null, i.pages[e.page].data)) : void t({
-        message: "parse error for page id " + i.pages[e.page].parseId,
-        code: l
-      }, [])
-    }) : e.page ? this.pages[e.page] && !this.pages[e.page].parseId ? t(null, []) : t({
-      message: "wrong page number (page id not found in cache)"
-    }, []) : o("get", "https://www.youtube.com/" + e.channelId + "/videos", function(s, a) {
-      var o, l, c, r;
-      return 200 !== a ? void t({
-        message: "request got bad http status (" + a + ")"
-      }, []) : (l = s.indexOf('class="qualified-channel-title-text"'), l = s.indexOf('title="', l) + 7, c = s.indexOf('"', l), r = s.substring(l, c), l = s.indexOf('data-uix-load-more-href="/browse_ajax') + 25, c = s.indexOf('"', l), i.pages[e.page + 1] = {
-        parseId: s.substring(l, c).replace(/&amp;/g, "&"),
-        cached: !1
-      }, o = s.slice(s.indexOf('id="channels-browse-content-grid"'), s.indexOf("browse-items-load-more-button")), i.pages[0] = {
-        cached: !0,
-        parseId: "   ",
-        data: n(o, {
-          id: e.channelId,
-          title: r
-        })
-      }, void t(null, i.pages[0].data))
-    })) : void t({
-      message: "error: field arguments[0].channelId is empty"
-    }, [])
-  }, s.prototype.filter = function() {
-    return !1
-  }, e.exports = s
-}, function(e, t) {
-  function i(e) {
-    for (var t = {
-      strictMode: !1,
-      key: ["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "relative", "path", "directory", "file", "query", "anchor"],
-      q: {
-        name: "queryKey",
-        parser: /(?:^|&)([^&=]*)=?([^&]*)/g
-      },
-      parser: {
-        strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-        loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
-      }
-    }, i = t.parser[t.strictMode ? "strict" : "loose"].exec(e), n = {}, s = 14; s--;) n[t.key[s]] = i[s] || "";
-    return n[t.q.name] = {}, n[t.key[12]].replace(t.q.parser, function(e, i, s) {
-      i && (n[t.q.name][i] = s)
-    }), n
-  }
-
-  function n(e, t, i, n, s, a) {
-    var o, l = null,
-      c = null,
-      r = new XMLHttpRequest;
-    "AJAX " + e.toUpperCase() + " " + t;
-    if (a = a !== !1, r.onreadystatechange = function() {
-      var e;
-      if (4 === r.readyState) {
-        if (clearTimeout(c), "json" === s && 200 === r.status) try {
-          l = JSON.parse(r.responseText)
-        } catch (e) {
-          l = null
-        }
-        "function" == typeof i && (e = "xml" === s ? r.responseXML : "json" === s ? l : r.responseText, i(e, r.status, r))
-      }
-    }, r.open(e, t, a), n)
-      for (o in n) n.hasOwnProperty(o) && r.setRequestHeader(o, n[o]);
-    return r.send(), c = setTimeout(function() {
-      r.abort(), "function" == typeof i && i(null, 0)
-    }, 6e4), r
-  }
-  window.ajax = n, e.exports = {
-    ajax: n,
-    parseUri: i
-  }
-}, function(e, t, i) {
-  "use strict";
-
-  function n() {
-    return r.languageIndex !== x && (a ? (a.show(), l = r.activePage.activeComponent, a.focus()) : (a = new h({
-      visible: !1,
-      events: {
-        keydown: function(e) {
-          var t, i;
-          e.code === c.ok ? (r.settings.language = m.languages[x], x = -1, r.settings.languageOverwrite = 1, r.settings.keyboardLanguage = x, r.reload()) : e.code === c.back && (s.data[s.size - 1].value = x = r.languageIndex, e.stop = !0, a.hide(), y.show(), l.focus(), t = s.$focusItem.index, i = s.viewIndex, s.viewIndex = null, s.renderView(i), s.focusIndex(t))
-        }
-      }
-    }), a.$body.classList.add("modalExit"), a.$header.innerHTML = gettext("To apply a new language, you should restart the application"), a.$content.innerHTML = "", a.$content.appendChild(o = document.createElement("div")), o.innerText = gettext("Ok"), o.className = "btn confirm" + (b ? " old" : ""), a.$content.appendChild(o = document.createElement("div")), o.className = "btn back" + (b ? " old" : ""), o.innerText = gettext("Cancel"), a.$footer.innerHTML = "", r.activePage.add(a), y.hide(), a.show(), l = r.activePage.activeComponent, a.focus()), !0)
-  }
-  var s, a, o, l, c = i(13),
-    r = i(1),
-    d = i(30),
-    u = i(33),
-    h = i(51),
-    p = (i(17), i(53)),
-    m = i(15),
-    v = document.getElementById("pm"),
-    f = new u({
-      $node: document.getElementById("pmTabSettings"),
-      className: "tab",
-      visible: !1,
-      events: {
-        show: function() {
-          v.style.backgroundImage = ""
-        }
-      }
-    }),
-    g = i(29),
-    y = i(25),
-    b = ["AuraHD2", "AuraHD3", "AuraHD8", "MAG254", "MAG275", "MAG276", "WR320"].indexOf(p.deviceModel()) !== -1,
-    x = r.languageIndex;
-  g.addListener("focus", function() {
-    n()
-  }), f.activate = function() {
-    var e, t;
-    s || (t = i(42), e = i(54), s = new d({
-      $node: document.getElementById("pmSettingsList"),
-      type: d.prototype.TYPE_HORIZONTAL,
-      size: 1,
-      data: [{
-        title: gettext("Language"),
-        value: r.languageIndex,
-        values: m.languagesLocalized,
-        description: gettext("Interface language"),
-        icon: "icon flag",
-        onclick: function(e) {
-          var i = t.nextLang(this.value);
-          this.value = i, x = i, e.$value.innerText = m.languagesLocalized[i]
-        }
-      }],
-      render: function(e, t) {
-        e.ready || (e.$container = e.appendChild(document.createElement("div")), e.$container.className = "container", e.$title = e.$container.appendChild(document.createElement("div")), e.$title.className = "title", e.$value = e.$container.appendChild(document.createElement("div")), e.$value.className = "value", e.$icon = e.$container.appendChild(document.createElement("div")), e.$description = e.appendChild(document.createElement("div")), e.$description.className = "description", e.ready = !0), e.$title.innerText = t.title, e.$value.innerHTML = t.values[t.value], e.$icon.className = t.icon, e.$description.innerText = t.description
-      },
-      events: {
-        keydown: function(e) {
-          switch (e.code) {
-            case c.right:
-              break;
-            case c.left:
-              this.viewIndex > 0 && this.viewIndex < this.data.length - this.size ? this.renderView(this.viewIndex + 1) : this.move(e.code);
-              break;
-            case c.ok:
-              void 0 !== this.events["click:item"] && this.emit("click:item", {
-                $item: this.$focusItem,
-                event: e
-              });
-              break;
-            case c.back:
-              n() && (e.stop = !0)
-          }
-        },
-        "click:item": function(e) {
-          e.$item.data.onclick(e.$item)
-        },
-        overflow: function(e) {
-          e.direction === c.left && g.focus()
-        }
-      }
-    }), f.add(s), s.renderView = function(e) {
-      var t, i, n, s, a;
-      if (this.viewIndex !== e) {
-        for (s = this.viewIndex, this.viewIndex = a = e, i = 0; i < this.size; i++) t = this.$body.children[i], n = this.data[e], void 0 !== n ? (t.data = n, t.index = e, this.renderItem(t, n), n.mark ? t.classList.add("mark") : t.classList.remove("mark")) : (t.data = t.index = void 0, t.innerHTML = "", t.ready = !1), e++;
-        return void 0 !== this.events["move:view"] && this.emit("move:view", {
-          prevIndex: s,
-          currIndex: a
-        }), !0
-      }
-      return !1
-    }), this.show(), s.focus(), s.focusIndex(0), f.focusEntry = s
-  }, e.exports = f
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    e = e || {}, e.className = "modalMessage" + (e.className || ""), s.call(this, e), this.$header = this.$body.appendChild(document.createElement("div")), this.$content = this.$body.appendChild(document.createElement("div")), this.$footer = this.$body.appendChild(document.createElement("div")), this.$header.className = "header", this.$content.className = "content", this.$footer.className = "footer", this.$header.innerText = "header", this.$content.innerText = "content", this.$footer.innerText = "footer", this.hide()
-  }
-  var s = i(52);
-  n.prototype = Object.create(s.prototype), n.prototype.constructor = n, e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    e = e || {}, e.$body = document.createElement("div"), e.$body.className = "body", s.call(this, e), this.$node.appendChild(document.createElement("div").appendChild(this.$body).parentNode)
-  }
-  var s = i(24);
-  n.prototype = Object.create(s.prototype), n.prototype.constructor = n, n.prototype.name = "spa-component-modal", e.exports = n
-}, function(e, t) {
-  "use strict";
-  e.exports = {
-    initPlayer: window.top.gSTB.InitPlayer,
-    saveUserData: window.top.gSTB.SaveUserData,
-    loadUserData: window.top.gSTB.LoadUserData,
-    setPosTime: window.top.gSTB.SetPosTime,
-    getPosTime: window.top.gSTB.GetPosTime,
-    play: window.top.gSTB.Play,
-    pause: window.top.gSTB.Pause,
-    continuePlay: window.top.gSTB.Continue,
-    getVolume: window.top.gSTB.GetVolume,
-    setVolume: window.top.gSTB.SetVolume,
-    setNativeStringMode: window.top.gSTB && window.top.gSTB.SetNativeStringMode ? window.top.gSTB.SetNativeStringMode : function() {},
-    setServiceButtonState: window.top.gSTB.EnableServiceButton,
-    setVKButtonState: window.top.gSTB.EnableVKButton,
-    setTvButtonState: window.top.gSTB.EnableTvButton,
-    setAppButtonState: window.top.gSTB.EnableAppButton,
-    hideVK: window.top.gSTB.HideVirtualKeyboard,
-    showVK: window.top.gSTB.ShowVirtualKeyboard,
-    getStandByStatus: window.top.gSTB.GetStandByStatus,
-    setStandByStatus: window.top.gSTB.StandBy,
-    getEnv: window.top.gSTB.GetEnv,
-    isMuted: window.top.gSTB.GetMute,
-    setMute: window.top.gSTB.SetMute,
-    deviceModel: window.top.gSTB.GetDeviceModelExt
-  }
-}, function(e, t, i) {
-  "use strict";
-  var n = i(4),
-    s = new n;
-  s.data = {
-    quality: [gettext("Best"), "720p", "480p", "360p", "240p"],
-    safeSearch: [gettext("Off"), gettext("On")]
-  }, s.getNext = function(e, t) {
-    if (s.data[e] && s.data[e][t]) return ++t, s.data[e].length === t && (t = 0), this.emit("changed", {
-      key: e,
-      value: s.data[e][t],
-      index: t
-    }), {
-      value: s.data[e][t],
-      index: t
     }
-  }, e.exports = s
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e, t) {
-    var i = 1 ^ e;
-    if (!k)
-      if (t) k = !0, h.getPage({
-        page: T - 1,
-        count: 1
-      }, function(t, n) {
-        --T, --N, $ = i, I = e, g = i, v[i].data = n, v[i].viewIndex = null, v[i].renderView(0), v[i].focusIndex(0), v[i].emit("view:ready")
-      });
-      else {
-        if (0 === v[I].data.length) return void v[e].emit("view:ready");
-        k = !0, h.getPage({
-          page: N + 1,
-          count: 1
-        }, function(t, n) {
-          return n ? void(t || 0 === n.length ? (++T, ++N, v[e].data = [], v[e].viewIndex = null, v[e].renderView(0), v[e].focusIndex(0), v[e].$title.innerHTML = "", $ = i, I = e, g = i, v[$].$node.style.top = w, v[I].$node.style.top = x, v[g].focus(), v[e].emit("view:ready")) : (++T, ++N, $ = i, I = e, g = i, v[e].data = n, v[e].viewIndex = null, v[e].renderView(0), v[e].focusIndex(0), v[e].emit("view:ready"))) : void v[e].emit("view:ready")
-        })
-      }
-  }
-  var s = i(13),
-    a = i(1),
-    o = i(33),
-    l = i(30),
-    c = i(35),
-    r = i(37),
-    d = i(36),
-    u = i(56),
-    h = new u,
-    p = i(29),
-    m = i(27),
-    v = [],
-    f = document.getElementById("pm"),
-    g = 0,
-    y = new o({
-      $node: document.getElementById("pmTabMainContent"),
-      visible: !1,
-      className: "tab hidden",
-      events: {
-        focus: function() {
-          v[g].focus()
-        },
-        show: function() {
-          f.style.backgroundImage = ""
-        }
-      }
-    }),
-    b = new c({
-      $node: document.getElementById("pmMainSearch"),
-      $body: document.getElementById("pmMainSearchBody"),
-      className: "tabInputSearch",
-      events: {
-        focus: function() {
-          this.setValue(""), a.route(a.pages.search)
-        }
-      }
-    }),
-    x = 0,
-    w = 0,
-    $ = 0,
-    I = 1,
-    T = 0,
-    N = 1,
-    C = -1,
-    k = !0;
-  y.activate = function() {
-    this.show(), clearTimeout(C), C = setTimeout(function() {
-      m.hide()
-    }, 1e4), 0 === v.length ? (m.show(), v.push(new r({
-      $node: document.getElementById("pmListMainVideos0Node"),
-      $body: document.getElementById("pmListMainVideos0Body"),
-      $title: document.getElementById("pmMainChannelTitle0"),
-      className: "listMovie0Node",
-      model: new u({
-        type: "video"
-      }),
-      size: 5,
-      viewIndex: 0,
-      focusIndex: 0,
-      type: l.prototype.TYPE_HORIZONTAL,
-      events: {
-        overflow: function(e) {
-          e.direction === s.left && p.focus()
-        },
-        "view:ready": function() {
-          y.focusEntry = v[g], v[$].$node.style.top = w, v[I] && (v[I].$node.style.top = x), this.$title.innerHTML = "", v[g] && v[g].data.length > 0 && v[g].data[0].value && (m.hide(), clearTimeout(C)), this.show(), v[g].focus(), k = !1
-        },
-        "view:error": function(e) {
-          k = !1, "empty" === e ? (this.data = [], this.viewIndex = null, this.renderView(0), this.focusIndex(0), y.focusEntry = v[g], v[$].$node.style.top = w, v[I] && (v[I].$node.style.top = x), this.$title.innerHTML = this.model.channel.title, m.hide(), this.show(), clearTimeout(C), v[g].focus()) : 0 === T && n(0, !1)
-        },
-        "click:item": function(e) {
-          e.$item.data.id && d.setContent({
-            channel: this.model.channel,
-            video: e.$item.data,
-            playlist: this.data,
-            position: e.$item.index
-          })
-        },
-        focus: function() {
-          y.focusEntry = this
-        }
-      }
-    })), v.push(new r({
-      $node: document.getElementById("pmListMainVideos1Node"),
-      $body: document.getElementById("pmListMainVideos1Body"),
-      $title: document.getElementById("pmMainChannelTitle1"),
-      className: "listMovie1Node",
-      model: new u({
-        type: "video"
-      }),
-      size: 5,
-      viewIndex: 0,
-      focusIndex: 0,
-      type: l.prototype.TYPE_HORIZONTAL,
-      events: {
-        overflow: function(e) {
-          e.direction === s.left && p.focus()
-        },
-        "view:ready": function() {
-          y.focusEntry = v[g], v[$].$node.style.top = w, v[I].$node.style.top = x, this.$title.innerHTML = "", v[g] && v[g].data.length > 0 && v[g].data[0].value && (m.hide(), clearTimeout(C)), this.show(), clearTimeout(C), v[g].focus(), k = !1
-        },
-        "view:error": function(e) {
-          k = !1, "empty" === e && (this.data = [{
-            id: "",
-            value: "",
-            publishedAt: "",
-            icon: "img/no.image.png",
-            duration: "",
-            title: gettext("No videos"),
-            channelTitle: "",
-            viewCount: "",
-            locale: {
-              publishedAt: "",
-              viewCount: "",
-              channelTitle: ""
-            }
-          }], this.viewIndex = null, this.renderView(0), this.focusIndex(0), y.focusEntry = v[g], v[$].$node.style.top = w, v[I] && (v[I].$node.style.top = x), this.$title.innerHTML = this.model.channel.title, this.show(), m.hide(), clearTimeout(C), v[g].focus())
-        },
-        "click:item": function(e) {
-          e.$item.data.id && d.setContent({
-            channel: this.model.channel,
-            video: e.$item.data,
-            playlist: this.data,
-            position: e.$item.index
-          })
-        },
-        focus: function() {
-          y.focusEntry = this
-        }
-      }
-    })), y.add(v[0]), y.add(v[1]), v[0].addListener("keydown", function(e) {
-      e.code === s.down ? n(0, !1) : e.code === s.up ? T > 0 ? n(0, !0) : b.focus() : e.code === s.playPause && d.setContent({
-        channel: this.model.channel,
-        video: this.$focusItem.data,
-        playlist: this.data,
-        position: this.$focusItem.index
-      })
-    }), v[1].addListener("keydown", function(e) {
-      e.code === s.down ? n(1, !1) : e.code === s.up ? T > 0 ? n(1, !0) : b.focus() : e.code === s.playPause && d.setContent({
-        channel: this.model.channel,
-        video: this.$focusItem.data,
-        playlist: this.data,
-        position: this.$focusItem.index
-      })
-    }), x = window.getComputedStyle(v[1].$node).getPropertyValue("top"), h.getPage({
-      page: 0,
-      count: 1
-    }, function(e, t) {
-      e && (t = []), T = 0, $ = 0, I = 1, N = 1, g = 0, v[$].data = t, v[$].viewIndex = null, v[$].renderView(0), v[$].focusIndex(0), v[$].emit("view:ready"), v[g].focus(), h.getPage({
-        page: 1,
-        count: 1
-      }, function(e, t) {
-        e && (t = []), v[I].data = t, v[I].viewIndex = null, v[I].renderView(0), v[I].focusIndex(0), v[I].emit("view:ready")
-      })
-    })) : v[g].data.length && v[g].focus(), window.lists = v
-  }, y.add(b), e.exports = y
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    var t, i, n, s, a, o, l, c, r, d, u, h, p, m, v, f, g = [];
-    for (r = e.split('<li class="yt-shelf-grid-item'), p = 0; p < r.length; p++)
-      if (h = r[p], h.indexOf("yt-lockup-content") !== -1) {
-        if (h.indexOf("yt-lockup-playlist") !== -1) m = "playlist";
-        else {
-          if (h.indexOf("yt-lockup-video") === -1 || h.indexOf("branded-page-module") !== -1 || h.indexOf("data-set-reminder-text") !== -1) continue;
-          m = "video", f = h.indexOf("yt-badge-live") !== -1
-        }
-        d = h.indexOf("//i.ytimg"), u = h.indexOf('"', d), l = "https:" + h.substring(d, u).replace(/&amp;/g, "&"), h.indexOf('<a href="/channel/') === -1 ? h.indexOf("data-channel-external-id=") === -1 ? h.indexOf('<a href="/user/') === -1 ? c = "" : (d = h.indexOf('<a href="/user/') + 10, u = h.indexOf('"', d), c = h.substring(d, u)) : (d = h.indexOf('data-channel-external-id="') + 26, u = h.indexOf('"', d), c = "channel/" + h.substring(d, u)) : (d = h.indexOf('<a href="/channel/') + 10, u = h.indexOf('"', d), c = h.substring(d, u)), "playlist" === m && (d = h.indexOf('" dir="ltr">') + 12, u = h.indexOf("</a><span", d), o = h.substring(d, u), h.indexOf('<div class="yt-lockup-byline ">YouTube</div>') !== -1 && (c = ""), d = h.indexOf('<a href="/watch?v=') + 9, u = h.indexOf('"', d), v = h.substring(d, u).replace("&amp;", "&"), d = h.indexOf('" dir="ltr">') + 12, u = h.indexOf("<", d), i = h.substring(d, u), g.push({
-          value: 1,
-          playlistId: v,
-          channel: {
-            title: i.substr(0, 100),
-            id: c
-          },
-          title: o.substr(0, 100),
-          icon: l,
-          type: "playlist",
-          channelTitle: i.substr(0, 100),
-          viewCount: " ",
-          duration: " ",
-          publishedAt: " ",
-          locale: {
-            publishedAt: " ",
-            viewCount: " ",
-            channelTitle: i.substr(0, 100)
-          }
-        })), "video" === m && (d = h.indexOf('data-context-item-id="') + 22, u = h.indexOf('"', d), t = h.substring(d, u), d = h.indexOf('<span class="video-time" aria-hidden="true">') + 44, u = h.indexOf("</span>", d), n = h.substring(d, u), d = h.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36, u = h.indexOf(" ", d), s = h.substring(d, u), d = h.indexOf("</li><li>", d) + 9, u = h.indexOf("</li></ul></div>", d), a = h.substring(d, u), d = h.indexOf('" dir="ltr">') + 12, 11 === d && (d = h.indexOf(' dir="ltr">') + 11, 10 === d && (d = h.indexOf('" dir="rtl">') + 12)), u = h.indexOf("</", d), o = h.substring(d, u), d = h.indexOf('<a href="', u), d = h.indexOf(">", d) + 1, u = h.indexOf("</a>", d), i = h.substring(d, u), g.push({
-          value: 1,
-          id: t,
-          channelTitle: i.substr(0, 100),
-          duration: f ? "" : n.substr(0, 100),
-          realDuration: f ? "" : n.substr(0, 100),
-          viewCount: s.substr(0, 100),
-          publishedAt: f ? "" : a.substr(0, 100),
-          dimension: "",
-          definition: "",
-          title: o.substr(0, 100),
-          icon: l,
-          channelId: c,
-          type: "video",
-          locale: {
-            publishedAt: f ? "" : a.substr(0, 100),
-            viewCount: s.substr(0, 100),
-            channelTitle: i.substr(0, 100)
-          }
-        }))
-      } return g
-  }
-
-  function s() {
-    l.call(this), this.pages = {}
-  }
-  var a = i(49),
-    o = a.ajax,
-    l = i(4);
-  s.prototype = Object.create(l.prototype), s.prototype.constructor = s, s.prototype.getPage = function(e, t) {
-    var i = this;
-    e.page = +e.page || 0, this.pages[e.page] && this.pages[e.page].parseId ? this.pages[e.page].cached ? t(null, this.pages[e.page].data) : o("get", "https://www.youtube.com" + this.pages[e.page].parseId, function(s, a) {
-      var o, l, c, r, d;
-      if (200 !== a) return void t({
-        message: "request got bad http status (" + a + ")"
-      }, []);
-      try {
-        o = JSON.parse(s)
-      } catch (e) {
-        l = e, o = ""
-      }
-      return o ? (o.load_more_widget_html.trim().length > 10 ? (c = o.load_more_widget_html.indexOf('data-uix-load-more-href="') + 25, r = o.load_more_widget_html.indexOf('"', c), d = o.load_more_widget_html.substring(c, r).replace(/&amp;/g, "&")) : d = "", i.pages[e.page + 1] = {
-        parseId: d,
-        cached: !1
-      }, i.pages[e.page].cached = !0, i.pages[e.page].data = n(o.content_html), void t(null, i.pages[e.page].data)) : void t({
-        message: "parse error for page id " + i.pages[e.page].parseId,
-        code: l
-      }, [])
-    }) : e.page ? this.pages[e.page] && !this.pages[e.page].parseId ? t(null, []) : t({
-      message: "wrong page number (page id not found in cache)"
-    }, []) : o("get", "https://www.youtube.com/", function(s, a) {
-      var o, l, c;
-      return 200 !== a ? void t({
-        message: "request got bad http status (" + a + ")"
-      }, []) : (l = s.indexOf('data-uix-load-more-href="') + 25, c = s.indexOf('"', l), i.pages[e.page + 1] = {
-        parseId: s.substring(l, c).replace(/&amp;/g, "&"),
-        cached: !1
-      }, o = s.slice(s.indexOf('id="feed-main-'), s.indexOf('id="feed-error"')), i.pages[0] = {
-        cached: !0,
-        parseId: "   ",
-        data: n(o)
-      }, void t(null, i.pages[0].data))
-    })
-  }, s.prototype.filter = function() {
-    return !1
-  }, e.exports = s
-}, function(e, t, i) {
-  "use strict";
-  var n, s, a, o = "ps",
-    l = i(13),
-    c = i(1),
-    r = i(22),
-    d = i(58),
-    u = i(37),
-    h = i(59),
-    p = i(36),
-    m = new(i(60)),
-    v = i(61),
-    f = i(25),
-    g = (i(15), new r({
-      $node: document.getElementById(o)
-    })),
-    y = new d({
-      $node: document.getElementById("psSearch"),
-      $body: document.getElementById("psSearchInput")
-    }),
-    b = i(27),
-    x = !0,
-    w = " ",
-    $ = null,
-    I = -1;
-  g.addListener("keydown", function(e) {
-    e.code === l.back && (c.route(c.pages.main), e.stop = !0)
-  }), g.addListener("hide", function() {
-    b.hide()
-  }), s = v(function(e) {
-    w = e.value, $.model.filter({
-      searchQuery: e.value
-    }), clearTimeout(I), I = setTimeout(function() {
-      b.hide()
-    }, 5e3)
-  }, 1e3), g.addListener("show", function(e) {
-    e = e.data || {}, f.updateView({
-      SEARCH: {
-        icon: "search",
-        visible: !1,
-        text: ""
-      },
-      MORE: {
-        icon: "more",
-        visible: !1,
-        text: ""
-      },
-      GUIDE: {
-        icon: "info",
-        visible: !1,
-        text: ""
-      },
-      BACK: {
-        icon: "back",
-        visible: !0,
-        text: gettext("Back")
-      }
-    }), b.hide(), g.activeComponent || (x && (window.psSearchIcon.style.display = "block", setTimeout(function() {
-      window.psSearchIcon.style.display = "inline-table"
-    }, 0)), null !== g.activeComponent && g.activeComponent !== y || setTimeout(function() {
-      y.focus(), window.searchInput = y, e.search && y.setValue(e.search)
-    }, 0))
-  }),
-    function() {
-      n = i(62), y.addListener("keydown", function(e) {
-        e.code === l.down ? (a = y.getCaretPosition(), n.focus()) : e.code === l.up && $.visible ? ($.focus(), $.$focusItem || $.focusIndex(0)) : e.code === l.back && 0 === this.$body.value.length && (c.route(c.pages.main), e.stop = !0)
-      }), y.addListener("input", function(e) {
-        $.hide(), b.show(), s(e)
-      }), n.addListener("overflow", function(e) {
-        e.direction === l.up && y.focus()
-      }), n.addListener("click:item", function(e) {
-        "symbol" === e.$item.data.className ? (y.addChar(e.$item.data.value, a), ++a) : e.$item.data.className.indexOf("keySpace") !== -1 ? (y.addChar(" ", a), a = y.getCaretPosition()) : e.$item.data.className.indexOf("keyDelete") !== -1 ? (y.removeChar(), a = y.getCaretPosition()) : e.$item.data.className.indexOf("delete") !== -1 && (y.setValue(""), a = y.getCaretPosition())
-      }), n.addListener("keydown", function() {
-        s({
-          value: y.value
-        })
-      }), $ = new u({
-        $node: document.getElementById("psListVideos"),
-        model: new h({
-          order: "relevance"
+  });
+  /** @type {number} */
+  var pos = 0;
+  /** @type {number} */
+  var _from_key = 0;
+  /** @type {number} */
+  var k = 0;
+  /** @type {number} */
+  var i = 1;
+  /** @type {number} */
+  var page = 0;
+  /** @type {number} */
+  var current = 1;
+  /** @type {number} */
+  var _takingTooLongTimeout = -1;
+  /** @type {boolean} */
+  var toPlayer = true;
+  /**
+   * @return {undefined}
+   */
+  self.activate = function() {
+    this.show();
+    clearTimeout(_takingTooLongTimeout);
+    /** @type {number} */
+    _takingTooLongTimeout = setTimeout(function() {
+      rebaseBtn.hide();
+    }, 1E4);
+    if (0 === nodes.length) {
+      rebaseBtn.show();
+      nodes.push(new ViewModel({
+        $node : document.getElementById("pmListMainVideos0Node"),
+        $body : document.getElementById("pmListMainVideos0Body"),
+        $title : document.getElementById("pmMainChannelTitle0"),
+        className : "listMovie0Node",
+        model : new Model({
+          type : "video"
         }),
-        className: "movieList",
-        size: 5,
-        events: {
-          keydown: function(e) {
-            switch (e.code) {
-              case l.down:
-                y.focus();
-                break;
-              case l.right:
-                this.$focusItem.index < this.data.length - 1 && (this.$focusItem.index > 0 ? (this.activePage++, this.renderView(this.activePage)) : this.focusIndex(1));
-                break;
-              case l.left:
-                this.activePage > 0 ? (this.activePage--, this.renderView(this.activePage)) : 1 === this.$focusItem.index ? this.focusIndex(0) : this.move(e.code);
-                break;
-              case l.ok:
-                this.emit("click:item", {
-                  $item: this.$focusItem,
-                  event: e
-                })
+        size : 5,
+        viewIndex : 0,
+        focusIndex : 0,
+        type : ActionClient.prototype.TYPE_HORIZONTAL,
+        events : {
+          overflow : function(data) {
+            if (data.direction === options.left) {
+              fbLargeCommandLine.focus();
             }
           },
-          "click:item": function(e) {
-            "video" === e.$item.data.type ? p.setContent({
-              video: e.$item.data,
-              playlist: this.data,
-              position: e.$item.index
-            }) : "playlist" === e.$item.data.type ? m.getPage({
-              playlistId: e.$item.data.playlistId
-            }, function(t, i) {
-              p.setContent({
-                channel: e.$item.data.channel,
-                video: i[0],
-                playlist: i,
-                position: 0
-              })
-            }) : "channel" === e.$item.data.type && c.route(c.pages.main, {
-              channel: e.$item.data
-            })
+          "view:ready" : function() {
+            self.focusEntry = nodes[index];
+            /** @type {number} */
+            nodes[k].$node.style.top = _from_key;
+            if (nodes[i]) {
+              nodes[i].$node.style.top = pos;
+            }
+            /** @type {string} */
+            this.$title.innerHTML = "";
+            if (nodes[index] && nodes[index].data.length > 0 && nodes[index].data[0].value) {
+              rebaseBtn.hide();
+              clearTimeout(_takingTooLongTimeout);
+            }
+            this.show();
+            nodes[index].focus();
+            /** @type {boolean} */
+            toPlayer = false;
           },
-          "view:ready": function() {
-            clearTimeout(I), b.hide(), this.show(), this.focusIndex(0)
+          "view:error" : function(undefined) {
+            /** @type {boolean} */
+            toPlayer = false;
+            if ("empty" === undefined) {
+              /** @type {!Array} */
+              this.data = [];
+              /** @type {null} */
+              this.viewIndex = null;
+              this.renderView(0);
+              this.focusIndex(0);
+              self.focusEntry = nodes[index];
+              /** @type {number} */
+              nodes[k].$node.style.top = _from_key;
+              if (nodes[i]) {
+                nodes[i].$node.style.top = pos;
+              }
+              this.$title.innerHTML = this.model.channel.title;
+              rebaseBtn.hide();
+              this.show();
+              clearTimeout(_takingTooLongTimeout);
+              nodes[index].focus();
+            } else {
+              if (0 === page) {
+                process(0, false);
+              }
+            }
+          },
+          "click:item" : function(context) {
+            if (context.$item.data.id) {
+              t.setContent({
+                channel : this.model.channel,
+                video : context.$item.data,
+                playlist : this.data,
+                position : context.$item.index
+              });
+            }
+          },
+          focus : function() {
+            self.focusEntry = this;
+          }
+        }
+      }));
+      nodes.push(new ViewModel({
+        $node : document.getElementById("pmListMainVideos1Node"),
+        $body : document.getElementById("pmListMainVideos1Body"),
+        $title : document.getElementById("pmMainChannelTitle1"),
+        className : "listMovie1Node",
+        model : new Model({
+          type : "video"
+        }),
+        size : 5,
+        viewIndex : 0,
+        focusIndex : 0,
+        type : ActionClient.prototype.TYPE_HORIZONTAL,
+        events : {
+          overflow : function(data) {
+            if (data.direction === options.left) {
+              fbLargeCommandLine.focus();
+            }
+          },
+          "view:ready" : function() {
+            self.focusEntry = nodes[index];
+            /** @type {number} */
+            nodes[k].$node.style.top = _from_key;
+            nodes[i].$node.style.top = pos;
+            /** @type {string} */
+            this.$title.innerHTML = "";
+            if (nodes[index] && nodes[index].data.length > 0 && nodes[index].data[0].value) {
+              rebaseBtn.hide();
+              clearTimeout(_takingTooLongTimeout);
+            }
+            this.show();
+            clearTimeout(_takingTooLongTimeout);
+            nodes[index].focus();
+            /** @type {boolean} */
+            toPlayer = false;
+          },
+          "view:error" : function(undefined) {
+            /** @type {boolean} */
+            toPlayer = false;
+            if ("empty" === undefined) {
+              /** @type {!Array} */
+              this.data = [{
+                id : "",
+                value : "",
+                publishedAt : "",
+                icon : "img/no.image.png",
+                duration : "",
+                title : gettext("No videos"),
+                channelTitle : "",
+                viewCount : "",
+                locale : {
+                  publishedAt : "",
+                  viewCount : "",
+                  channelTitle : ""
+                }
+              }];
+              /** @type {null} */
+              this.viewIndex = null;
+              this.renderView(0);
+              this.focusIndex(0);
+              self.focusEntry = nodes[index];
+              /** @type {number} */
+              nodes[k].$node.style.top = _from_key;
+              if (nodes[i]) {
+                nodes[i].$node.style.top = pos;
+              }
+              this.$title.innerHTML = this.model.channel.title;
+              this.show();
+              rebaseBtn.hide();
+              clearTimeout(_takingTooLongTimeout);
+              nodes[index].focus();
+            }
+          },
+          "click:item" : function(context) {
+            if (context.$item.data.id) {
+              t.setContent({
+                channel : this.model.channel,
+                video : context.$item.data,
+                playlist : this.data,
+                position : context.$item.index
+              });
+            }
+          },
+          focus : function() {
+            self.focusEntry = this;
+          }
+        }
+      }));
+      self.add(nodes[0]);
+      self.add(nodes[1]);
+      nodes[0].addListener("keydown", function(data) {
+        if (data.code === options.down) {
+          process(0, false);
+        } else {
+          if (data.code === options.up) {
+            if (page > 0) {
+              process(0, true);
+            } else {
+              d.focus();
+            }
+          } else {
+            if (data.code === options.playPause) {
+              t.setContent({
+                channel : this.model.channel,
+                video : this.$focusItem.data,
+                playlist : this.data,
+                position : this.$focusItem.index
+              });
+            }
+          }
+        }
+      });
+      nodes[1].addListener("keydown", function(data) {
+        if (data.code === options.down) {
+          process(1, false);
+        } else {
+          if (data.code === options.up) {
+            if (page > 0) {
+              process(1, true);
+            } else {
+              d.focus();
+            }
+          } else {
+            if (data.code === options.playPause) {
+              t.setContent({
+                channel : this.model.channel,
+                video : this.$focusItem.data,
+                playlist : this.data,
+                position : this.$focusItem.index
+              });
+            }
+          }
+        }
+      });
+      pos = window.getComputedStyle(nodes[1].$node).getPropertyValue("top");
+      model.getPage({
+        page : 0,
+        count : 1
+      }, function(canCreateDiscussions, groupExist) {
+        if (canCreateDiscussions) {
+          /** @type {!Array} */
+          groupExist = [];
+        }
+        /** @type {number} */
+        page = 0;
+        /** @type {number} */
+        k = 0;
+        /** @type {number} */
+        i = 1;
+        /** @type {number} */
+        current = 1;
+        /** @type {number} */
+        index = 0;
+        /** @type {!Object} */
+        nodes[k].data = groupExist;
+        /** @type {null} */
+        nodes[k].viewIndex = null;
+        nodes[k].renderView(0);
+        nodes[k].focusIndex(0);
+        nodes[k].emit("view:ready");
+        nodes[index].focus();
+        model.getPage({
+          page : 1,
+          count : 1
+        }, function(canCreateDiscussions, groupExist) {
+          if (canCreateDiscussions) {
+            /** @type {!Array} */
+            groupExist = [];
+          }
+          /** @type {!Object} */
+          nodes[i].data = groupExist;
+          /** @type {null} */
+          nodes[i].viewIndex = null;
+          nodes[i].renderView(0);
+          nodes[i].focusIndex(0);
+          nodes[i].emit("view:ready");
+        });
+      });
+    } else {
+      if (nodes[index].data.length) {
+        nodes[index].focus();
+      }
+    }
+    /** @type {!Array} */
+    window.lists = nodes;
+  };
+  self.add(d);
+  module.exports = self;
+}, function(module, canCreateDiscussions, require) {
+  /**
+   * @param {string} width
+   * @return {?}
+   */
+  function resolve(width) {
+    var packageId;
+    var a;
+    var n;
+    var s;
+    var r;
+    var t;
+    var awesomeIcon;
+    var name;
+    var crossfilterable_layers;
+    var p;
+    var i;
+    var albumIDwithAuthkey;
+    var layer_i;
+    var type;
+    var playlistId;
+    var hide;
+    /** @type {!Array} */
+    var items = [];
+    crossfilterable_layers = width.split('<li class="yt-shelf-grid-item');
+    /** @type {number} */
+    layer_i = 0;
+    for (; layer_i < crossfilterable_layers.length; layer_i++) {
+      if (albumIDwithAuthkey = crossfilterable_layers[layer_i], albumIDwithAuthkey.indexOf("yt-lockup-content") !== -1) {
+        if (albumIDwithAuthkey.indexOf("yt-lockup-playlist") !== -1) {
+          /** @type {string} */
+          type = "playlist";
+        } else {
+          if (albumIDwithAuthkey.indexOf("yt-lockup-video") === -1 || albumIDwithAuthkey.indexOf("branded-page-module") !== -1 || albumIDwithAuthkey.indexOf("data-set-reminder-text") !== -1) {
+            continue;
+          }
+          /** @type {string} */
+          type = "video";
+          /** @type {boolean} */
+          hide = albumIDwithAuthkey.indexOf("yt-badge-live") !== -1;
+        }
+        p = albumIDwithAuthkey.indexOf("//i.ytimg");
+        i = albumIDwithAuthkey.indexOf('"', p);
+        awesomeIcon = "https:" + albumIDwithAuthkey.substring(p, i).replace(/&amp;/g, "&");
+        if (albumIDwithAuthkey.indexOf('<a href="/channel/') === -1) {
+          if (albumIDwithAuthkey.indexOf("data-channel-external-id=") === -1) {
+            if (albumIDwithAuthkey.indexOf('<a href="/user/') === -1) {
+              /** @type {string} */
+              name = "";
+            } else {
+              p = albumIDwithAuthkey.indexOf('<a href="/user/') + 10;
+              i = albumIDwithAuthkey.indexOf('"', p);
+              name = albumIDwithAuthkey.substring(p, i);
+            }
+          } else {
+            p = albumIDwithAuthkey.indexOf('data-channel-external-id="') + 26;
+            i = albumIDwithAuthkey.indexOf('"', p);
+            name = "channel/" + albumIDwithAuthkey.substring(p, i);
+          }
+        } else {
+          p = albumIDwithAuthkey.indexOf('<a href="/channel/') + 10;
+          i = albumIDwithAuthkey.indexOf('"', p);
+          name = albumIDwithAuthkey.substring(p, i);
+        }
+        if ("playlist" === type) {
+          p = albumIDwithAuthkey.indexOf('" dir="ltr">') + 12;
+          i = albumIDwithAuthkey.indexOf("</a><span", p);
+          t = albumIDwithAuthkey.substring(p, i);
+          if (albumIDwithAuthkey.indexOf('<div class="yt-lockup-byline ">YouTube</div>') !== -1) {
+            /** @type {string} */
+            name = "";
+          }
+          p = albumIDwithAuthkey.indexOf('<a href="/watch?v=') + 9;
+          i = albumIDwithAuthkey.indexOf('"', p);
+          playlistId = albumIDwithAuthkey.substring(p, i).replace("&amp;", "&");
+          p = albumIDwithAuthkey.indexOf('" dir="ltr">') + 12;
+          i = albumIDwithAuthkey.indexOf("<", p);
+          a = albumIDwithAuthkey.substring(p, i);
+          items.push({
+            value : 1,
+            playlistId : playlistId,
+            channel : {
+              title : a.substr(0, 100),
+              id : name
+            },
+            title : t.substr(0, 100),
+            icon : awesomeIcon,
+            type : "playlist",
+            channelTitle : a.substr(0, 100),
+            viewCount : " ",
+            duration : " ",
+            publishedAt : " ",
+            locale : {
+              publishedAt : " ",
+              viewCount : " ",
+              channelTitle : a.substr(0, 100)
+            }
+          });
+        }
+        if ("video" === type) {
+          p = albumIDwithAuthkey.indexOf('data-context-item-id="') + 22;
+          i = albumIDwithAuthkey.indexOf('"', p);
+          packageId = albumIDwithAuthkey.substring(p, i);
+          p = albumIDwithAuthkey.indexOf('<span class="video-time" aria-hidden="true">') + 44;
+          i = albumIDwithAuthkey.indexOf("</span>", p);
+          n = albumIDwithAuthkey.substring(p, i);
+          p = albumIDwithAuthkey.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36;
+          i = albumIDwithAuthkey.indexOf(" ", p);
+          s = albumIDwithAuthkey.substring(p, i);
+          p = albumIDwithAuthkey.indexOf("</li><li>", p) + 9;
+          i = albumIDwithAuthkey.indexOf("</li></ul></div>", p);
+          r = albumIDwithAuthkey.substring(p, i);
+          p = albumIDwithAuthkey.indexOf('" dir="ltr">') + 12;
+          if (11 === p) {
+            p = albumIDwithAuthkey.indexOf(' dir="ltr">') + 11;
+            if (10 === p) {
+              p = albumIDwithAuthkey.indexOf('" dir="rtl">') + 12;
+            }
+          }
+          i = albumIDwithAuthkey.indexOf("</", p);
+          t = albumIDwithAuthkey.substring(p, i);
+          p = albumIDwithAuthkey.indexOf('<a href="', i);
+          p = albumIDwithAuthkey.indexOf(">", p) + 1;
+          i = albumIDwithAuthkey.indexOf("</a>", p);
+          a = albumIDwithAuthkey.substring(p, i);
+          items.push({
+            value : 1,
+            id : packageId,
+            channelTitle : a.substr(0, 100),
+            duration : hide ? "" : n.substr(0, 100),
+            realDuration : hide ? "" : n.substr(0, 100),
+            viewCount : s.substr(0, 100),
+            publishedAt : hide ? "" : r.substr(0, 100),
+            dimension : "",
+            definition : "",
+            title : t.substr(0, 100),
+            icon : awesomeIcon,
+            channelId : name,
+            type : "video",
+            locale : {
+              publishedAt : hide ? "" : r.substr(0, 100),
+              viewCount : s.substr(0, 100),
+              channelTitle : a.substr(0, 100)
+            }
+          });
+        }
+      }
+    }
+    return items;
+  }
+  /**
+   * @return {undefined}
+   */
+  function Router() {
+    NumericType.call(this);
+    this.pages = {};
+  }
+  var $ = require(49);
+  var ajax = $.ajax;
+  var NumericType = require(4);
+  /** @type {!Object} */
+  Router.prototype = Object.create(NumericType.prototype);
+  /** @type {function(): undefined} */
+  Router.prototype.constructor = Router;
+  /**
+   * @param {!Object} page
+   * @param {!Function} callback
+   * @return {undefined}
+   */
+  Router.prototype.getPage = function(page, callback) {
+    var state = this;
+    /** @type {number} */
+    page.page = +page.page || 0;
+    if (this.pages[page.page] && this.pages[page.page].parseId) {
+      if (this.pages[page.page].cached) {
+        callback(null, this.pages[page.page].data);
+      } else {
+        ajax("get", "https://www.youtube.com" + this.pages[page.page].parseId, function(cookie, mmCoreSecondsYear) {
+          var data;
+          var interestingPoint;
+          var a;
+          var b;
+          var resizewidth;
+          if (200 !== mmCoreSecondsYear) {
+            return void callback({
+              message : "request got bad http status (" + mmCoreSecondsYear + ")"
+            }, []);
+          }
+          try {
+            /** @type {*} */
+            data = JSON.parse(cookie);
+          } catch (viewportCenter) {
+            interestingPoint = viewportCenter;
+            /** @type {string} */
+            data = "";
+          }
+          return data ? (data.load_more_widget_html.trim().length > 10 ? (a = data.load_more_widget_html.indexOf('data-uix-load-more-href="') + 25, b = data.load_more_widget_html.indexOf('"', a), resizewidth = data.load_more_widget_html.substring(a, b).replace(/&amp;/g, "&")) : resizewidth = "", state.pages[page.page + 1] = {
+            parseId : resizewidth,
+            cached : false
+          }, state.pages[page.page].cached = true, state.pages[page.page].data = resolve(data.content_html), void callback(null, state.pages[page.page].data)) : void callback({
+            message : "parse error for page id " + state.pages[page.page].parseId,
+            code : interestingPoint
+          }, []);
+        });
+      }
+    } else {
+      if (page.page) {
+        if (this.pages[page.page] && !this.pages[page.page].parseId) {
+          callback(null, []);
+        } else {
+          callback({
+            message : "wrong page number (page id not found in cache)"
+          }, []);
+        }
+      } else {
+        ajax("get", "https://www.youtube.com/", function(s, a) {
+          var e;
+          var j;
+          var i;
+          return 200 !== a ? void callback({
+            message : "request got bad http status (" + a + ")"
+          }, []) : (j = s.indexOf('data-uix-load-more-href="') + 25, i = s.indexOf('"', j), state.pages[page.page + 1] = {
+            parseId : s.substring(j, i).replace(/&amp;/g, "&"),
+            cached : false
+          }, e = s.slice(s.indexOf('id="feed-main-'), s.indexOf('id="feed-error"')), state.pages[0] = {
+            cached : true,
+            parseId : "   ",
+            data : resolve(e)
+          }, void callback(null, state.pages[0].data));
+        });
+      }
+    }
+  };
+  /**
+   * @return {?}
+   */
+  Router.prototype.filter = function() {
+    return false;
+  };
+  /** @type {function(): undefined} */
+  module.exports = Router;
+}, function(context, canCreateDiscussions, $) {
+  var c;
+  var notifyComment;
+  var a;
+  /** @type {string} */
+  var i = "ps";
+  var options = $(13);
+  var self = $(1);
+  var $realtime = $(22);
+  var expected = $(58);
+  var RootView = $(37);
+  var model = $(59);
+  var n = $(36);
+  var that = new ($(60));
+  var v = $(61);
+  var Navigation = $(25);
+  var element = ($(15), new $realtime({
+    $node : document.getElementById(i)
+  }));
+  var input = new expected({
+    $node : document.getElementById("psSearch"),
+    $body : document.getElementById("psSearchInput")
+  });
+  var searchContactPanel = $(27);
+  /** @type {boolean} */
+  var x = true;
+  /** @type {string} */
+  var postcssUnprocessedInputText = " ";
+  /** @type {null} */
+  var ctrl = null;
+  /** @type {number} */
+  var _takingTooLongTimeout = -1;
+  element.addListener("keydown", function(event) {
+    if (event.code === options.back) {
+      self.route(self.pages.main);
+      /** @type {boolean} */
+      event.stop = true;
+    }
+  });
+  element.addListener("hide", function() {
+    searchContactPanel.hide();
+  });
+  notifyComment = v(function(action) {
+    postcssUnprocessedInputText = action.value;
+    ctrl.model.filter({
+      searchQuery : action.value
+    });
+    clearTimeout(_takingTooLongTimeout);
+    /** @type {number} */
+    _takingTooLongTimeout = setTimeout(function() {
+      searchContactPanel.hide();
+    }, 5E3);
+  }, 1E3);
+  element.addListener("show", function(match) {
+    match = match.data || {};
+    Navigation.updateView({
+      SEARCH : {
+        icon : "search",
+        visible : false,
+        text : ""
+      },
+      MORE : {
+        icon : "more",
+        visible : false,
+        text : ""
+      },
+      GUIDE : {
+        icon : "info",
+        visible : false,
+        text : ""
+      },
+      BACK : {
+        icon : "back",
+        visible : true,
+        text : gettext("Back")
+      }
+    });
+    searchContactPanel.hide();
+    if (!element.activeComponent) {
+      if (x) {
+        /** @type {string} */
+        window.psSearchIcon.style.display = "block";
+        setTimeout(function() {
+          /** @type {string} */
+          window.psSearchIcon.style.display = "inline-table";
+        }, 0);
+      }
+      if (!(null !== element.activeComponent && element.activeComponent !== input)) {
+        setTimeout(function() {
+          input.focus();
+          window.searchInput = input;
+          if (match.search) {
+            input.setValue(match.search);
+          }
+        }, 0);
+      }
+    }
+  });
+  (function() {
+    c = $(62);
+    input.addListener("keydown", function(event) {
+      if (event.code === options.down) {
+        a = input.getCaretPosition();
+        c.focus();
+      } else {
+        if (event.code === options.up && ctrl.visible) {
+          ctrl.focus();
+          if (!ctrl.$focusItem) {
+            ctrl.focusIndex(0);
+          }
+        } else {
+          if (event.code === options.back && 0 === this.$body.value.length) {
+            self.route(self.pages.main);
+            /** @type {boolean} */
+            event.stop = true;
+          }
+        }
+      }
+    });
+    input.addListener("input", function(comment) {
+      ctrl.hide();
+      searchContactPanel.show();
+      notifyComment(comment);
+    });
+    c.addListener("overflow", function(data) {
+      if (data.direction === options.up) {
+        input.focus();
+      }
+    });
+    c.addListener("click:item", function(context) {
+      if ("symbol" === context.$item.data.className) {
+        input.addChar(context.$item.data.value, a);
+        ++a;
+      } else {
+        if (context.$item.data.className.indexOf("keySpace") !== -1) {
+          input.addChar(" ", a);
+          a = input.getCaretPosition();
+        } else {
+          if (context.$item.data.className.indexOf("keyDelete") !== -1) {
+            input.removeChar();
+            a = input.getCaretPosition();
+          } else {
+            if (context.$item.data.className.indexOf("delete") !== -1) {
+              input.setValue("");
+              a = input.getCaretPosition();
+            }
+          }
+        }
+      }
+    });
+    c.addListener("keydown", function() {
+      notifyComment({
+        value : input.value
+      });
+    });
+    ctrl = new RootView({
+      $node : document.getElementById("psListVideos"),
+      model : new model({
+        order : "relevance"
+      }),
+      className : "movieList",
+      size : 5,
+      events : {
+        keydown : function(event) {
+          switch(event.code) {
+            case options.down:
+              input.focus();
+              break;
+            case options.right:
+              if (this.$focusItem.index < this.data.length - 1) {
+                if (this.$focusItem.index > 0) {
+                  this.activePage++;
+                  this.renderView(this.activePage);
+                } else {
+                  this.focusIndex(1);
+                }
+              }
+              break;
+            case options.left:
+              if (this.activePage > 0) {
+                this.activePage--;
+                this.renderView(this.activePage);
+              } else {
+                if (1 === this.$focusItem.index) {
+                  this.focusIndex(0);
+                } else {
+                  this.move(event.code);
+                }
+              }
+              break;
+            case options.ok:
+              this.emit("click:item", {
+                $item : this.$focusItem,
+                event : event
+              });
           }
         },
-        render: function(e, t) {
-          var i, n, s;
-          e.ready ? (e.$videoThumb.className = "thumb " + t.type, e.$videoThumb.style.backgroundImage = "url(" + t.icon + ")", e.$videoTitle.innerText = t.title, e.$videoTitle.className = "title " + t.type, e.$videoAthour.className = "uploader " + t.type, "video" === t.type ? (e.$videoAthour.innerText = t.locale.channelTitle, e.$viewCounter.innerText = t.locale.viewCount, e.$dateAdded.innerText = t.locale.publishedAt, e.$videoDuration.innerText = t.duration) : "channel" === t.type ? (e.$videoAthour.innerText = t.locale.subscriberCount, e.$viewCounter.innerText = "", e.$dateAdded.innerText = "", e.$videoDuration.innerText = "") : (e.$videoAthour.innerText = t.locale.channelTitle, e.$viewCounter.innerText = "", e.$dateAdded.innerText = "", e.$videoDuration.innerText = ""), "playlist" === t.type ? e.$videoDuration.className = "icon playlist" : e.$videoDuration.className = "duration") : (i = document.createElement("div"), i.className = "container", e.appendChild(i), n = document.createElement("div"), n.className = "tileTop", i.appendChild(n), s = document.createElement("div"), s.className = "tileBottom", i.appendChild(s), e.$videoThumb = document.createElement("div"), e.$videoThumb.className = "thumb " + t.type, e.$videoThumb.style.backgroundImage = "url(" + t.icon + ")", n.appendChild(e.$videoThumb), e.$videoDuration = document.createElement("div"), "playlist" === t.type ? e.$videoDuration.className = "icon playlist" : e.$videoDuration.className = "duration", t.duration ? e.$videoDuration.innerText = t.duration : e.$videoDuration.innerText = "", n.appendChild(e.$videoDuration), e.$videoTitle = document.createElement("div"), e.$videoTitle.className = "title " + t.type, e.$videoTitle.innerText = t.title, s.appendChild(e.$videoTitle), e.$videoAthour = document.createElement("div"), e.$videoAthour.className = "uploader " + t.type, t.channelTitle ? e.$videoAthour.innerText = t.locale.channelTitle : "channel" === t.type ? e.$videoAthour.innerText = t.locale.subscriberCount : e.$videoAthour.innerText = "", s.appendChild(e.$videoAthour), e.$viewCounter = document.createElement("div"), e.$viewCounter.className = "viewCount", "video" === t.type ? e.$viewCounter.innerText = t.locale.viewCount : e.$viewCounter.innerText = "", s.appendChild(e.$viewCounter), e.$dateAdded = document.createElement("div"), e.$dateAdded.className = "uploaded", "video" === t.type ? e.$dateAdded.innerText = t.locale.publishedAt : e.$dateAdded.innerText = "", s.appendChild(e.$dateAdded), e.ready = !0)
+        "click:item" : function(context) {
+          if ("video" === context.$item.data.type) {
+            n.setContent({
+              video : context.$item.data,
+              playlist : this.data,
+              position : context.$item.index
+            });
+          } else {
+            if ("playlist" === context.$item.data.type) {
+              that.getPage({
+                playlistId : context.$item.data.playlistId
+              }, function(canCreateDiscussions, results) {
+                n.setContent({
+                  channel : context.$item.data.channel,
+                  video : results[0],
+                  playlist : results,
+                  position : 0
+                });
+              });
+            } else {
+              if ("channel" === context.$item.data.type) {
+                self.route(self.pages.main, {
+                  channel : context.$item.data
+                });
+              }
+            }
+          }
+        },
+        "view:ready" : function() {
+          clearTimeout(_takingTooLongTimeout);
+          searchContactPanel.hide();
+          this.show();
+          this.focusIndex(0);
         }
-      })
-    }(), e.exports = g
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    var t = this;
-    this.value = "", this.type = this.TYPE_TEXT, this.type = this.TYPE_TEXT, this.direction = "ltr", this.noprevent = !0, e = e || {}, e.className = "inputNative " + (e.className || ""), s.call(this, e), this.init(e), this.addListener("keydown", function(e) {
-      e.code === a.back && (e.stop = !0)
-    }), this.$body.addEventListener("input", function(e) {
-      t.value = t.$body.value, void 0 !== t.events["input"] && t.emit("input", {
-        value: t.$body.value
-      })
-    }), this.addListener("focus", function() {
-      t.$body.focus()
-    }), this.addListener("blur", function() {
-      t.$body.blur()
-    })
-  }
-  var s = i(31),
-    a = i(13);
-  n.prototype = Object.create(s.prototype), n.prototype.constructor = n, n.prototype.init = function(e) {
-    void 0 !== e.type && (this.$body.type = this.type = e.type), void 0 !== e.value && (this.$body.value = this.value = e.value), void 0 !== e.placeholder && (this.$body.placeholder = e.placeholder), void 0 !== e.direction && (this.$node.dir = this.direction = e.direction)
-  }, n.prototype.addChar = function(e, t) {
-    t = void 0 === t ? this.value.length : t, this.value = this.value.substring(0, t) + e + this.value.substring(t, this.value.length), this.$body.value = this.value, void 0 !== this.events["input"] && this.emit("input", {
-      value: this.value
-    })
-  }, n.prototype.removeChar = function(e) {
-    e = void 0 === e ? this.value.length - 1 : e, this.value.length > 0 && (this.value = this.value.substring(0, e) + this.value.substring(e + 1, this.value.length), this.$body.value = this.value, void 0 !== this.events["input"] && this.emit("input", {
-      value: this.value
-    })), this.$body.value = this.value
-  }, n.prototype.setCaretPosition = function(e) {
-    this.$body.setSelectionRange(e, e)
-  }, n.prototype.getCaretPosition = function() {
-    return this.$body.selectionStart
-  }, n.prototype.setValue = function(e) {
-    this.value !== e && (this.value = e, this.$body.value = this.value, void 0 !== this.events["input"] && this.emit("input", {
-      value: this.value
-    }))
-  }, e.exports = n
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    var t, i, n, s, a, o, l, c, r, d, u, h, p, m, v, f, g, y, b = [];
-    for (v = e.split('<div class="yt-lockup yt-lockup-tile '), f = 0; f < v.length; f++)
-      if (g = v[f], g.indexOf("yt-lockup-content") !== -1) {
-        if (g.indexOf("yt-lockup-playlist") !== -1) t = "playlist";
-        else if (g.indexOf("yt-lockup-channel") !== -1) t = "channel";
-        else {
-          if (g.indexOf("yt-lockup-video") === -1 || g.indexOf("branded-page-module") !== -1 || g.indexOf("data-set-reminder-text") !== -1) continue;
-          y = g.indexOf("yt-badge-live") !== -1, t = "video"
+      },
+      render : function(node, data) {
+        var body;
+        var n;
+        var s;
+        if (node.ready) {
+          /** @type {string} */
+          node.$videoThumb.className = "thumb " + data.type;
+          /** @type {string} */
+          node.$videoThumb.style.backgroundImage = "url(" + data.icon + ")";
+          node.$videoTitle.innerText = data.title;
+          /** @type {string} */
+          node.$videoTitle.className = "title " + data.type;
+          /** @type {string} */
+          node.$videoAthour.className = "uploader " + data.type;
+          if ("video" === data.type) {
+            node.$videoAthour.innerText = data.locale.channelTitle;
+            node.$viewCounter.innerText = data.locale.viewCount;
+            node.$dateAdded.innerText = data.locale.publishedAt;
+            node.$videoDuration.innerText = data.duration;
+          } else {
+            if ("channel" === data.type) {
+              node.$videoAthour.innerText = data.locale.subscriberCount;
+              /** @type {string} */
+              node.$viewCounter.innerText = "";
+              /** @type {string} */
+              node.$dateAdded.innerText = "";
+              /** @type {string} */
+              node.$videoDuration.innerText = "";
+            } else {
+              node.$videoAthour.innerText = data.locale.channelTitle;
+              /** @type {string} */
+              node.$viewCounter.innerText = "";
+              /** @type {string} */
+              node.$dateAdded.innerText = "";
+              /** @type {string} */
+              node.$videoDuration.innerText = "";
+            }
+          }
+          if ("playlist" === data.type) {
+            /** @type {string} */
+            node.$videoDuration.className = "icon playlist";
+          } else {
+            /** @type {string} */
+            node.$videoDuration.className = "duration";
+          }
+        } else {
+          /** @type {!Element} */
+          body = document.createElement("div");
+          /** @type {string} */
+          body.className = "container";
+          node.appendChild(body);
+          /** @type {!Element} */
+          n = document.createElement("div");
+          /** @type {string} */
+          n.className = "tileTop";
+          body.appendChild(n);
+          /** @type {!Element} */
+          s = document.createElement("div");
+          /** @type {string} */
+          s.className = "tileBottom";
+          body.appendChild(s);
+          /** @type {!Element} */
+          node.$videoThumb = document.createElement("div");
+          /** @type {string} */
+          node.$videoThumb.className = "thumb " + data.type;
+          /** @type {string} */
+          node.$videoThumb.style.backgroundImage = "url(" + data.icon + ")";
+          n.appendChild(node.$videoThumb);
+          /** @type {!Element} */
+          node.$videoDuration = document.createElement("div");
+          if ("playlist" === data.type) {
+            /** @type {string} */
+            node.$videoDuration.className = "icon playlist";
+          } else {
+            /** @type {string} */
+            node.$videoDuration.className = "duration";
+          }
+          if (data.duration) {
+            node.$videoDuration.innerText = data.duration;
+          } else {
+            /** @type {string} */
+            node.$videoDuration.innerText = "";
+          }
+          n.appendChild(node.$videoDuration);
+          /** @type {!Element} */
+          node.$videoTitle = document.createElement("div");
+          /** @type {string} */
+          node.$videoTitle.className = "title " + data.type;
+          node.$videoTitle.innerText = data.title;
+          s.appendChild(node.$videoTitle);
+          /** @type {!Element} */
+          node.$videoAthour = document.createElement("div");
+          /** @type {string} */
+          node.$videoAthour.className = "uploader " + data.type;
+          if (data.channelTitle) {
+            node.$videoAthour.innerText = data.locale.channelTitle;
+          } else {
+            if ("channel" === data.type) {
+              node.$videoAthour.innerText = data.locale.subscriberCount;
+            } else {
+              /** @type {string} */
+              node.$videoAthour.innerText = "";
+            }
+          }
+          s.appendChild(node.$videoAthour);
+          /** @type {!Element} */
+          node.$viewCounter = document.createElement("div");
+          /** @type {string} */
+          node.$viewCounter.className = "viewCount";
+          if ("video" === data.type) {
+            node.$viewCounter.innerText = data.locale.viewCount;
+          } else {
+            /** @type {string} */
+            node.$viewCounter.innerText = "";
+          }
+          s.appendChild(node.$viewCounter);
+          /** @type {!Element} */
+          node.$dateAdded = document.createElement("div");
+          /** @type {string} */
+          node.$dateAdded.className = "uploaded";
+          if ("video" === data.type) {
+            node.$dateAdded.innerText = data.locale.publishedAt;
+          } else {
+            /** @type {string} */
+            node.$dateAdded.innerText = "";
+          }
+          s.appendChild(node.$dateAdded);
+          /** @type {boolean} */
+          node.ready = true;
         }
-        p = g.indexOf("//i.ytimg"), m = g.indexOf('"', p), c = "https:" + g.substring(p, m).replace(/&amp;/g, "&"), p = g.indexOf('" dir="ltr">') + 12, 11 === p && (p = g.indexOf(' dir="ltr">') + 11, 10 === p && (p = g.indexOf('" dir="rtl">') + 12)), m = g.indexOf("</", p), l = g.substring(p, m), g.indexOf('<a href="/channel/') === -1 ? g.indexOf("data-channel-external-id=") === -1 ? g.indexOf('<a href="/user/') === -1 ? r = "" : (p = g.indexOf('<a href="/user/') + 10, m = g.indexOf('"', p), r = g.substring(p, m)) : (p = g.indexOf('data-channel-external-id="') + 26, m = g.indexOf('"', p), r = "channel/" + g.substring(p, m)) : (p = g.indexOf('<a href="/channel/') + 10, m = g.indexOf('"', p), r = g.substring(p, m)), "playlist" === t && (g.indexOf('<div class="yt-lockup-byline ">YouTube</div>') !== -1 && (r = ""), p = g.indexOf('<a href="/watch?v=') + 9, m = g.indexOf('"', p), d = g.substring(p, m).replace("&amp;", "&"), p = g.indexOf('" dir="ltr">', m) + 12, m = g.indexOf("<", p), n = g.substring(p, m), b.push({
-          value: 1,
-          playlistId: d,
-          channel: {
-            title: n.substr(0, 100),
-            id: r
-          },
-          title: l.substr(0, 100),
-          icon: c,
-          type: "playlist",
-          channelTitle: n.substr(0, 100),
-          viewCount: " ",
-          duration: " ",
-          publishedAt: " ",
-          locale: {
-            publishedAt: " ",
-            viewCount: " ",
-            channelTitle: n.substr(0, 100)
-          }
-        })), "video" === t && (p = g.indexOf('href="/watch?v=') + 15, m = g.indexOf('"', p), i = g.substring(p, m), p = g.indexOf('<a href="', p), p = g.indexOf(">", p) + 1, m = g.indexOf("</a>", p), n = g.substring(p, m), p = g.indexOf('<span class="video-time" aria-hidden="true">') + 44, 43 === p && (p = g.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36), m = g.indexOf("</", p), s = g.substring(p, m), p = g.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36, m = g.indexOf("</", p), o = g.substring(p, m), y ? (p = g.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36, m = g.indexOf("<", p)) : (p = g.indexOf("</li><li>", p) + 9, m = g.indexOf(" ", p)), a = g.substring(p, m), b.push({
-          value: 1,
-          id: i,
-          channelTitle: n.substr(0, 100),
-          duration: y ? "" : s.substr(0, 100),
-          realDuration: y ? "" : s.substr(0, 100),
-          viewCount: a.substr(0, 100),
-          publishedAt: y ? "" : o.substr(0, 100),
-          dimension: "",
-          definition: "",
-          title: l.substr(0, 100),
-          icon: c,
-          channelId: r,
-          type: "video",
-          locale: {
-            publishedAt: y ? "" : o.substr(0, 100),
-            viewCount: a.substr(0, 100),
-            channelTitle: n.substr(0, 100)
-          }
-        })), "channel" === t && (p = g.indexOf("//yt"), m = g.indexOf('"', p), c = "https:" + g.substring(p, m), p = g.indexOf('" dir="ltr">') + 12, m = g.indexOf("<", p), l = g.substring(p, m), g.indexOf("yt-channel-title-autogenerated") === -1 ? (p = g.indexOf('"yt-lockup-meta-info"><li>') + 26, m = g.indexOf(" ", p), u = g.substring(p, m)) : u = "", p = g.indexOf('yt-subscriber-count" title="') + 28, m = g.indexOf('"', p), h = g.substring(p, m), b.push({
-          value: 1,
-          id: r,
-          title: l.substr(0, 100),
-          icon: c,
-          type: "channel",
-          viewCount: "",
-          commentCount: "",
-          subscriberCount: h.substr(0, 100),
-          hiddenSubscriberCount: "",
-          videoCount: u.substr(0, 100),
-          locale: {
-            subscriberCount: h.substr(0, 100)
-          }
-        }))
-      } return b
-  }
-
-  function s(e) {
-    l.call(this), this.pages = {}, this.searchQuery = "", this.filter(e)
-  }
-  var a = i(49),
-    o = a.ajax,
-    l = i(4);
-  s.prototype = Object.create(l.prototype), s.prototype.constructor = s, s.prototype.getPage = function(e, t) {
-    var i = this;
-    e.page = +e.page || 0, this.pages[e.page] && this.pages[e.page].parseId ? this.pages[e.page].cached ? t(null, this.pages[e.page].data) : o("get", "https://www.youtube.com" + this.pages[e.page].parseId, function(s, a) {
-      var o, l, c, r;
-      return 200 !== a ? void t({
-        message: "request got bad http status (" + a + ")"
-      }, []) : (l = s.indexOf('class="branded-page-box search-pager'), c = s.indexOf('class="branded-page-v2-secondary-col', l), o = s.substring(l, c), o = o.split('<a href="'), o[o.length - 1] && o[o.length - 1].indexOf("»") !== -1 ? (l = o[o.length - 1].indexOf('href="/results?') + 6, c = o[o.length - 1].indexOf('"', l),
-        r = o[o.length - 1].substring(l, c).replace("&amp;", "&")) : r = "", i.pages[e.page + 1] = {
-        parseId: r,
-        cached: !1
-      }, o = s.slice(s.indexOf('id="item-section-'), s.indexOf('class="branded-page-box search-pager')), i.pages[e.page] = {
-        cached: !0,
-        data: n(o)
-      }, void t(null, i.pages[e.page].data))
-    }) : e.page ? this.pages[e.page] && !this.pages[e.page].parseId ? t(null, []) : t({
-      message: "wrong page number (page id not found in cache)"
-    }, []) : o("get", "https://www.youtube.com/results?search_query=" + this.searchQuery, function(s, a) {
-      var o, l, c, r;
-      return 200 !== a ? void t({
-        message: "request got bad http status (" + a + ")"
-      }, []) : (l = s.indexOf('class="branded-page-box search-pager'), c = s.indexOf('class="branded-page-v2-secondary-col', l), o = s.substring(l, c), o = o.split('<a href="'), o[o.length - 1] && o[o.length - 1].indexOf("»") !== -1 ? (l = o[o.length - 1].indexOf('href="/results?') + 6, c = o[o.length - 1].indexOf('"', l), r = o[o.length - 1].substring(l, c).replace("&amp;", "&")) : r = "", i.pages[e.page + 1] = {
-        parseId: r,
-        cached: !1
-      }, o = s.slice(s.indexOf('id="item-section-'), s.indexOf('class="branded-page-box search-pager')), i.pages[0] = {
-        cached: !0,
-        parseId: "/results?search_query=" + i.searchQuery,
-        data: n(o)
-      }, void t(null, i.pages[0].data))
-    })
-  }, s.prototype.filter = function(e) {
-    var t = !1;
-    return void 0 !== e.searchQuery && this.searchQuery !== e.searchQuery && (t = !0, this.searchQuery = e.searchQuery), !!t && (this.pages = {}, this.emit("content:changed", e), !0)
-  }, e.exports = s
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e, t) {
-    var i, n, s, a, o, l, c, r, d, u = [];
-    for (o = e.split('<li class="yt-uix-scroller-scroll-unit'), d = 0; d < o.length; d++) r = o[d], r.indexOf('<div class="playlist-video-description">') !== -1 && (l = r.indexOf('<span class="video-uploader-byline">') + 36, c = r.indexOf("</span>", l), r.substring(l, c).trim() && (l = r.indexOf('data-video-id="') + 15, c = r.indexOf('"', l), i = r.substring(l, c), l = r.indexOf('data-video-title="') + 18, c = r.indexOf('"', l), s = r.substring(l, c), l = r.indexOf('="https://i.ytimg') + 2, c = r.indexOf('"', l), a = r.substring(l, c).replace(/&amp;/g, "&"), l = r.indexOf('data-video-username="') + 21, c = r.indexOf('"', l), n = r.substring(l, c), u.push({
-      value: 1,
-      id: i,
-      channelTitle: n,
-      duration: " ",
-      realDuration: " ",
-      viewCount: " ",
-      publishedAt: " ",
-      dimension: "",
-      definition: "",
-      title: s,
-      icon: a,
-      channelId: t,
-      type: "video",
-      locale: {
-        publishedAt: " ",
-        viewCount: " ",
-        channelTitle: n
       }
-    })));
-    return u
-  }
-
-  function s() {
-    l.call(this), this.pages = {}, this.playlistId = null
-  }
-  var a = i(49),
-    o = a.ajax,
-    l = i(4);
-  s.prototype = Object.create(l.prototype), s.prototype.constructor = s, s.prototype.getPage = function(e, t) {
-    var i = this;
-    return e.page = e.page || 0, e.playlistId ? (e.playlistId !== this.playlistId && (this.playlistId = e.playlistId, this.pages = {}), e.page ? void t(null, []) : void(this.pages[0] ? t(null, this.pages[0].data) : o("get", "https://www.youtube.com" + e.playlistId, function(s, a) {
-      var o, l, c, r;
-      return 200 !== a ? void t({
-        message: "request got bad http status (" + a + ")"
-      }, []) : (l = s.indexOf('<a href="/channel/') + 10, c = s.indexOf('"', l), r = s.substring(l, c), l = s.indexOf('id="playlist-autoscroll-list"'), c = s.indexOf('id="placeholder-player"', l), o = s.slice(l, c), i.pages[0] = {
-        cached: !0,
-        parseId: e.playlistId.replace(/&amp;/g, "&"),
-        data: n(o, r)
-      }, void t(null, i.pages[0].data))
-    }))) : void t({
-      message: "error: field arguments[0].playlistId is empty"
-    }, [])
-  }, s.prototype.filter = function() {
-    return !1
-  }, e.exports = s
-}, function(e, t) {
-  "use strict";
-  e.exports = function(e, t) {
-    var i;
-    return function() {
-      var n = this,
-        s = arguments;
-      clearTimeout(i), i = setTimeout(function() {
-        i = null, e.apply(n, s)
-      }, t)
-    }
-  }
-}, function(e, t, i) {
-  "use strict";
-  var n, s = i(1),
-    a = i(63),
-    o = i(42),
-    l = i(15),
-    c = new a({
-      $node: document.getElementById("psKeyboard"),
-      className: "keyList",
-      cycleY: !1,
-      events: {
-        "click:item": function(e) {
-          e.$item.data.className.indexOf("keyGlobe") !== -1 ? (s.settings.keyboardLanguage = o.nextLang(s.settings.keyboardLanguage), this.viewIndex = null, this.init({
-            data: i(65)("./" + l.languages[s.settings.keyboardLanguage])
-          }), this.focusItem(n), window.top.gSTB.SetInputLang(l.languages[s.settings.keyboardLanguage])) : e.$item.data.className.indexOf("nums") !== -1 ? this.init({
-            data: [
-              [{
-                value: "1",
-                className: "symbol"
-              }, {
-                value: "2",
-                className: "symbol"
-              }, {
-                value: "3",
-                className: "symbol"
-              }, {
-                value: "^",
-                className: "symbol"
-              }, {
-                value: "`",
-                className: "symbol"
-              }, {
-                value: "!",
-                className: "symbol"
-              }, {
-                value: "#",
-                className: "symbol"
-              }, {
-                value: "$",
-                className: "symbol"
-              }, {
-                value: "%",
-                className: "symbol"
-              }],
-              [{
-                value: "4",
-                className: "symbol"
-              }, {
-                value: "5",
-                className: "symbol"
-              }, {
-                value: "6",
-                className: "symbol"
-              }, {
-                value: "&",
-                className: "symbol"
-              }, {
-                value: "(",
-                className: "symbol"
-              }, {
-                value: ")",
-                className: "symbol"
-              }, {
-                value: "*",
-                className: "symbol"
-              }, {
-                value: ";",
-                className: "symbol"
-              }, {
-                value: ":",
-                className: "symbol"
-              }],
-              [{
-                value: "7",
-                className: "symbol"
-              }, {
-                value: "8",
-                className: "symbol"
-              }, {
-                value: "9",
-                className: "symbol"
-              }, {
-                value: "~",
-                className: "symbol"
-              }, {
-                value: "/",
-                className: "symbol"
-              }, {
-                value: "|",
-                className: "symbol"
-              }, {
-                value: "%",
-                className: "symbol"
-              }, {
-                value: ":",
-                className: "symbol"
-              }, {
-                value: "?",
-                className: "symbol"
-              }],
-              [{
-                value: "№",
-                className: "symbol"
-              }, {
-                value: "0",
-                className: "symbol"
-              }, {
-                value: "[",
-                className: "symbol"
-              }, {
-                value: "]",
-                className: "symbol"
-              }, {
-                value: '"',
-                className: "symbol"
-              }, {
-                value: "'",
-                className: "symbol"
-              }, {
-                value: "{",
-                className: "symbol"
-              }, {
-                value: "}",
-                className: "symbol"
-              }, {
-                value: "ABC",
-                className: "symbol letters"
-              }]
-            ]
-          }) : e.$item.data.className.indexOf("letters") !== -1 && this.init({
-            data: i(65)("./" + l.languages[s.settings.keyboardLanguage])
-          })
-        }
-      },
-      render: function(e, t) {
-        "keyGlobe" === t.className ? (e.innerHTML = l.languagesCodeLocalized[s.settings.keyboardLanguage], n = e) : e.innerHTML = t.value, t.className && (e.className = "item " + t.className)
-      },
-      data: i(65)("./" + l.languages[s.settings.keyboardLanguage])
     });
-  window.top.gSTB.SetInputLang(l.languages[s.settings.keyboardLanguage]), e.exports = c
-}, function(e, t, i) {
-  "use strict";
-  e.exports = i(64), e.exports.prototype.name = "stb-component-grid"
-}, function(e, t, i) {
-  "use strict";
-
-  function n(e) {
-    e = e || {}, this.map = [], this.$focusItem = null, this.data = [], this.cycleX = !0, this.cycleY = !0, this.focusX = 0, this.focusY = 0, l.call(this, e), this.init(e)
+  })();
+  context.exports = element;
+}, function(context, canCreateDiscussions, parse) {
+  /**
+   * @param {!Object} config
+   * @return {undefined}
+   */
+  function init(config) {
+    var that = this;
+    /** @type {string} */
+    this.value = "";
+    this.type = this.TYPE_TEXT;
+    this.type = this.TYPE_TEXT;
+    /** @type {string} */
+    this.direction = "ltr";
+    /** @type {boolean} */
+    this.noprevent = true;
+    config = config || {};
+    /** @type {string} */
+    config.className = "inputNative " + (config.className || "");
+    b.call(this, config);
+    this.init(config);
+    this.addListener("keydown", function(event) {
+      if (event.code === options.back) {
+        /** @type {boolean} */
+        event.stop = true;
+      }
+    });
+    this.$body.addEventListener("input", function(canCreateDiscussions) {
+      that.value = that.$body.value;
+      if (void 0 !== that.events["input"]) {
+        that.emit("input", {
+          value : that.$body.value
+        });
+      }
+    });
+    this.addListener("focus", function() {
+      that.$body.focus();
+    });
+    this.addListener("blur", function() {
+      that.$body.blur();
+    });
   }
-
-  function s(e) {
-    var t, i, n;
-    for (t = 0; t < e.length; t++)
-      for (i = 0; i < e[t].length; i++) n = e[t][i], "object" == typeof n ? (n.colSpan = n.colSpan || 1, n.rowSpan = n.rowSpan || 1) : n = e[t][i] = {
-        value: e[t][i],
-        colSpan: 1,
-        rowSpan: 1
-      };
-    return e
+  var b = parse(31);
+  var options = parse(13);
+  /** @type {!Object} */
+  init.prototype = Object.create(b.prototype);
+  /** @type {function(!Object): undefined} */
+  init.prototype.constructor = init;
+  /**
+   * @param {!Object} data
+   * @return {undefined}
+   */
+  init.prototype.init = function(data) {
+    if (void 0 !== data.type) {
+      this.$body.type = this.type = data.type;
+    }
+    if (void 0 !== data.value) {
+      this.$body.value = this.value = data.value;
+    }
+    if (void 0 !== data.placeholder) {
+      this.$body.placeholder = data.placeholder;
+    }
+    if (void 0 !== data.direction) {
+      this.$node.dir = this.direction = data.direction;
+    }
+  };
+  /**
+   * @param {string} char
+   * @param {number} index
+   * @return {undefined}
+   */
+  init.prototype.addChar = function(char, index) {
+    index = void 0 === index ? this.value.length : index;
+    this.value = this.value.substring(0, index) + char + this.value.substring(index, this.value.length);
+    this.$body.value = this.value;
+    if (void 0 !== this.events["input"]) {
+      this.emit("input", {
+        value : this.value
+      });
+    }
+  };
+  /**
+   * @param {number} index
+   * @return {undefined}
+   */
+  init.prototype.removeChar = function(index) {
+    index = void 0 === index ? this.value.length - 1 : index;
+    if (this.value.length > 0) {
+      this.value = this.value.substring(0, index) + this.value.substring(index + 1, this.value.length);
+      this.$body.value = this.value;
+      if (void 0 !== this.events["input"]) {
+        this.emit("input", {
+          value : this.value
+        });
+      }
+    }
+    this.$body.value = this.value;
+  };
+  /**
+   * @param {number} start
+   * @return {undefined}
+   */
+  init.prototype.setCaretPosition = function(start) {
+    this.$body.setSelectionRange(start, start);
+  };
+  /**
+   * @return {?}
+   */
+  init.prototype.getCaretPosition = function() {
+    return this.$body.selectionStart;
+  };
+  /**
+   * @param {string} value
+   * @return {undefined}
+   */
+  init.prototype.setValue = function(value) {
+    if (this.value !== value) {
+      /** @type {string} */
+      this.value = value;
+      this.$body.value = this.value;
+      if (void 0 !== this.events["input"]) {
+        this.emit("input", {
+          value : this.value
+        });
+      }
+    }
+  };
+  /** @type {function(!Object): undefined} */
+  context.exports = init;
+}, function(module, canCreateDiscussions, require) {
+  /**
+   * @param {string} src
+   * @return {?}
+   */
+  function parse(src) {
+    var type;
+    var c;
+    var r;
+    var m;
+    var config;
+    var sum;
+    var h;
+    var awesomeIcon;
+    var name;
+    var playlistId;
+    var js;
+    var n;
+    var data;
+    var o;
+    var crossfilterable_layers;
+    var layer_i;
+    var cmp;
+    var hide;
+    /** @type {!Array} */
+    var items = [];
+    crossfilterable_layers = src.split('<div class="yt-lockup yt-lockup-tile ');
+    /** @type {number} */
+    layer_i = 0;
+    for (; layer_i < crossfilterable_layers.length; layer_i++) {
+      if (cmp = crossfilterable_layers[layer_i], cmp.indexOf("yt-lockup-content") !== -1) {
+        if (cmp.indexOf("yt-lockup-playlist") !== -1) {
+          /** @type {string} */
+          type = "playlist";
+        } else {
+          if (cmp.indexOf("yt-lockup-channel") !== -1) {
+            /** @type {string} */
+            type = "channel";
+          } else {
+            if (cmp.indexOf("yt-lockup-video") === -1 || cmp.indexOf("branded-page-module") !== -1 || cmp.indexOf("data-set-reminder-text") !== -1) {
+              continue;
+            }
+            /** @type {boolean} */
+            hide = cmp.indexOf("yt-badge-live") !== -1;
+            /** @type {string} */
+            type = "video";
+          }
+        }
+        data = cmp.indexOf("//i.ytimg");
+        o = cmp.indexOf('"', data);
+        awesomeIcon = "https:" + cmp.substring(data, o).replace(/&amp;/g, "&");
+        data = cmp.indexOf('" dir="ltr">') + 12;
+        if (11 === data) {
+          data = cmp.indexOf(' dir="ltr">') + 11;
+          if (10 === data) {
+            data = cmp.indexOf('" dir="rtl">') + 12;
+          }
+        }
+        o = cmp.indexOf("</", data);
+        h = cmp.substring(data, o);
+        if (cmp.indexOf('<a href="/channel/') === -1) {
+          if (cmp.indexOf("data-channel-external-id=") === -1) {
+            if (cmp.indexOf('<a href="/user/') === -1) {
+              /** @type {string} */
+              name = "";
+            } else {
+              data = cmp.indexOf('<a href="/user/') + 10;
+              o = cmp.indexOf('"', data);
+              name = cmp.substring(data, o);
+            }
+          } else {
+            data = cmp.indexOf('data-channel-external-id="') + 26;
+            o = cmp.indexOf('"', data);
+            name = "channel/" + cmp.substring(data, o);
+          }
+        } else {
+          data = cmp.indexOf('<a href="/channel/') + 10;
+          o = cmp.indexOf('"', data);
+          name = cmp.substring(data, o);
+        }
+        if ("playlist" === type) {
+          if (cmp.indexOf('<div class="yt-lockup-byline ">YouTube</div>') !== -1) {
+            /** @type {string} */
+            name = "";
+          }
+          data = cmp.indexOf('<a href="/watch?v=') + 9;
+          o = cmp.indexOf('"', data);
+          playlistId = cmp.substring(data, o).replace("&amp;", "&");
+          data = cmp.indexOf('" dir="ltr">', o) + 12;
+          o = cmp.indexOf("<", data);
+          r = cmp.substring(data, o);
+          items.push({
+            value : 1,
+            playlistId : playlistId,
+            channel : {
+              title : r.substr(0, 100),
+              id : name
+            },
+            title : h.substr(0, 100),
+            icon : awesomeIcon,
+            type : "playlist",
+            channelTitle : r.substr(0, 100),
+            viewCount : " ",
+            duration : " ",
+            publishedAt : " ",
+            locale : {
+              publishedAt : " ",
+              viewCount : " ",
+              channelTitle : r.substr(0, 100)
+            }
+          });
+        }
+        if ("video" === type) {
+          data = cmp.indexOf('href="/watch?v=') + 15;
+          o = cmp.indexOf('"', data);
+          c = cmp.substring(data, o);
+          data = cmp.indexOf('<a href="', data);
+          data = cmp.indexOf(">", data) + 1;
+          o = cmp.indexOf("</a>", data);
+          r = cmp.substring(data, o);
+          data = cmp.indexOf('<span class="video-time" aria-hidden="true">') + 44;
+          if (43 === data) {
+            data = cmp.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36;
+          }
+          o = cmp.indexOf("</", data);
+          m = cmp.substring(data, o);
+          data = cmp.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36;
+          o = cmp.indexOf("</", data);
+          sum = cmp.substring(data, o);
+          if (hide) {
+            data = cmp.indexOf('<ul class="yt-lockup-meta-info"><li>') + 36;
+            o = cmp.indexOf("<", data);
+          } else {
+            data = cmp.indexOf("</li><li>", data) + 9;
+            o = cmp.indexOf(" ", data);
+          }
+          config = cmp.substring(data, o);
+          items.push({
+            value : 1,
+            id : c,
+            channelTitle : r.substr(0, 100),
+            duration : hide ? "" : m.substr(0, 100),
+            realDuration : hide ? "" : m.substr(0, 100),
+            viewCount : config.substr(0, 100),
+            publishedAt : hide ? "" : sum.substr(0, 100),
+            dimension : "",
+            definition : "",
+            title : h.substr(0, 100),
+            icon : awesomeIcon,
+            channelId : name,
+            type : "video",
+            locale : {
+              publishedAt : hide ? "" : sum.substr(0, 100),
+              viewCount : config.substr(0, 100),
+              channelTitle : r.substr(0, 100)
+            }
+          });
+        }
+        if ("channel" === type) {
+          data = cmp.indexOf("//yt");
+          o = cmp.indexOf('"', data);
+          awesomeIcon = "https:" + cmp.substring(data, o);
+          data = cmp.indexOf('" dir="ltr">') + 12;
+          o = cmp.indexOf("<", data);
+          h = cmp.substring(data, o);
+          if (cmp.indexOf("yt-channel-title-autogenerated") === -1) {
+            data = cmp.indexOf('"yt-lockup-meta-info"><li>') + 26;
+            o = cmp.indexOf(" ", data);
+            js = cmp.substring(data, o);
+          } else {
+            /** @type {string} */
+            js = "";
+          }
+          data = cmp.indexOf('yt-subscriber-count" title="') + 28;
+          o = cmp.indexOf('"', data);
+          n = cmp.substring(data, o);
+          items.push({
+            value : 1,
+            id : name,
+            title : h.substr(0, 100),
+            icon : awesomeIcon,
+            type : "channel",
+            viewCount : "",
+            commentCount : "",
+            subscriberCount : n.substr(0, 100),
+            hiddenSubscriberCount : "",
+            videoCount : js.substr(0, 100),
+            locale : {
+              subscriberCount : n.substr(0, 100)
+            }
+          });
+        }
+      }
+    }
+    return items;
   }
-
-  function a(e, t, i, n, s, a) {
-    var o, l;
-    for (o = i; o < i + s; o++) {
-      for (e.length < o + 1 && e.push([]); void 0 !== e[o][t];) t++;
-      for (l = t; l < t + n; l++) e[o].length < l + 1 && e[o].push(), e[o][l] = a, void 0 === a.x && (a.x = l), void 0 === a.y && (a.y = o)
+  /**
+   * @param {!Object} name
+   * @return {undefined}
+   */
+  function Router(name) {
+    NumericType.call(this);
+    this.pages = {};
+    /** @type {string} */
+    this.searchQuery = "";
+    this.filter(name);
+  }
+  var $ = require(49);
+  var ajax = $.ajax;
+  var NumericType = require(4);
+  /** @type {!Object} */
+  Router.prototype = Object.create(NumericType.prototype);
+  /** @type {function(!Object): undefined} */
+  Router.prototype.constructor = Router;
+  /**
+   * @param {!Object} page
+   * @param {!Function} callback
+   * @return {undefined}
+   */
+  Router.prototype.getPage = function(page, callback) {
+    var state = this;
+    /** @type {number} */
+    page.page = +page.page || 0;
+    if (this.pages[page.page] && this.pages[page.page].parseId) {
+      if (this.pages[page.page].cached) {
+        callback(null, this.pages[page.page].data);
+      } else {
+        ajax("get", "https://www.youtube.com" + this.pages[page.page].parseId, function(s, a) {
+          var tokens;
+          var j;
+          var i;
+          var resizewidth;
+          return 200 !== a ? void callback({
+            message : "request got bad http status (" + a + ")"
+          }, []) : (j = s.indexOf('class="branded-page-box search-pager'), i = s.indexOf('class="branded-page-v2-secondary-col', j), tokens = s.substring(j, i), tokens = tokens.split('<a href="'), tokens[tokens.length - 1] && tokens[tokens.length - 1].indexOf("\u00bb") !== -1 ? (j = tokens[tokens.length - 1].indexOf('href="/results?') + 6, i = tokens[tokens.length - 1].indexOf('"', j), resizewidth = tokens[tokens.length - 1].substring(j, i).replace("&amp;", "&")) : resizewidth = "", state.pages[page.page +
+          1] = {
+            parseId : resizewidth,
+            cached : false
+          }, tokens = s.slice(s.indexOf('id="item-section-'), s.indexOf('class="branded-page-box search-pager')), state.pages[page.page] = {
+            cached : true,
+            data : parse(tokens)
+          }, void callback(null, state.pages[page.page].data));
+        });
+      }
+    } else {
+      if (page.page) {
+        if (this.pages[page.page] && !this.pages[page.page].parseId) {
+          callback(null, []);
+        } else {
+          callback({
+            message : "wrong page number (page id not found in cache)"
+          }, []);
+        }
+      } else {
+        ajax("get", "https://www.youtube.com/results?search_query=" + this.searchQuery, function(s, a) {
+          var tokens;
+          var j;
+          var i;
+          var resizewidth;
+          return 200 !== a ? void callback({
+            message : "request got bad http status (" + a + ")"
+          }, []) : (j = s.indexOf('class="branded-page-box search-pager'), i = s.indexOf('class="branded-page-v2-secondary-col', j), tokens = s.substring(j, i), tokens = tokens.split('<a href="'), tokens[tokens.length - 1] && tokens[tokens.length - 1].indexOf("\u00bb") !== -1 ? (j = tokens[tokens.length - 1].indexOf('href="/results?') + 6, i = tokens[tokens.length - 1].indexOf('"', j), resizewidth = tokens[tokens.length - 1].substring(j, i).replace("&amp;", "&")) : resizewidth = "", state.pages[page.page +
+          1] = {
+            parseId : resizewidth,
+            cached : false
+          }, tokens = s.slice(s.indexOf('id="item-section-'), s.indexOf('class="branded-page-box search-pager')), state.pages[0] = {
+            cached : true,
+            parseId : "/results?search_query=" + state.searchQuery,
+            data : parse(tokens)
+          }, void callback(null, state.pages[0].data));
+        });
+      }
+    }
+  };
+  /**
+   * @param {!Function} params
+   * @return {?}
+   */
+  Router.prototype.filter = function(params) {
+    /** @type {boolean} */
+    var t = false;
+    return void 0 !== params.searchQuery && this.searchQuery !== params.searchQuery && (t = true, this.searchQuery = params.searchQuery), !!t && (this.pages = {}, this.emit("content:changed", params), true);
+  };
+  /** @type {function(!Object): undefined} */
+  module.exports = Router;
+}, function(module, canCreateDiscussions, require) {
+  /**
+   * @param {string} fn
+   * @param {number} name
+   * @return {?}
+   */
+  function resolve(fn, name) {
+    var token;
+    var str;
+    var text;
+    var awesomeIcon;
+    var crossfilterable_layers;
+    var index;
+    var end;
+    var template_string;
+    var layer_i;
+    /** @type {!Array} */
+    var arr = [];
+    crossfilterable_layers = fn.split('<li class="yt-uix-scroller-scroll-unit');
+    /** @type {number} */
+    layer_i = 0;
+    for (; layer_i < crossfilterable_layers.length; layer_i++) {
+      template_string = crossfilterable_layers[layer_i];
+      if (template_string.indexOf('<div class="playlist-video-description">') !== -1) {
+        index = template_string.indexOf('<span class="video-uploader-byline">') + 36;
+        end = template_string.indexOf("</span>", index);
+        if (template_string.substring(index, end).trim()) {
+          index = template_string.indexOf('data-video-id="') + 15;
+          end = template_string.indexOf('"', index);
+          token = template_string.substring(index, end);
+          index = template_string.indexOf('data-video-title="') + 18;
+          end = template_string.indexOf('"', index);
+          text = template_string.substring(index, end);
+          index = template_string.indexOf('="https://i.ytimg') + 2;
+          end = template_string.indexOf('"', index);
+          awesomeIcon = template_string.substring(index, end).replace(/&amp;/g, "&");
+          index = template_string.indexOf('data-video-username="') + 21;
+          end = template_string.indexOf('"', index);
+          str = template_string.substring(index, end);
+          arr.push({
+            value : 1,
+            id : token,
+            channelTitle : str,
+            duration : " ",
+            realDuration : " ",
+            viewCount : " ",
+            publishedAt : " ",
+            dimension : "",
+            definition : "",
+            title : text,
+            icon : awesomeIcon,
+            channelId : name,
+            type : "video",
+            locale : {
+              publishedAt : " ",
+              viewCount : " ",
+              channelTitle : str
+            }
+          });
+        }
+      }
+    }
+    return arr;
+  }
+  /**
+   * @return {undefined}
+   */
+  function Router() {
+    NumericType.call(this);
+    this.pages = {};
+    /** @type {null} */
+    this.playlistId = null;
+  }
+  var $ = require(49);
+  var ajax = $.ajax;
+  var NumericType = require(4);
+  /** @type {!Object} */
+  Router.prototype = Object.create(NumericType.prototype);
+  /** @type {function(): undefined} */
+  Router.prototype.constructor = Router;
+  /**
+   * @param {!Object} data
+   * @param {!Function} callback
+   * @return {?}
+   */
+  Router.prototype.getPage = function(data, callback) {
+    var childSection = this;
+    return data.page = data.page || 0, data.playlistId ? (data.playlistId !== this.playlistId && (this.playlistId = data.playlistId, this.pages = {}), data.page ? void callback(null, []) : void(this.pages[0] ? callback(null, this.pages[0].data) : ajax("get", "https://www.youtube.com" + data.playlistId, function(s, a) {
+      var e;
+      var j;
+      var i;
+      var track;
+      return 200 !== a ? void callback({
+        message : "request got bad http status (" + a + ")"
+      }, []) : (j = s.indexOf('<a href="/channel/') + 10, i = s.indexOf('"', j), track = s.substring(j, i), j = s.indexOf('id="playlist-autoscroll-list"'), i = s.indexOf('id="placeholder-player"', j), e = s.slice(j, i), childSection.pages[0] = {
+        cached : true,
+        parseId : data.playlistId.replace(/&amp;/g, "&"),
+        data : resolve(e, track)
+      }, void callback(null, childSection.pages[0].data));
+    }))) : void callback({
+      message : "error: field arguments[0].playlistId is empty"
+    }, []);
+  };
+  /**
+   * @return {?}
+   */
+  Router.prototype.filter = function() {
+    return false;
+  };
+  /** @type {function(): undefined} */
+  module.exports = Router;
+}, function(mixin, canCreateDiscussions) {
+  /**
+   * @param {!Function} _
+   * @param {?} t
+   * @return {?}
+   */
+  mixin.exports = function(_, t) {
+    var redrawTimeout;
+    return function() {
+      var andClause = this;
+      /** @type {!Arguments} */
+      var others = arguments;
+      clearTimeout(redrawTimeout);
+      /** @type {number} */
+      redrawTimeout = setTimeout(function() {
+        /** @type {null} */
+        redrawTimeout = null;
+        _.apply(andClause, others);
+      }, t);
+    };
+  };
+}, function(blob, canCreateDiscussions, unescape) {
+  var $first;
+  var v = unescape(1);
+  var ContentBlock = unescape(63);
+  var path = unescape(42);
+  var n = unescape(15);
+  var content = new ContentBlock({
+    $node : document.getElementById("psKeyboard"),
+    className : "keyList",
+    cycleY : false,
+    events : {
+      "click:item" : function(context) {
+        if (context.$item.data.className.indexOf("keyGlobe") !== -1) {
+          v.settings.keyboardLanguage = path.nextLang(v.settings.keyboardLanguage);
+          /** @type {null} */
+          this.viewIndex = null;
+          this.init({
+            data : unescape(65)("./" + n.languages[v.settings.keyboardLanguage])
+          });
+          this.focusItem($first);
+          window.top.gSTB.SetInputLang(n.languages[v.settings.keyboardLanguage]);
+        } else {
+          if (context.$item.data.className.indexOf("nums") !== -1) {
+            this.init({
+              data : [[{
+                value : "1",
+                className : "symbol"
+              }, {
+                value : "2",
+                className : "symbol"
+              }, {
+                value : "3",
+                className : "symbol"
+              }, {
+                value : "^",
+                className : "symbol"
+              }, {
+                value : "`",
+                className : "symbol"
+              }, {
+                value : "!",
+                className : "symbol"
+              }, {
+                value : "#",
+                className : "symbol"
+              }, {
+                value : "$",
+                className : "symbol"
+              }, {
+                value : "%",
+                className : "symbol"
+              }], [{
+                value : "4",
+                className : "symbol"
+              }, {
+                value : "5",
+                className : "symbol"
+              }, {
+                value : "6",
+                className : "symbol"
+              }, {
+                value : "&",
+                className : "symbol"
+              }, {
+                value : "(",
+                className : "symbol"
+              }, {
+                value : ")",
+                className : "symbol"
+              }, {
+                value : "*",
+                className : "symbol"
+              }, {
+                value : ";",
+                className : "symbol"
+              }, {
+                value : ":",
+                className : "symbol"
+              }], [{
+                value : "7",
+                className : "symbol"
+              }, {
+                value : "8",
+                className : "symbol"
+              }, {
+                value : "9",
+                className : "symbol"
+              }, {
+                value : "~",
+                className : "symbol"
+              }, {
+                value : "/",
+                className : "symbol"
+              }, {
+                value : "|",
+                className : "symbol"
+              }, {
+                value : "%",
+                className : "symbol"
+              }, {
+                value : ":",
+                className : "symbol"
+              }, {
+                value : "?",
+                className : "symbol"
+              }], [{
+                value : "\u2116",
+                className : "symbol"
+              }, {
+                value : "0",
+                className : "symbol"
+              }, {
+                value : "[",
+                className : "symbol"
+              }, {
+                value : "]",
+                className : "symbol"
+              }, {
+                value : '"',
+                className : "symbol"
+              }, {
+                value : "'",
+                className : "symbol"
+              }, {
+                value : "{",
+                className : "symbol"
+              }, {
+                value : "}",
+                className : "symbol"
+              }, {
+                value : "ABC",
+                className : "symbol letters"
+              }]]
+            });
+          } else {
+            if (context.$item.data.className.indexOf("letters") !== -1) {
+              this.init({
+                data : unescape(65)("./" + n.languages[v.settings.keyboardLanguage])
+              });
+            }
+          }
+        }
+      }
+    },
+    render : function(fn, el) {
+      if ("keyGlobe" === el.className) {
+        fn.innerHTML = n.languagesCodeLocalized[v.settings.keyboardLanguage];
+        /** @type {!Object} */
+        $first = fn;
+      } else {
+        fn.innerHTML = el.value;
+      }
+      if (el.className) {
+        /** @type {string} */
+        fn.className = "item " + el.className;
+      }
+    },
+    data : unescape(65)("./" + n.languages[v.settings.keyboardLanguage])
+  });
+  window.top.gSTB.SetInputLang(n.languages[v.settings.keyboardLanguage]);
+  blob.exports = content;
+}, function(module, canCreateDiscussions, factory) {
+  module.exports = factory(64);
+  /** @type {string} */
+  module.exports.prototype.name = "stb-component-grid";
+}, function(module, canCreateDiscussions, d3MapProjection) {
+  /**
+   * @param {!Object} config
+   * @return {undefined}
+   */
+  function Node(config) {
+    config = config || {};
+    /** @type {!Array} */
+    this.map = [];
+    /** @type {null} */
+    this.$focusItem = null;
+    /** @type {!Array} */
+    this.data = [];
+    /** @type {boolean} */
+    this.cycleX = true;
+    /** @type {boolean} */
+    this.cycleY = true;
+    /** @type {number} */
+    this.focusX = 0;
+    /** @type {number} */
+    this.focusY = 0;
+    b.call(this, config);
+    this.init(config);
+  }
+  /**
+   * @param {!Array} object
+   * @return {?}
+   */
+  function merge(object) {
+    var idx;
+    var i;
+    var options;
+    /** @type {number} */
+    idx = 0;
+    for (; idx < object.length; idx++) {
+      /** @type {number} */
+      i = 0;
+      for (; i < object[idx].length; i++) {
+        options = object[idx][i];
+        if ("object" == typeof options) {
+          options.colSpan = options.colSpan || 1;
+          options.rowSpan = options.rowSpan || 1;
+        } else {
+          options = object[idx][i] = {
+            value : object[idx][i],
+            colSpan : 1,
+            rowSpan : 1
+          };
+        }
+      }
+    }
+    return object;
+  }
+  /**
+   * @param {!Array} data
+   * @param {number} i
+   * @param {number} x
+   * @param {number} y
+   * @param {number} l
+   * @param {!Object} a
+   * @return {undefined}
+   */
+  function drawLine(data, i, x, y, l, a) {
+    var c;
+    var l;
+    /** @type {number} */
+    c = x;
+    for (; c < x + l; c++) {
+      if (data.length < c + 1) {
+        data.push([]);
+      }
+      for (; void 0 !== data[c][i];) {
+        i++;
+      }
+      /** @type {number} */
+      l = i;
+      for (; l < i + y; l++) {
+        if (data[c].length < l + 1) {
+          data[c].push();
+        }
+        /** @type {!Object} */
+        data[c][l] = a;
+        if (void 0 === a.x) {
+          a.x = l;
+        }
+        if (void 0 === a.y) {
+          a.y = c;
+        }
+      }
     }
   }
-
-  function o(e) {
-    var t, i, n, s = [];
-    for (t = 0; t < e.length; t++)
-      for (i = 0; i < e[t].length; i++) n = e[t][i], a(s, i, t, n.colSpan, n.rowSpan, n.$item), delete n.$item;
-    return s
+  /**
+   * @param {!Array} events
+   * @return {?}
+   */
+  function clone(events) {
+    var e;
+    var i;
+    var item;
+    /** @type {!Array} */
+    var result = [];
+    /** @type {number} */
+    e = 0;
+    for (; e < events.length; e++) {
+      /** @type {number} */
+      i = 0;
+      for (; i < events[e].length; i++) {
+        item = events[e][i];
+        drawLine(result, i, e, item.colSpan, item.rowSpan, item.$item);
+        delete item.$item;
+      }
+    }
+    return result;
   }
-  var l = i(24),
-    c = i(14);
-  n.prototype = Object.create(l.prototype), n.prototype.constructor = n, n.prototype.name = "spa-component-grid", n.prototype.renderItemDefault = function(e, t) {
-    e.innerText = t.value
-  }, n.prototype.renderItem = n.prototype.renderItemDefault, n.prototype.defaultEvents = {
-    mousewheel: function(e) {
-      e.wheelDeltaY && this.move(e.wheelDeltaY > 0 ? c.up : c.down), e.wheelDeltaX && this.move(e.wheelDeltaX > 0 ? c.left : c.right)
+  var b = d3MapProjection(24);
+  var c = d3MapProjection(14);
+  /** @type {!Object} */
+  Node.prototype = Object.create(b.prototype);
+  /** @type {function(!Object): undefined} */
+  Node.prototype.constructor = Node;
+  /** @type {string} */
+  Node.prototype.name = "spa-component-grid";
+  /**
+   * @param {!Object} val
+   * @param {!Object} args
+   * @return {undefined}
+   */
+  Node.prototype.renderItemDefault = function(val, args) {
+    val.innerText = args.value;
+  };
+  /** @type {function(!Object, !Object): undefined} */
+  Node.prototype.renderItem = Node.prototype.renderItemDefault;
+  Node.prototype.defaultEvents = {
+    mousewheel : function(event) {
+      if (event.wheelDeltaY) {
+        this.move(event.wheelDeltaY > 0 ? c.up : c.down);
+      }
+      if (event.wheelDeltaX) {
+        this.move(event.wheelDeltaX > 0 ? c.left : c.right);
+      }
     },
-    keydown: function(e) {
-      switch (e.code) {
+    keydown : function(event) {
+      switch(event.code) {
         case c.up:
         case c.down:
         case c.right:
         case c.left:
-          this.move(e.code);
+          this.move(event.code);
           break;
         case c.enter:
-          this.events["click:item"] && this.emit("click:item", {
-            $item: this.$focusItem,
-            event: e
-          })
+          if (this.events["click:item"]) {
+            this.emit("click:item", {
+              $item : this.$focusItem,
+              event : event
+            });
+          }
       }
     }
-  }, n.prototype.init = function(e) {
-    var t, i, n, a, l, c, r, d, u = this,
-      h = !1,
-      p = function(e) {
-        this.data.disable !== !0 && (u.focusItem(this), u.events["click:item"] && u.emit("click:item", {
-          $item: this,
-          event: e
-        }))
-      },
-      m = function(d) {
-        if (d && u.data !== d && (u.data = d, h = !0), e.render && u.renderItem !== e.render && (u.renderItem = e.render, h = !0), h) {
-          for (u.$table = document.createElement("table"), l = document.createElement("tbody"), u.data = s(u.data), t = 0; t < u.data.length; t++) {
-            for (n = l.insertRow(), i = 0; i < u.data[t].length; i++) a = n.insertCell(-1), a.className = "item", r = u.data[t][i], r.$item = a, a.colSpan = r.colSpan, a.rowSpan = r.rowSpan, r.focus && (c = a), r.disable && a.classList.add("disable"), r.mark && a.classList.add("mark"), u.renderItem(a, r), a.data = r, a.addEventListener("click", p);
-            l.appendChild(n)
-          }
-          u.map = o(u.data), u.$body.innerText = null, u.$table.appendChild(l), u.$body.appendChild(u.$table), c ? u.focusItem(c) : u.focusItem(u.map[0][0])
+  };
+  /**
+   * @param {!Object} options
+   * @return {undefined}
+   */
+  Node.prototype.init = function(options) {
+    var t;
+    var i;
+    var row;
+    var obj;
+    var body;
+    var id;
+    var item;
+    var fresh;
+    var self = this;
+    /** @type {boolean} */
+    var result = false;
+    /**
+     * @param {string} event
+     * @return {undefined}
+     */
+    var update = function(event) {
+      if (this.data.disable !== true) {
+        self.focusItem(this);
+        if (self.events["click:item"]) {
+          self.emit("click:item", {
+            $item : this,
+            event : event
+          });
         }
-      };
-    void 0 !== e.cycleX && (this.cycleX = e.cycleX), void 0 !== e.cycleY && (this.cycleY = e.cycleY), e.provider && (this.provider = e.provider, this.sizeX = e.sizeX, this.sizeY = e.sizeY), e.translate && (this.translate = e.translate), e.provider ? (d = this.provider.get(null, function(e, t) {
-      e && u.events["data:error"] && u.emit("data:error", e), m(u.translate(t)), u.events["data:ready"] && u.emit("data:ready")
-    }), this.events["data:get"] && this.emit("data:get", {
-      fresh: d
-    })) : m(e.data)
-  }, n.prototype.defaultTranslate = function(e) {
-    var t, i, n, s = [];
-    for (t = 0; t < this.sizeY; t++) {
-      for (n = [], i = 0; i < this.sizeX; i++) n[i] = e[t * this.sizeX + i];
-      s[t] = n
+      }
+    };
+    /**
+     * @param {string} data
+     * @return {undefined}
+     */
+    var render = function(data) {
+      if (data && self.data !== data && (self.data = data, result = true), options.render && self.renderItem !== options.render && (self.renderItem = options.render, result = true), result) {
+        /** @type {!Element} */
+        self.$table = document.createElement("table");
+        /** @type {!Element} */
+        body = document.createElement("tbody");
+        self.data = merge(self.data);
+        /** @type {number} */
+        t = 0;
+        for (; t < self.data.length; t++) {
+          row = body.insertRow();
+          /** @type {number} */
+          i = 0;
+          for (; i < self.data[t].length; i++) {
+            obj = row.insertCell(-1);
+            /** @type {string} */
+            obj.className = "item";
+            item = self.data[t][i];
+            item.$item = obj;
+            obj.colSpan = item.colSpan;
+            obj.rowSpan = item.rowSpan;
+            if (item.focus) {
+              id = obj;
+            }
+            if (item.disable) {
+              obj.classList.add("disable");
+            }
+            if (item.mark) {
+              obj.classList.add("mark");
+            }
+            self.renderItem(obj, item);
+            obj.data = item;
+            obj.addEventListener("click", update);
+          }
+          body.appendChild(row);
+        }
+        self.map = clone(self.data);
+        /** @type {null} */
+        self.$body.innerText = null;
+        self.$table.appendChild(body);
+        self.$body.appendChild(self.$table);
+        if (id) {
+          self.focusItem(id);
+        } else {
+          self.focusItem(self.map[0][0]);
+        }
+      }
+    };
+    if (void 0 !== options.cycleX) {
+      this.cycleX = options.cycleX;
     }
-    return s
-  }, n.prototype.translate = n.prototype.defaultTranslate, n.prototype.move = function(e) {
-    for (var t, i = this.focusX, n = this.focusY, s = !0, a = !1, o = !1; s;) {
-      switch (e) {
+    if (void 0 !== options.cycleY) {
+      this.cycleY = options.cycleY;
+    }
+    if (options.provider) {
+      this.provider = options.provider;
+      this.sizeX = options.sizeX;
+      this.sizeY = options.sizeY;
+    }
+    if (options.translate) {
+      this.translate = options.translate;
+    }
+    if (options.provider) {
+      fresh = this.provider.get(null, function(imageInfoItem, c) {
+        if (imageInfoItem && self.events["data:error"]) {
+          self.emit("data:error", imageInfoItem);
+        }
+        render(self.translate(c));
+        if (self.events["data:ready"]) {
+          self.emit("data:ready");
+        }
+      });
+      if (this.events["data:get"]) {
+        this.emit("data:get", {
+          fresh : fresh
+        });
+      }
+    } else {
+      render(options.data);
+    }
+  };
+  /**
+   * @param {!Object} d
+   * @return {?}
+   */
+  Node.prototype.defaultTranslate = function(d) {
+    var id;
+    var i;
+    var dd;
+    /** @type {!Array} */
+    var _draggablesById = [];
+    /** @type {number} */
+    id = 0;
+    for (; id < this.sizeY; id++) {
+      /** @type {!Array} */
+      dd = [];
+      /** @type {number} */
+      i = 0;
+      for (; i < this.sizeX; i++) {
+        dd[i] = d[id * this.sizeX + i];
+      }
+      /** @type {!Array} */
+      _draggablesById[id] = dd;
+    }
+    return _draggablesById;
+  };
+  /** @type {function(!Object): ?} */
+  Node.prototype.translate = Node.prototype.defaultTranslate;
+  /**
+   * @param {string} type
+   * @return {undefined}
+   */
+  Node.prototype.move = function(type) {
+    var fresh;
+    var y = this.focusX;
+    var x = this.focusY;
+    /** @type {boolean} */
+    var s = true;
+    /** @type {boolean} */
+    var a = false;
+    /** @type {boolean} */
+    var cycle = false;
+    for (; s;) {
+      switch(type) {
         case c.up:
-          n > 0 ? n-- : (this.cycleY && (n = this.map.length - 1, o = !0), a = !0);
+          if (x > 0) {
+            x--;
+          } else {
+            if (this.cycleY) {
+              /** @type {number} */
+              x = this.map.length - 1;
+              /** @type {boolean} */
+              cycle = true;
+            }
+            /** @type {boolean} */
+            a = true;
+          }
           break;
         case c.down:
-          n < this.map.length - 1 ? n++ : (this.cycleY && (n = 0, o = !0), a = !0);
+          if (x < this.map.length - 1) {
+            x++;
+          } else {
+            if (this.cycleY) {
+              /** @type {number} */
+              x = 0;
+              /** @type {boolean} */
+              cycle = true;
+            }
+            /** @type {boolean} */
+            a = true;
+          }
           break;
         case c.right:
-          i < this.map[n].length - 1 ? i++ : (this.cycleX && (i = 0, o = !0), a = !0);
+          if (y < this.map[x].length - 1) {
+            y++;
+          } else {
+            if (this.cycleX) {
+              /** @type {number} */
+              y = 0;
+              /** @type {boolean} */
+              cycle = true;
+            }
+            /** @type {boolean} */
+            a = true;
+          }
           break;
         case c.left:
-          i > 0 ? i-- : (this.cycleX && (i = this.map[n].length - 1, o = !0), a = !0)
+          if (y > 0) {
+            y--;
+          } else {
+            if (this.cycleX) {
+              /** @type {number} */
+              y = this.map[x].length - 1;
+              /** @type {boolean} */
+              cycle = true;
+            }
+            /** @type {boolean} */
+            a = true;
+          }
       }
-      i === this.focusX && n === this.focusY && (s = !1), this.map[n][i] !== this.map[this.focusY][this.focusX] && this.map[n][i].data.disable !== !0 && (s = !1), a && (s = !1, this.map[n][i].data.disable === !0 && (i = this.focusX, n = this.focusY))
+      if (y === this.focusX && x === this.focusY) {
+        /** @type {boolean} */
+        s = false;
+      }
+      if (this.map[x][y] !== this.map[this.focusY][this.focusX] && this.map[x][y].data.disable !== true) {
+        /** @type {boolean} */
+        s = false;
+      }
+      if (a) {
+        /** @type {boolean} */
+        s = false;
+        if (this.map[x][y].data.disable === true) {
+          y = this.focusX;
+          x = this.focusY;
+        }
+      }
     }
-    this.focusItem(this.map[n][i]), this.focusX = i, this.focusY = n, a && (this.provider && (t = this.provider.get(e, function(e, t) {
-      var i, n;
-      if (e && self.events["data:error"]) return void self.emit("data:error", e);
-      if (t) {
-        for (self.data = self.translate(t), i = 0; i < self.sizeY - 1; i++)
-          for (n = 0; n < self.sizeX; n++) self.renderItem(self.map[i][n], self.data[i][n]);
-        self.events["data:ready"] && self.emit("data:ready")
+    this.focusItem(this.map[x][y]);
+    this.focusX = y;
+    this.focusY = x;
+    if (a) {
+      if (this.provider) {
+        fresh = this.provider.get(type, function(imageInfoItem, t) {
+          var collectionName;
+          var i;
+          if (imageInfoItem && self.events["data:error"]) {
+            return void self.emit("data:error", imageInfoItem);
+          }
+          if (t) {
+            self.data = self.translate(t);
+            /** @type {number} */
+            collectionName = 0;
+            for (; collectionName < self.sizeY - 1; collectionName++) {
+              /** @type {number} */
+              i = 0;
+              for (; i < self.sizeX; i++) {
+                self.renderItem(self.map[collectionName][i], self.data[collectionName][i]);
+              }
+            }
+            if (self.events["data:ready"]) {
+              self.emit("data:ready");
+            }
+          }
+        });
+        if (this.events["data:get"]) {
+          this.emit("data:get", {
+            fresh : fresh
+          });
+        }
       }
-    }), this.events["data:get"] && this.emit("data:get", {
-      fresh: t
-    })), this.events["overflow"] && this.emit("overflow", {
-      direction: e,
-      cycle: o
-    }))
-  }, n.prototype.focusItem = function(e) {
-    var t = this.$focusItem;
-    return !(!e || t === e || e.data.disable === !0) && (null !== t && (t.classList.remove("focus"), this.events["blur:item"] && this.emit("blur:item", {
-      $item: t
-    })), this.focusX = e.x, this.focusY = e.y, this.$focusItem = e, e.classList.add("focus"), this.events["focus:item"] && this.emit("focus:item", {
-      $prev: t,
-      $curr: e
-    }), !0)
-  }, n.prototype.markItem = function(e, t) {
-    t ? e.classList.add("mark") : e.classList.remove("mark"), e.data.mark = t
-  }, e.exports = n
-}, function(e, t, i) {
-  function n(e) {
-    return i(s(e))
-  }
-
-  function s(e) {
-    return a[e] || function() {
-      throw new Error("Cannot find module '" + e + "'.")
-    }()
-  }
-  var a = {
-    "./ar": 66,
-    "./ar.js": 66,
-    "./de": 67,
-    "./de.js": 67,
-    "./en": 68,
-    "./en.js": 68,
-    "./ru": 69,
-    "./ru.js": 69,
-    "./uk": 70,
-    "./uk.js": 70
+      if (this.events["overflow"]) {
+        this.emit("overflow", {
+          direction : type,
+          cycle : cycle
+        });
+      }
+    }
   };
-  n.keys = function() {
-    return Object.keys(a)
-  }, n.resolve = s, e.exports = n, n.id = 65
-}, function(e, t) {
-  "use strict";
-  e.exports = [
-    [{
-      value: "ض",
-      className: "symbol"
-    }, {
-      value: "ص",
-      className: "symbol"
-    }, {
-      value: "ث",
-      className: "symbol"
-    }, {
-      value: "ق",
-      className: "symbol"
-    }, {
-      value: "ف",
-      className: "symbol"
-    }, {
-      value: "غ",
-      className: "symbol"
-    }, {
-      value: "ع",
-      className: "symbol"
-    }, {
-      value: "ه",
-      className: "symbol"
-    }, {
-      value: "خ",
-      className: "symbol"
-    }, {
-      value: "ح",
-      className: "symbol"
-    }, {
-      value: "ج",
-      className: "symbol"
-    }, {
-      value: "Delete",
-      className: "symbol delete wide",
-      colSpan: 2
-    }, {
-      value: "&nbsp;",
-      className: "icon keyDelete"
-    }],
-    [{
-      value: "د",
-      className: "symbol"
-    }, {
-      value: "ش",
-      className: "symbol"
-    }, {
-      value: "س",
-      className: "symbol"
-    }, {
-      value: "ي",
-      className: "symbol"
-    }, {
-      value: "ب",
-      className: "symbol"
-    }, {
-      value: "ل",
-      className: "symbol"
-    }, {
-      value: "ا",
-      className: "symbol"
-    }, {
-      value: "ت",
-      className: "symbol"
-    }, {
-      value: "ن",
-      className: "symbol"
-    }, {
-      value: "ذ",
-      className: "symbol"
-    }, {
-      value: "م",
-      className: "symbol"
-    }, {
-      value: "ك",
-      className: "symbol"
-    }, {
-      value: "123",
-      className: "symbol nums wide"
-    }, {
-      value: "&nbsp;",
-      className: "keyGlobe"
-    }],
-    [{
-      value: "ط",
-      className: "symbol"
-    }, {
-      value: "ئ",
-      className: "symbol"
-    }, {
-      value: "ء",
-      className: "symbol"
-    }, {
-      value: "ؤ",
-      className: "symbol"
-    }, {
-      value: "ر",
-      className: "symbol"
-    }, {
-      value: "لا",
-      className: "symbol"
-    }, {
-      value: "ى",
-      className: "symbol"
-    }, {
-      value: "ة",
-      className: "symbol"
-    }, {
-      value: "و",
-      className: "symbol"
-    }, {
-      value: "ز",
-      className: "symbol"
-    }, {
-      value: "ظ",
-      className: "symbol"
-    }, {
-      value: "&nbsp;",
-      className: "icon keySpace",
-      colSpan: 3
-    }]
-  ]
-}, function(e, t) {
-  "use strict";
-  e.exports = [
-    [{
-      value: "q",
-      className: "symbol"
-    }, {
-      value: "w",
-      className: "symbol"
-    }, {
-      value: "e",
-      className: "symbol"
-    }, {
-      value: "r",
-      className: "symbol"
-    }, {
-      value: "t",
-      className: "symbol"
-    }, {
-      value: "z",
-      className: "symbol"
-    }, {
-      value: "u",
-      className: "symbol"
-    }, {
-      value: "i",
-      className: "symbol"
-    }, {
-      value: "o",
-      className: "symbol"
-    }, {
-      value: "p",
-      className: "symbol"
-    }, {
-      value: "ü",
-      className: "symbol"
-    }, {
-      value: "&nbsp;",
-      className: "icon keyDelete",
-      colSpan: 2
-    }],
-    [{
-      value: "a",
-      className: "symbol"
-    }, {
-      value: "s",
-      className: "symbol"
-    }, {
-      value: "d",
-      className: "symbol"
-    }, {
-      value: "f",
-      className: "symbol"
-    }, {
-      value: "g",
-      className: "symbol"
-    }, {
-      value: "h",
-      className: "symbol"
-    }, {
-      value: "j",
-      className: "symbol"
-    }, {
-      value: "k",
-      className: "symbol"
-    }, {
-      value: "l",
-      className: "symbol"
-    }, {
-      value: "ö",
-      className: "symbol"
-    }, {
-      value: "ä",
-      className: "symbol"
-    }, {
-      value: "Delete",
-      className: "symbol delete",
-      colSpan: 2
-    }],
-    [{
-      value: "y",
-      className: "symbol"
-    }, {
-      value: "x",
-      className: "symbol"
-    }, {
-      value: "c",
-      className: "symbol"
-    }, {
-      value: "v",
-      className: "symbol"
-    }, {
-      value: "b",
-      className: "symbol"
-    }, {
-      value: "n",
-      className: "symbol"
-    }, {
-      value: "m",
-      className: "symbol"
-    }, {
-      value: ".",
-      className: "symbol"
-    }, {
-      value: ",",
-      className: "symbol"
-    }, {
-      value: "/",
-      className: "symbol"
-    }, {
-      value: "@",
-      className: "symbol"
-    }, {
-      value: "123",
-      className: "symbol nums"
-    }, {
-      value: "&nbsp;",
-      className: "keyGlobe"
-    }],
-    [{
-      value: "&nbsp;",
-      className: "icon keySpace",
-      colSpan: 13
-    }]
-  ]
-}, function(e, t) {
-  "use strict";
-  e.exports = [
-    [{
-      value: "q",
-      className: "symbol"
-    }, {
-      value: "w",
-      className: "symbol"
-    }, {
-      value: "e",
-      className: "symbol"
-    }, {
-      value: "r",
-      className: "symbol"
-    }, {
-      value: "t",
-      className: "symbol"
-    }, {
-      value: "y",
-      className: "symbol"
-    }, {
-      value: "u",
-      className: "symbol"
-    }, {
-      value: "i",
-      className: "symbol"
-    }, {
-      value: "o",
-      className: "symbol"
-    }, {
-      value: "p",
-      className: "symbol"
-    }, {
-      value: "&nbsp;",
-      className: "icon keyDelete",
-      colSpan: 2
-    }],
-    [{
-      value: "a",
-      className: "symbol"
-    }, {
-      value: "s",
-      className: "symbol"
-    }, {
-      value: "d",
-      className: "symbol"
-    }, {
-      value: "f",
-      className: "symbol"
-    }, {
-      value: "g",
-      className: "symbol"
-    }, {
-      value: "h",
-      className: "symbol"
-    }, {
-      value: "j",
-      className: "symbol"
-    }, {
-      value: "k",
-      className: "symbol"
-    }, {
-      value: "l",
-      className: "symbol"
-    }, {
-      value: "-",
-      className: "symbol"
-    }, {
-      value: "Delete",
-      className: "symbol delete",
-      colSpan: 2
-    }],
-    [{
-      value: "z",
-      className: "symbol"
-    }, {
-      value: "x",
-      className: "symbol"
-    }, {
-      value: "c",
-      className: "symbol"
-    }, {
-      value: "v",
-      className: "symbol"
-    }, {
-      value: "b",
-      className: "symbol"
-    }, {
-      value: "n",
-      className: "symbol"
-    }, {
-      value: "m",
-      className: "symbol"
-    }, {
-      value: ",",
-      className: "symbol"
-    }, {
-      value: ".",
-      className: "symbol"
-    }, {
-      value: "/",
-      className: "symbol"
-    }, {
-      value: "123",
-      className: "symbol nums"
-    }, {
-      value: "&nbsp;",
-      className: "keyGlobe"
-    }],
-    [{
-      value: "&nbsp;",
-      className: "icon keySpace",
-      colSpan: 12
-    }]
-  ]
-}, function(e, t) {
-  "use strict";
-  e.exports = [
-    [{
-      value: "й",
-      className: "symbol"
-    }, {
-      value: "ц",
-      className: "symbol"
-    }, {
-      value: "у",
-      className: "symbol"
-    }, {
-      value: "к",
-      className: "symbol"
-    }, {
-      value: "е",
-      className: "symbol"
-    }, {
-      value: "н",
-      className: "symbol"
-    }, {
-      value: "г",
-      className: "symbol"
-    }, {
-      value: "ш",
-      className: "symbol"
-    }, {
-      value: "щ",
-      className: "symbol"
-    }, {
-      value: "з",
-      className: "symbol"
-    }, {
-      value: "х",
-      className: "symbol"
-    }, {
-      value: "ъ",
-      className: "symbol"
-    }, {
-      value: "&nbsp;",
-      className: "icon keyDelete",
-      colSpan: 2
-    }],
-    [{
-      value: "ф",
-      className: "symbol"
-    }, {
-      value: "ы",
-      className: "symbol"
-    }, {
-      value: "в",
-      className: "symbol"
-    }, {
-      value: "а",
-      className: "symbol"
-    }, {
-      value: "п",
-      className: "symbol"
-    }, {
-      value: "р",
-      className: "symbol"
-    }, {
-      value: "о",
-      className: "symbol"
-    }, {
-      value: "л",
-      className: "symbol"
-    }, {
-      value: "д",
-      className: "symbol"
-    }, {
-      value: "ж",
-      className: "symbol"
-    }, {
-      value: "э",
-      className: "symbol"
-    }, {
-      value: "/",
-      className: "symbol"
-    }, {
-      value: "Удалить",
-      className: "symbol delete",
-      colSpan: 2
-    }],
-    [{
-      value: "я",
-      className: "symbol"
-    }, {
-      value: "ч",
-      className: "symbol"
-    }, {
-      value: "с",
-      className: "symbol"
-    }, {
-      value: "м",
-      className: "symbol"
-    }, {
-      value: "и",
-      className: "symbol"
-    }, {
-      value: "т",
-      className: "symbol"
-    }, {
-      value: "ь",
-      className: "symbol"
-    }, {
-      value: "б",
-      className: "symbol"
-    }, {
-      value: "ю",
-      className: "symbol"
-    }, {
-      value: "ё",
-      className: "symbol"
-    }, {
-      value: ".",
-      className: "symbol"
-    }, {
-      value: ",",
-      className: "symbol"
-    }, {
-      value: "123",
-      className: "symbol nums"
-    }, {
-      value: "&nbsp;",
-      className: "keyGlobe"
-    }],
-    [{
-      value: "&nbsp;",
-      className: "icon keySpace",
-      colSpan: 14
-    }]
-  ]
-}, function(e, t) {
-  "use strict";
-  e.exports = [
-    [{
-      value: "й",
-      className: "symbol"
-    }, {
-      value: "ц",
-      className: "symbol"
-    }, {
-      value: "у",
-      className: "symbol"
-    }, {
-      value: "к",
-      className: "symbol"
-    }, {
-      value: "е",
-      className: "symbol"
-    }, {
-      value: "н",
-      className: "symbol"
-    }, {
-      value: "г",
-      className: "symbol"
-    }, {
-      value: "ш",
-      className: "symbol"
-    }, {
-      value: "щ",
-      className: "symbol"
-    }, {
-      value: "з",
-      className: "symbol"
-    }, {
-      value: "х",
-      className: "symbol"
-    }, {
-      value: "ї",
-      className: "symbol"
-    }, {
-      value: "&nbsp;",
-      className: "icon keyDelete",
-      colSpan: 2
-    }],
-    [{
-      value: "ф",
-      className: "symbol"
-    }, {
-      value: "і",
-      className: "symbol"
-    }, {
-      value: "в",
-      className: "symbol"
-    }, {
-      value: "а",
-      className: "symbol"
-    }, {
-      value: "п",
-      className: "symbol"
-    }, {
-      value: "р",
-      className: "symbol"
-    }, {
-      value: "о",
-      className: "symbol"
-    }, {
-      value: "л",
-      className: "symbol"
-    }, {
-      value: "д",
-      className: "symbol"
-    }, {
-      value: "ж",
-      className: "symbol"
-    }, {
-      value: "є",
-      className: "symbol"
-    }, {
-      value: "/",
-      className: "symbol"
-    }, {
-      value: "Удалить",
-      className: "symbol delete",
-      colSpan: 2
-    }],
-    [{
-      value: "ґ",
-      className: "symbol"
-    }, {
-      value: "я",
-      className: "symbol"
-    }, {
-      value: "ч",
-      className: "symbol"
-    }, {
-      value: "с",
-      className: "symbol"
-    }, {
-      value: "м",
-      className: "symbol"
-    }, {
-      value: "и",
-      className: "symbol"
-    }, {
-      value: "т",
-      className: "symbol"
-    }, {
-      value: "ь",
-      className: "symbol"
-    }, {
-      value: "б",
-      className: "symbol"
-    }, {
-      value: "ю",
-      className: "symbol"
-    }, {
-      value: ".",
-      className: "symbol"
-    }, {
-      value: ",",
-      className: "symbol"
-    }, {
-      value: "123",
-      className: "symbol nums"
-    }, {
-      value: "&nbsp;",
-      className: "keyGlobe"
-    }],
-    [{
-      value: "&nbsp;",
-      className: "icon keySpace",
-      colSpan: 14
-    }]
-  ]
-}, function(e, t) {
-  "use strict";
-  e.exports = function(e) {
-    var t = {};
-    return e.split("&").forEach(function(e) {
-      e = e.split("="), 2 === e.length && (t[e[0]] = decodeURIComponent(e[1]))
-    }), t
+  /**
+   * @param {!Object} item
+   * @return {?}
+   */
+  Node.prototype.focusItem = function(item) {
+    var x = this.$focusItem;
+    return !(!item || x === item || item.data.disable === true) && (null !== x && (x.classList.remove("focus"), this.events["blur:item"] && this.emit("blur:item", {
+      $item : x
+    })), this.focusX = item.x, this.focusY = item.y, this.$focusItem = item, item.classList.add("focus"), this.events["focus:item"] && this.emit("focus:item", {
+      $prev : x,
+      $curr : item
+    }), true);
+  };
+  /**
+   * @param {!Object} index
+   * @param {number} options
+   * @return {undefined}
+   */
+  Node.prototype.markItem = function(index, options) {
+    if (options) {
+      index.classList.add("mark");
+    } else {
+      index.classList.remove("mark");
+    }
+    /** @type {number} */
+    index.data.mark = options;
+  };
+  /** @type {function(!Object): undefined} */
+  module.exports = Node;
+}, function(context, canCreateDiscussions, func) {
+  /**
+   * @param {!Object} val
+   * @return {?}
+   */
+  function result(val) {
+    return func(resolve(val));
   }
+  /**
+   * @param {!Object} x
+   * @return {?}
+   */
+  function resolve(x) {
+    return schemasValue[x] || function() {
+      throw new Error("Cannot find module '" + x + "'.");
+    }();
+  }
+  var schemasValue = {
+    "./ar" : 66,
+    "./ar.js" : 66,
+    "./de" : 67,
+    "./de.js" : 67,
+    "./en" : 68,
+    "./en.js" : 68,
+    "./ru" : 69,
+    "./ru.js" : 69,
+    "./uk" : 70,
+    "./uk.js" : 70
+  };
+  /**
+   * @return {?}
+   */
+  result.keys = function() {
+    return Object.keys(schemasValue);
+  };
+  /** @type {function(!Object): ?} */
+  result.resolve = resolve;
+  /** @type {function(!Object): ?} */
+  context.exports = result;
+  /** @type {number} */
+  result.id = 65;
+}, function(mixin, canCreateDiscussions) {
+  /** @type {!Array} */
+  mixin.exports = [[{
+    value : "\u0636",
+    className : "symbol"
+  }, {
+    value : "\u0635",
+    className : "symbol"
+  }, {
+    value : "\u062b",
+    className : "symbol"
+  }, {
+    value : "\u0642",
+    className : "symbol"
+  }, {
+    value : "\u0641",
+    className : "symbol"
+  }, {
+    value : "\u063a",
+    className : "symbol"
+  }, {
+    value : "\u0639",
+    className : "symbol"
+  }, {
+    value : "\u0647",
+    className : "symbol"
+  }, {
+    value : "\u062e",
+    className : "symbol"
+  }, {
+    value : "\u062d",
+    className : "symbol"
+  }, {
+    value : "\u062c",
+    className : "symbol"
+  }, {
+    value : "Delete",
+    className : "symbol delete wide",
+    colSpan : 2
+  }, {
+    value : "&nbsp;",
+    className : "icon keyDelete"
+  }], [{
+    value : "\u062f",
+    className : "symbol"
+  }, {
+    value : "\u0634",
+    className : "symbol"
+  }, {
+    value : "\u0633",
+    className : "symbol"
+  }, {
+    value : "\u064a",
+    className : "symbol"
+  }, {
+    value : "\u0628",
+    className : "symbol"
+  }, {
+    value : "\u0644",
+    className : "symbol"
+  }, {
+    value : "\u0627",
+    className : "symbol"
+  }, {
+    value : "\u062a",
+    className : "symbol"
+  }, {
+    value : "\u0646",
+    className : "symbol"
+  }, {
+    value : "\u0630",
+    className : "symbol"
+  }, {
+    value : "\u0645",
+    className : "symbol"
+  }, {
+    value : "\u0643",
+    className : "symbol"
+  }, {
+    value : "123",
+    className : "symbol nums wide"
+  }, {
+    value : "&nbsp;",
+    className : "keyGlobe"
+  }], [{
+    value : "\u0637",
+    className : "symbol"
+  }, {
+    value : "\u0626",
+    className : "symbol"
+  }, {
+    value : "\u0621",
+    className : "symbol"
+  }, {
+    value : "\u0624",
+    className : "symbol"
+  }, {
+    value : "\u0631",
+    className : "symbol"
+  }, {
+    value : "\u0644\u0627",
+    className : "symbol"
+  }, {
+    value : "\u0649",
+    className : "symbol"
+  }, {
+    value : "\u0629",
+    className : "symbol"
+  }, {
+    value : "\u0648",
+    className : "symbol"
+  }, {
+    value : "\u0632",
+    className : "symbol"
+  }, {
+    value : "\u0638",
+    className : "symbol"
+  }, {
+    value : "&nbsp;",
+    className : "icon keySpace",
+    colSpan : 3
+  }]];
+}, function(mixin, canCreateDiscussions) {
+  /** @type {!Array} */
+  mixin.exports = [[{
+    value : "q",
+    className : "symbol"
+  }, {
+    value : "w",
+    className : "symbol"
+  }, {
+    value : "e",
+    className : "symbol"
+  }, {
+    value : "r",
+    className : "symbol"
+  }, {
+    value : "t",
+    className : "symbol"
+  }, {
+    value : "z",
+    className : "symbol"
+  }, {
+    value : "u",
+    className : "symbol"
+  }, {
+    value : "i",
+    className : "symbol"
+  }, {
+    value : "o",
+    className : "symbol"
+  }, {
+    value : "p",
+    className : "symbol"
+  }, {
+    value : "\u00fc",
+    className : "symbol"
+  }, {
+    value : "&nbsp;",
+    className : "icon keyDelete",
+    colSpan : 2
+  }], [{
+    value : "a",
+    className : "symbol"
+  }, {
+    value : "s",
+    className : "symbol"
+  }, {
+    value : "d",
+    className : "symbol"
+  }, {
+    value : "f",
+    className : "symbol"
+  }, {
+    value : "g",
+    className : "symbol"
+  }, {
+    value : "h",
+    className : "symbol"
+  }, {
+    value : "j",
+    className : "symbol"
+  }, {
+    value : "k",
+    className : "symbol"
+  }, {
+    value : "l",
+    className : "symbol"
+  }, {
+    value : "\u00f6",
+    className : "symbol"
+  }, {
+    value : "\u00e4",
+    className : "symbol"
+  }, {
+    value : "Delete",
+    className : "symbol delete",
+    colSpan : 2
+  }], [{
+    value : "y",
+    className : "symbol"
+  }, {
+    value : "x",
+    className : "symbol"
+  }, {
+    value : "c",
+    className : "symbol"
+  }, {
+    value : "v",
+    className : "symbol"
+  }, {
+    value : "b",
+    className : "symbol"
+  }, {
+    value : "n",
+    className : "symbol"
+  }, {
+    value : "m",
+    className : "symbol"
+  }, {
+    value : ".",
+    className : "symbol"
+  }, {
+    value : ",",
+    className : "symbol"
+  }, {
+    value : "/",
+    className : "symbol"
+  }, {
+    value : "@",
+    className : "symbol"
+  }, {
+    value : "123",
+    className : "symbol nums"
+  }, {
+    value : "&nbsp;",
+    className : "keyGlobe"
+  }], [{
+    value : "&nbsp;",
+    className : "icon keySpace",
+    colSpan : 13
+  }]];
+}, function(mixin, canCreateDiscussions) {
+  /** @type {!Array} */
+  mixin.exports = [[{
+    value : "q",
+    className : "symbol"
+  }, {
+    value : "w",
+    className : "symbol"
+  }, {
+    value : "e",
+    className : "symbol"
+  }, {
+    value : "r",
+    className : "symbol"
+  }, {
+    value : "t",
+    className : "symbol"
+  }, {
+    value : "y",
+    className : "symbol"
+  }, {
+    value : "u",
+    className : "symbol"
+  }, {
+    value : "i",
+    className : "symbol"
+  }, {
+    value : "o",
+    className : "symbol"
+  }, {
+    value : "p",
+    className : "symbol"
+  }, {
+    value : "&nbsp;",
+    className : "icon keyDelete",
+    colSpan : 2
+  }], [{
+    value : "a",
+    className : "symbol"
+  }, {
+    value : "s",
+    className : "symbol"
+  }, {
+    value : "d",
+    className : "symbol"
+  }, {
+    value : "f",
+    className : "symbol"
+  }, {
+    value : "g",
+    className : "symbol"
+  }, {
+    value : "h",
+    className : "symbol"
+  }, {
+    value : "j",
+    className : "symbol"
+  }, {
+    value : "k",
+    className : "symbol"
+  }, {
+    value : "l",
+    className : "symbol"
+  }, {
+    value : "-",
+    className : "symbol"
+  }, {
+    value : "Delete",
+    className : "symbol delete",
+    colSpan : 2
+  }], [{
+    value : "z",
+    className : "symbol"
+  }, {
+    value : "x",
+    className : "symbol"
+  }, {
+    value : "c",
+    className : "symbol"
+  }, {
+    value : "v",
+    className : "symbol"
+  }, {
+    value : "b",
+    className : "symbol"
+  }, {
+    value : "n",
+    className : "symbol"
+  }, {
+    value : "m",
+    className : "symbol"
+  }, {
+    value : ",",
+    className : "symbol"
+  }, {
+    value : ".",
+    className : "symbol"
+  }, {
+    value : "/",
+    className : "symbol"
+  }, {
+    value : "123",
+    className : "symbol nums"
+  }, {
+    value : "&nbsp;",
+    className : "keyGlobe"
+  }], [{
+    value : "&nbsp;",
+    className : "icon keySpace",
+    colSpan : 12
+  }]];
+}, function(mixin, canCreateDiscussions) {
+  /** @type {!Array} */
+  mixin.exports = [[{
+    value : "\u0439",
+    className : "symbol"
+  }, {
+    value : "\u0446",
+    className : "symbol"
+  }, {
+    value : "\u0443",
+    className : "symbol"
+  }, {
+    value : "\u043a",
+    className : "symbol"
+  }, {
+    value : "\u0435",
+    className : "symbol"
+  }, {
+    value : "\u043d",
+    className : "symbol"
+  }, {
+    value : "\u0433",
+    className : "symbol"
+  }, {
+    value : "\u0448",
+    className : "symbol"
+  }, {
+    value : "\u0449",
+    className : "symbol"
+  }, {
+    value : "\u0437",
+    className : "symbol"
+  }, {
+    value : "\u0445",
+    className : "symbol"
+  }, {
+    value : "\u044a",
+    className : "symbol"
+  }, {
+    value : "&nbsp;",
+    className : "icon keyDelete",
+    colSpan : 2
+  }], [{
+    value : "\u0444",
+    className : "symbol"
+  }, {
+    value : "\u044b",
+    className : "symbol"
+  }, {
+    value : "\u0432",
+    className : "symbol"
+  }, {
+    value : "\u0430",
+    className : "symbol"
+  }, {
+    value : "\u043f",
+    className : "symbol"
+  }, {
+    value : "\u0440",
+    className : "symbol"
+  }, {
+    value : "\u043e",
+    className : "symbol"
+  }, {
+    value : "\u043b",
+    className : "symbol"
+  }, {
+    value : "\u0434",
+    className : "symbol"
+  }, {
+    value : "\u0436",
+    className : "symbol"
+  }, {
+    value : "\u044d",
+    className : "symbol"
+  }, {
+    value : "/",
+    className : "symbol"
+  }, {
+    value : "\u0423\u0434\u0430\u043b\u0438\u0442\u044c",
+    className : "symbol delete",
+    colSpan : 2
+  }], [{
+    value : "\u044f",
+    className : "symbol"
+  }, {
+    value : "\u0447",
+    className : "symbol"
+  }, {
+    value : "\u0441",
+    className : "symbol"
+  }, {
+    value : "\u043c",
+    className : "symbol"
+  }, {
+    value : "\u0438",
+    className : "symbol"
+  }, {
+    value : "\u0442",
+    className : "symbol"
+  }, {
+    value : "\u044c",
+    className : "symbol"
+  }, {
+    value : "\u0431",
+    className : "symbol"
+  }, {
+    value : "\u044e",
+    className : "symbol"
+  }, {
+    value : "\u0451",
+    className : "symbol"
+  }, {
+    value : ".",
+    className : "symbol"
+  }, {
+    value : ",",
+    className : "symbol"
+  }, {
+    value : "123",
+    className : "symbol nums"
+  }, {
+    value : "&nbsp;",
+    className : "keyGlobe"
+  }], [{
+    value : "&nbsp;",
+    className : "icon keySpace",
+    colSpan : 14
+  }]];
+}, function(mixin, canCreateDiscussions) {
+  /** @type {!Array} */
+  mixin.exports = [[{
+    value : "\u0439",
+    className : "symbol"
+  }, {
+    value : "\u0446",
+    className : "symbol"
+  }, {
+    value : "\u0443",
+    className : "symbol"
+  }, {
+    value : "\u043a",
+    className : "symbol"
+  }, {
+    value : "\u0435",
+    className : "symbol"
+  }, {
+    value : "\u043d",
+    className : "symbol"
+  }, {
+    value : "\u0433",
+    className : "symbol"
+  }, {
+    value : "\u0448",
+    className : "symbol"
+  }, {
+    value : "\u0449",
+    className : "symbol"
+  }, {
+    value : "\u0437",
+    className : "symbol"
+  }, {
+    value : "\u0445",
+    className : "symbol"
+  }, {
+    value : "\u0457",
+    className : "symbol"
+  }, {
+    value : "&nbsp;",
+    className : "icon keyDelete",
+    colSpan : 2
+  }], [{
+    value : "\u0444",
+    className : "symbol"
+  }, {
+    value : "\u0456",
+    className : "symbol"
+  }, {
+    value : "\u0432",
+    className : "symbol"
+  }, {
+    value : "\u0430",
+    className : "symbol"
+  }, {
+    value : "\u043f",
+    className : "symbol"
+  }, {
+    value : "\u0440",
+    className : "symbol"
+  }, {
+    value : "\u043e",
+    className : "symbol"
+  }, {
+    value : "\u043b",
+    className : "symbol"
+  }, {
+    value : "\u0434",
+    className : "symbol"
+  }, {
+    value : "\u0436",
+    className : "symbol"
+  }, {
+    value : "\u0454",
+    className : "symbol"
+  }, {
+    value : "/",
+    className : "symbol"
+  }, {
+    value : "\u0423\u0434\u0430\u043b\u0438\u0442\u044c",
+    className : "symbol delete",
+    colSpan : 2
+  }], [{
+    value : "\u0491",
+    className : "symbol"
+  }, {
+    value : "\u044f",
+    className : "symbol"
+  }, {
+    value : "\u0447",
+    className : "symbol"
+  }, {
+    value : "\u0441",
+    className : "symbol"
+  }, {
+    value : "\u043c",
+    className : "symbol"
+  }, {
+    value : "\u0438",
+    className : "symbol"
+  }, {
+    value : "\u0442",
+    className : "symbol"
+  }, {
+    value : "\u044c",
+    className : "symbol"
+  }, {
+    value : "\u0431",
+    className : "symbol"
+  }, {
+    value : "\u044e",
+    className : "symbol"
+  }, {
+    value : ".",
+    className : "symbol"
+  }, {
+    value : ",",
+    className : "symbol"
+  }, {
+    value : "123",
+    className : "symbol nums"
+  }, {
+    value : "&nbsp;",
+    className : "keyGlobe"
+  }], [{
+    value : "&nbsp;",
+    className : "icon keySpace",
+    colSpan : 14
+  }]];
+}, function(mixin, canCreateDiscussions) {
+  /**
+   * @param {string} e
+   * @return {?}
+   */
+  mixin.exports = function(e) {
+    var data = {};
+    return e.split("&").forEach(function(kv) {
+      kv = kv.split("=");
+      if (2 === kv.length) {
+        /** @type {string} */
+        data[kv[0]] = decodeURIComponent(kv[1]);
+      }
+    }), data;
+  };
 }]);
-//# sourceMappingURL=release.map
