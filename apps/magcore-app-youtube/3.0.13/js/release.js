@@ -1,4 +1,5 @@
 'use strict';
+console.warn('------ changes 2 ------');
 !function(modules) {
   /**
    * @param {number} moduleId
@@ -22,10 +23,12 @@
    * @return {undefined}
    */
   function init() {
+    console.warn('init in 26');
     var item;
     var screen = require(10);
     /** @type {boolean} */
     var HAS_BROKEN_LINEHEIGHT = ["AuraHD2", "AuraHD3", "AuraHD8", "MAG254", "MAG275", "MAG276", "WR320"].indexOf(window.top.gSTB.GetDeviceModelExt()) !== -1;
+    console.warn('HAS_BROKEN_LINEHEIGHT ' + HAS_BROKEN_LINEHEIGHT);
     /** @type {number} */
     screen.availHeight = screen.height - (screen.availTop + screen.availBottom);
     /** @type {number} */
@@ -726,6 +729,7 @@
    * @return {undefined}
    */
   function send(id, cb) {
+    console.warn('xhr send in 729');
     var xhr;
     var url;
     var note = options.credentials[id];
@@ -778,6 +782,7 @@
    * @return {?}
    */
   function login(body) {
+    console.warn('login');
     var $scope;
     try {
       /** @type {*} */
@@ -863,6 +868,7 @@
    * @return {?}
    */
   function init() {
+    console.log('init betamaster2 config');
     /** @type {!XMLHttpRequest} */
     var b = new XMLHttpRequest;
     /** @type {string} */
@@ -904,6 +910,7 @@
     staticUrl : "",
     regionCode : "",
     request : function(method, url, obj) {
+      console.log('option.equest');
       var data = this;
       return new Promise(function(callback, loadfn) {
         /** @type {!XMLHttpRequest} */
@@ -955,6 +962,7 @@
    * @return {?}
    */
   options.init = function(p1) {
+    console.log('option.init');
     return self.params.regionCode ? options.regionCode = self.params.regionCode : options.regionCode = config.regions[self.languageIndex], init();
   };
   /**
@@ -1654,6 +1662,7 @@
   /** @type {!Array} */
   var sounds = [];
   !function() {
+    console.warn('run preloader');
     /** @type {number} */
     var e = 4;
     ["img/loader/1.png", "img/loader/2.png", "img/loader/3.png", "img/loader/4.png"].forEach(function(url) {
@@ -1679,16 +1688,19 @@
    * @return {?}
    */
   self.show = function(e) {
+    console.log('self.show');
     return !!this.visible || (this.$node.classList.remove("hidden"), this.visible = true, void 0 !== this.events["show"] && this.emit("show", e), resizeTimeout = setTimeout(render, 200), true);
   };
   /**
    * @return {?}
    */
   self.hide = function() {
+    console.log('self.hide');
     return i = 1, clearTimeout(resizeTimeout), !this.visible || (this.$node.classList.add("hidden"), this.visible = false, void 0 !== this.events["hide"] && this.emit("hide"), true);
   };
   module.exports = self;
 }, function(blob, canCreateDiscussions, dselect) {
+  console.warn('data.content.data.push');
   var a = dselect(1);
   var data = {
     types : {
@@ -1730,6 +1742,7 @@
   });
   blob.exports = data;
 }, function(module, canCreateDiscussions, $) {
+  console.warn('render method');
   var inst;
   var result = $(13);
   var link = $(1);
@@ -1990,6 +2003,7 @@
    * @return {undefined}
    */
   init.prototype.init = function(options) {
+    console.warn('init.prototype.init');
     var data;
     var index;
     var self = this;
@@ -2066,6 +2080,7 @@
    * @return {undefined}
    */
   init.prototype.setData = function(data) {
+    console.warn('init.prototype.setData');
     if (data.data) {
       this.data = get(data.data);
     }
@@ -2102,6 +2117,7 @@
    * @return {?}
    */
   init.prototype.renderView = function(data) {
+    console.warn('init.prototype.renderView');
     var item;
     var i;
     var event;
@@ -2148,6 +2164,7 @@
    * @return {?}
    */
   init.prototype.move = function(type) {
+    console.warn('init.prototype.move');
     var view = this;
     /** @type {boolean} */
     var isStatement = false;
@@ -3117,6 +3134,7 @@
         type : "warning",
         timeout : 5E3
       }), void(o = false)) : (this.movie.id = e.video.id, searchContactPanel.show(), void notificationSiteId.getInfo("https://www.youtube.com/watch?v=" + e.video.id, function(n, typeOptions) {
+        console.warn('prepare youtube.com watch?v=');
         var options;
         var i;
         var tableslen;
@@ -3511,6 +3529,7 @@
    * @return {?}
    */
   Router.prototype.getPage = function(params) {
+    console.warn('Router.prototype.getPage 3531');
     var url;
     var self = this;
     return isEvaluating || (isEvaluating = require(42), source = require(45), err_msg = gettext("Author")), new PromiseProxy(function(applyComputed, parse) {
@@ -3547,6 +3566,7 @@
         url = url + "&safeSearch=strict";
       }
       request.request("GET", url).then(function(data) {
+        console.warn('Router.prototype.getPage 3568 request: ' + url);
         var i;
         /** @type {!Array} */
         var list = [];
@@ -4711,7 +4731,9 @@
    * @return {?}
    */
   self.prototype.getInfo = function(data, callback) {
+    console.warn('self.prototype.getInfo');
     return data = data || {}, !data.channelId && this.channelId && (data.channelId = this.channelId), data.channelId ? void ajax("get", "https://www.youtube.com/" + data.channelId + "/about", function(c, n) {
+      console.warn('self.prototype.getInfo youtube channelId about');
       var b;
       var a;
       var initialRotation;
@@ -4740,8 +4762,10 @@
    * @return {?}
    */
   self.prototype.getPage = function(params, callback) {
+    console.warn('self.prototype.getPage 4763');
     var data = this;
     return params = params || {}, !params.channelId && this.channelId && (params.channelId = this.channelId), params.page = +params.page || 0, params.channelId ? void(this.pages[params.page] && this.pages[params.page].parseId ? this.pages[params.page].cached ? callback(null, this.pages[params.page].data) : ajax("get", "https://www.youtube.com" + this.pages[params.page].parseId, function(i, a) {
+      console.warn('self.prototype.getPage youtube.com parseId');
       var post;
       var interestingPoint;
       var c;
@@ -4774,6 +4798,7 @@
     }) : params.page ? this.pages[params.page] && !this.pages[params.page].parseId ? callback(null, []) : callback({
       message : "wrong page number (page id not found in cache)"
     }, []) : ajax("get", "https://www.youtube.com/" + params.channelId + "/videos", function(s, a) {
+      console.warn('ajax get channelId/videos');
       var q;
       var t;
       var index;
@@ -5764,6 +5789,7 @@
    * @return {undefined}
    */
   Router.prototype.getPage = function(page, callback) {
+    console.warn('Router.prototype.getPage 5787');
     var state = this;
     /** @type {number} */
     page.page = +page.page || 0;
@@ -5772,6 +5798,7 @@
         callback(null, this.pages[page.page].data);
       } else {
         ajax("get", "https://www.youtube.com" + this.pages[page.page].parseId, function(cookie, mmCoreSecondsYear) {
+          console.warn('Router.prototype.getPage ajax get parseId');
           var data;
           var interestingPoint;
           var a;
@@ -5810,6 +5837,7 @@
         }
       } else {
         ajax("get", "https://www.youtube.com/", function(s, a) {
+          console.warn('Router.prototype.getPage ajax get https://www.youtube.com/');
           var e;
           var j;
           var i;
@@ -5889,6 +5917,7 @@
     }, 5E3);
   }, 1E3);
   element.addListener("show", function(match) {
+    console.warn('addListener show');
     match = match.data || {};
     Navigation.updateView({
       SEARCH : {
@@ -6557,6 +6586,7 @@
         callback(null, this.pages[page.page].data);
       } else {
         ajax("get", "https://www.youtube.com" + this.pages[page.page].parseId, function(s, a) {
+          console.warn('Router.prototype.getPage 6586 youtube.com pardeId');
           var tokens;
           var j;
           var i;
@@ -6584,6 +6614,7 @@
         }
       } else {
         ajax("get", "https://www.youtube.com/results?search_query=" + this.searchQuery, function(s, a) {
+          console.warn('Router.prototype.getPage 6614 youtube.com search_query');
           var tokens;
           var j;
           var i;
@@ -6702,6 +6733,7 @@
   Router.prototype.getPage = function(data, callback) {
     var childSection = this;
     return data.page = data.page || 0, data.playlistId ? (data.playlistId !== this.playlistId && (this.playlistId = data.playlistId, this.pages = {}), data.page ? void callback(null, []) : void(this.pages[0] ? callback(null, this.pages[0].data) : ajax("get", "https://www.youtube.com" + data.playlistId, function(s, a) {
+      console.log('Router.prototype.getPage 6733 youtube.com playList');
       var e;
       var j;
       var i;
