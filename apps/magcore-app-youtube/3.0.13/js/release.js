@@ -3145,6 +3145,7 @@ debug('------ changes 2 ------');
         var options;
         var i;
         var tableslen;
+        // Когда видео не грузится ошибка генерится тут из за n (не разобранно).
         if (searchContactPanel.hide(), n) {
           return "0:00" === e.video.duration ? window.core.notify({
             title : gettext("Live broadcasting is not supported"),

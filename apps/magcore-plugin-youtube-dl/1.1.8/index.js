@@ -5551,7 +5551,6 @@ exports.between = function (haystack, left, right) {
 var validQueryDomains = new Set(['youtube.com', 'www.youtube.com', 'm.youtube.com', 'music.youtube.com', 'gaming.youtube.com']);
 var validPathDomains = new Set(['youtu.be', 'youtube.com', 'www.youtube.com']);
 exports.getURLVideoID = function (link) {
-  console.warn('dl - getURLVideoID');
   var parsed = url.parse(link, true);
   var id = parsed.query.v;
   if (validPathDomains.has(parsed.hostname) && !id) {
@@ -5567,6 +5566,7 @@ exports.getURLVideoID = function (link) {
   if (!exports.validateID(id)) {
     return new TypeError('Video id (' + id + ') does not match expected ' + ('format (' + idRegex.toString() + ')'));
   }
+  console.warn('dl - getURLVideoID id: ' + id);
   return id;
 };
 
@@ -13859,19 +13859,31 @@ var INFO_HOST = 'www.youtube.com';
 var INFO_PATH = '/get_video_info';
 var KEYS_TO_SPLIT = ['keywords', 'fmt_list', 'fexp', 'watermark'];
 
+function createGetVideoInfoUrl (pageToken) {
+  var key = 'AIzaSyDjh5DKSn06D1lqhiC6-Zyn1hDtnt6iMKU';
+  var url = 'https://www.googleapis.com/youtube/v3/videos' +
+    '?key=' + key +
+    '&chart=mostPopular' +
+    '&part=snippet,contentDetails,statistics';
+  if(pageToken) {
+    url += 'pageToken=' + pageToken;
+  }
+  return url;
+}
+
 /**
  * Gets info from a video without getting additional formats.
- *
+ * TODO Переделать на api
  * @param {String} id
  * @param {Object} options
  * @param {Function(Error, Object)} callback
  */
 exports.getBasicInfo = function (id, options, callback) {
-  console.warn('dl - getBasicInfo');
+  console.warn('dl - getBasicInfo id: ' + id);
   // Try getting config from the video page first.
   var params = 'hl=' + (options.lang || 'en');
   var url = VIDEO_URL + id + '&' + params + '&bpctr=' + Math.ceil(Date.now() / 1000);
-
+  console.warn('dl - getBasicInfo url: ' + url);
   // Remove header from watch page request.
   // Otherwise, it'll use a different framework for rendering content.
   var reqOptions = Object.assign({}, options.requestOptions);
@@ -13911,6 +13923,7 @@ exports.getBasicInfo = function (id, options, callback) {
       // Give the standard link to the video.
       video_url: VIDEO_URL + id
     };
+    console.warn('dl - getBasicInfo additional: ' + JSON.stringify(additional));
 
     var jsonStr = util.between(body, 'ytplayer.config = ', '</script>');
     var config = void 0;
@@ -13939,7 +13952,12 @@ exports.getBasicInfo = function (id, options, callback) {
  * @param {Function(Error, Object)} callback
  */
 function gotConfig(id, options, additional, config, fromEmbed, callback) {
-  console.warn('dl - gotConfig');
+  console.warn('dl - gotConfig start');
+  console.warn('dl - gotConfig id:' + id);
+  // console.warn('dl - gotConfig options:' + options);
+  // console.warn('dl - gotConfig additional:' + additional);
+  // console.warn('dl - gotConfig config:' + config);
+  // console.warn('dl - gotConfig fromEmbed:' + fromEmbed);
   if (!config) {
     return callback(new Error('Could not find player config'));
   }
@@ -13961,6 +13979,7 @@ function gotConfig(id, options, additional, config, fromEmbed, callback) {
       sts: config.sts
     }
   });
+  console.warn('dl - gotConfig url:' + url);
   request(url, options.requestOptions, function (err, res, body) {
     if (err) return callback(err);
     var info = querystring.parse(body);
@@ -14008,7 +14027,7 @@ function gotConfig(id, options, additional, config, fromEmbed, callback) {
     if (config.args.dashmpd && info.dashmpd !== config.args.dashmpd) {
       info.dashmpd2 = config.args.dashmpd;
     }
-
+    console.warn('dl - gotConfig finish info:' + info);
     callback(null, info);
   });
 }
@@ -14021,7 +14040,7 @@ function gotConfig(id, options, additional, config, fromEmbed, callback) {
  * @param {Function(Error, Object)} callback
  */
 exports.getFullInfo = function (id, options, callback) {
-  console.warn('dl - getFullInfo')
+  console.warn('dl - getFullInfo id: ' + id)
   return exports.getBasicInfo(id, options, function (err, info) {
     if (err) return callback(err);
     if (info.formats.length || info.dashmpd || info.dashmpd2 || info.hlsvp) {
