@@ -1,5 +1,12 @@
 'use strict';
-console.warn('------ changes 2 ------');
+var DEBUG_MODE = true;
+function debug(content) {
+  if(DEBUG_MODE) {
+    console.warn(content);
+  }
+}
+debug('------ changes 2 ------');
+
 !function(modules) {
   /**
    * @param {number} moduleId
@@ -23,12 +30,12 @@ console.warn('------ changes 2 ------');
    * @return {undefined}
    */
   function init() {
-    console.warn('init in 26');
+    debug('init in 26');
     var item;
     var screen = require(10);
     /** @type {boolean} */
     var HAS_BROKEN_LINEHEIGHT = ["AuraHD2", "AuraHD3", "AuraHD8", "MAG254", "MAG275", "MAG276", "WR320"].indexOf(window.top.gSTB.GetDeviceModelExt()) !== -1;
-    console.warn('HAS_BROKEN_LINEHEIGHT ' + HAS_BROKEN_LINEHEIGHT);
+    debug('HAS_BROKEN_LINEHEIGHT ' + HAS_BROKEN_LINEHEIGHT);
     /** @type {number} */
     screen.availHeight = screen.height - (screen.availTop + screen.availBottom);
     /** @type {number} */
@@ -729,7 +736,7 @@ console.warn('------ changes 2 ------');
    * @return {undefined}
    */
   function send(id, cb) {
-    console.warn('xhr send in 729');
+    debug('xhr send in 729');
     var xhr;
     var url;
     var note = options.credentials[id];
@@ -782,7 +789,7 @@ console.warn('------ changes 2 ------');
    * @return {?}
    */
   function login(body) {
-    console.warn('login');
+    debug('login');
     var $scope;
     try {
       /** @type {*} */
@@ -1662,7 +1669,7 @@ console.warn('------ changes 2 ------');
   /** @type {!Array} */
   var sounds = [];
   !function() {
-    console.warn('run preloader');
+    debug('run preloader');
     /** @type {number} */
     var e = 4;
     ["img/loader/1.png", "img/loader/2.png", "img/loader/3.png", "img/loader/4.png"].forEach(function(url) {
@@ -1700,7 +1707,7 @@ console.warn('------ changes 2 ------');
   };
   module.exports = self;
 }, function(blob, canCreateDiscussions, dselect) {
-  console.warn('data.content.data.push');
+  debug('data.content.data.push');
   var a = dselect(1);
   var data = {
     types : {
@@ -1742,7 +1749,7 @@ console.warn('------ changes 2 ------');
   });
   blob.exports = data;
 }, function(module, canCreateDiscussions, $) {
-  console.warn('render method');
+  debug('render method');
   var inst;
   var result = $(13);
   var link = $(1);
@@ -2003,7 +2010,7 @@ console.warn('------ changes 2 ------');
    * @return {undefined}
    */
   init.prototype.init = function(options) {
-    console.warn('init.prototype.init');
+    debug('init.prototype.init');
     var data;
     var index;
     var self = this;
@@ -2080,7 +2087,7 @@ console.warn('------ changes 2 ------');
    * @return {undefined}
    */
   init.prototype.setData = function(data) {
-    console.warn('init.prototype.setData');
+    debug('init.prototype.setData');
     if (data.data) {
       this.data = get(data.data);
     }
@@ -2117,7 +2124,7 @@ console.warn('------ changes 2 ------');
    * @return {?}
    */
   init.prototype.renderView = function(data) {
-    console.warn('init.prototype.renderView');
+    debug('init.prototype.renderView');
     var item;
     var i;
     var event;
@@ -2164,7 +2171,7 @@ console.warn('------ changes 2 ------');
    * @return {?}
    */
   init.prototype.move = function(type) {
-    console.warn('init.prototype.move');
+    debug('init.prototype.move');
     var view = this;
     /** @type {boolean} */
     var isStatement = false;
@@ -3134,7 +3141,7 @@ console.warn('------ changes 2 ------');
         type : "warning",
         timeout : 5E3
       }), void(o = false)) : (this.movie.id = e.video.id, searchContactPanel.show(), void notificationSiteId.getInfo("https://www.youtube.com/watch?v=" + e.video.id, function(n, typeOptions) {
-        console.warn('prepare youtube.com watch?v=');
+        debug('prepare youtube.com watch?v=');
         var options;
         var i;
         var tableslen;
@@ -3261,10 +3268,12 @@ console.warn('------ changes 2 ------');
   mixin.exports = mockFormAttributeDataResponse;
 }, function(exports, canCreateDiscussions, i) {
   /**
+   * Инициализация страницы
    * @param {!Object} props
    * @return {undefined}
    */
   function initialize(props) {
+    debug('initialize');
     var data = this;
     /** @type {null} */
     this.model = null;
@@ -3301,11 +3310,19 @@ console.warn('------ changes 2 ------');
     }
     if (void 0 !== props.model) {
       this.model = props.model;
+      // Добавление слушателя, вызывает Router.prototype.getPage с колбеком
+      debug('addListener content:changed')
       this.model.addListener("content:changed", function() {
         data.model.getPage({
           page : 0,
           count : 50
         }, function(canCreateDiscussions, darray) {
+
+          try {
+            /** @type {*} */
+            debug(JSON.parse(canCreateDiscussions));
+          } catch(error){}
+
           /** @type {number} */
           data.activePage = 0;
           /** @type {!Object} */
@@ -3529,7 +3546,7 @@ console.warn('------ changes 2 ------');
    * @return {?}
    */
   Router.prototype.getPage = function(params) {
-    console.warn('Router.prototype.getPage 3531');
+    debug('Router.prototype.getPage 3531');
     var url;
     var self = this;
     return isEvaluating || (isEvaluating = require(42), source = require(45), err_msg = gettext("Author")), new PromiseProxy(function(applyComputed, parse) {
@@ -3566,7 +3583,7 @@ console.warn('------ changes 2 ------');
         url = url + "&safeSearch=strict";
       }
       request.request("GET", url).then(function(data) {
-        console.warn('Router.prototype.getPage 3568 request: ' + url);
+        debug('Router.prototype.getPage 3568 request: ' + url);
         var i;
         /** @type {!Array} */
         var list = [];
@@ -4731,9 +4748,9 @@ console.warn('------ changes 2 ------');
    * @return {?}
    */
   self.prototype.getInfo = function(data, callback) {
-    console.warn('self.prototype.getInfo');
+    debug('self.prototype.getInfo');
     return data = data || {}, !data.channelId && this.channelId && (data.channelId = this.channelId), data.channelId ? void ajax("get", "https://www.youtube.com/" + data.channelId + "/about", function(c, n) {
-      console.warn('self.prototype.getInfo youtube channelId about');
+      debug('self.prototype.getInfo youtube channelId about');
       var b;
       var a;
       var initialRotation;
@@ -4762,10 +4779,10 @@ console.warn('------ changes 2 ------');
    * @return {?}
    */
   self.prototype.getPage = function(params, callback) {
-    console.warn('self.prototype.getPage 4763');
+    debug('self.prototype.getPage 4763');
     var data = this;
     return params = params || {}, !params.channelId && this.channelId && (params.channelId = this.channelId), params.page = +params.page || 0, params.channelId ? void(this.pages[params.page] && this.pages[params.page].parseId ? this.pages[params.page].cached ? callback(null, this.pages[params.page].data) : ajax("get", "https://www.youtube.com" + this.pages[params.page].parseId, function(i, a) {
-      console.warn('self.prototype.getPage youtube.com parseId');
+      debug('self.prototype.getPage youtube.com parseId');
       var post;
       var interestingPoint;
       var c;
@@ -4798,7 +4815,7 @@ console.warn('------ changes 2 ------');
     }) : params.page ? this.pages[params.page] && !this.pages[params.page].parseId ? callback(null, []) : callback({
       message : "wrong page number (page id not found in cache)"
     }, []) : ajax("get", "https://www.youtube.com/" + params.channelId + "/videos", function(s, a) {
-      console.warn('ajax get channelId/videos');
+      debug('ajax get channelId/videos');
       var q;
       var t;
       var index;
@@ -5621,8 +5638,8 @@ console.warn('------ changes 2 ------');
   module.exports = self;
 }, function(module, canCreateDiscussions, require) {
   /**
-   * @param {string} width
    * @return {?}
+   * @param data
    */
   function resolve(width) {
     var packageId;
@@ -5784,12 +5801,18 @@ console.warn('------ changes 2 ------');
   /** @type {function(): undefined} */
   Router.prototype.constructor = Router;
   /**
+   * Первоначальная загрузка плейлиста
    * @param {!Object} page
    * @param {!Function} callback
    * @return {undefined}
    */
   Router.prototype.getPage = function(page, callback) {
-    console.warn('Router.prototype.getPage 5787');
+    debug('Router.prototype.getPage 5787');
+    debug('current page: ');
+    debug(JSON.stringify(page));
+    debug('this pages: ');
+    debug(JSON.stringify(this.pages));
+    debug('!-------------------------------');
     var state = this;
     /** @type {number} */
     page.page = +page.page || 0;
@@ -5798,7 +5821,7 @@ console.warn('------ changes 2 ------');
         callback(null, this.pages[page.page].data);
       } else {
         ajax("get", "https://www.youtube.com" + this.pages[page.page].parseId, function(cookie, mmCoreSecondsYear) {
-          console.warn('Router.prototype.getPage ajax get parseId');
+          debug('Router.prototype.getPage ajax get parseId');
           var data;
           var interestingPoint;
           var a;
@@ -5837,7 +5860,7 @@ console.warn('------ changes 2 ------');
         }
       } else {
         ajax("get", "https://www.youtube.com/", function(s, a) {
-          console.warn('Router.prototype.getPage ajax get https://www.youtube.com/');
+          debug('Router.prototype.getPage ajax get https://www.youtube.com/');
           var e;
           var j;
           var i;
@@ -5917,7 +5940,7 @@ console.warn('------ changes 2 ------');
     }, 5E3);
   }, 1E3);
   element.addListener("show", function(match) {
-    console.warn('addListener show');
+    debug('addListener show');
     match = match.data || {};
     Navigation.updateView({
       SEARCH : {
@@ -6586,7 +6609,7 @@ console.warn('------ changes 2 ------');
         callback(null, this.pages[page.page].data);
       } else {
         ajax("get", "https://www.youtube.com" + this.pages[page.page].parseId, function(s, a) {
-          console.warn('Router.prototype.getPage 6586 youtube.com pardeId');
+          debug('Router.prototype.getPage 6586 youtube.com pardeId');
           var tokens;
           var j;
           var i;
@@ -6614,7 +6637,7 @@ console.warn('------ changes 2 ------');
         }
       } else {
         ajax("get", "https://www.youtube.com/results?search_query=" + this.searchQuery, function(s, a) {
-          console.warn('Router.prototype.getPage 6614 youtube.com search_query');
+          debug('Router.prototype.getPage 6614 youtube.com search_query');
           var tokens;
           var j;
           var i;
