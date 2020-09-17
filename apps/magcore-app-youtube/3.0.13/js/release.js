@@ -5786,6 +5786,62 @@ debug('------ changes 2 ------');
     }
     return items;
   }
+
+  // Нормализация продолжительности видео (метод скопирован из старого объекта, возможно не нужен, нужно глянуть представление)
+  function normalizeVideoDuration(result) {
+    var x1;
+    var x2;
+    var message;
+    /** @type {!Date} */
+    var date = new Date(0);
+    return result = result.replace("PT", "").replace("S", "").split("M"), result.length > 1 ? (result[0] = result[0].split("H"), result[0].length > 1 ? (date.setUTCHours(result[0][0]), date.setUTCMinutes(result[0][1])) : date.setUTCMinutes(result[0]), date.setUTCSeconds(result[1]), message = result[1]) : (date.setUTCSeconds(result[0]), message = result[0]), x1 = date.getUTCHours(), x2 = date.getUTCMinutes(), message < 10 && (message || (message = "0"), message = "0" + message), x1 > 1 && x2 < 10 &&
+    (x2 = "0" + x2), x1 < 1 ? x1 = "" : x1 < 10 && (x1 = "0" + x1 + ":"), x1 + x2 + ":" + message;
+  };
+
+  // Реструктуризация элементов video из response youtube api
+  function restructuringData(data) {
+    /** @type {!Array} */
+    var items = [];
+    data.forEach(function (el) {
+      // console.log(JSON.stringify(el));
+      var item = {
+        value : 1,
+        id : el.id,
+        channelTitle : el.snippet.channelTitle,
+        duration: normalizeVideoDuration(el.contentDetails.duration),
+        realDuration: el.contentDetails.duration,
+        viewCount: el.statistics.viewCount,
+        publishedAt: el.snippet.publishedAt,
+        dimension: el.contentDetails.dimension,
+        definition: el.contentDetails.definition,
+        title: el.snippet.title,
+        icon: el.snippet.thumbnails["high"].url,
+        channelId: el.snippet.channelId,
+        type : "video",
+        locale: {
+          publishedAt : el.snippet.publishedAt,
+          viewCount : el.statistics.viewCount,
+          channelTitle : el.snippet.channelTitle
+        }
+      };
+      console.log(JSON.stringify(item));
+      items.push(item);
+    });
+    return items;
+  }
+
+  function createGetVideosListUrl (pageToken) {
+    var key = 'AIzaSyDjh5DKSn06D1lqhiC6-Zyn1hDtnt6iMKU';
+    var url = 'https://www.googleapis.com/youtube/v3/videos' +
+      '?key=' + key +
+      '&chart=mostPopular' +
+      '&part=snippet,contentDetails,statistics';
+    if(pageToken) {
+      url += 'pageToken=' + pageToken;
+    }
+    return url;
+  }
+
   /**
    * @return {undefined}
    */
@@ -5801,7 +5857,7 @@ debug('------ changes 2 ------');
   /** @type {function(): undefined} */
   Router.prototype.constructor = Router;
   /**
-   * Первоначальная загрузка плейлиста
+   * Первоначальная загрузка плейлиста (последний актуальный метод, в идеале вырезать все старое и зарефакторить по нормальному)
    * @param {!Object} page
    * @param {!Function} callback
    * @return {undefined}
@@ -5859,21 +5915,34 @@ debug('------ changes 2 ------');
           }, []);
         }
       } else {
-        ajax("get", "https://www.youtube.com/", function(s, a) {
+        ajax("get", createGetVideosListUrl(), function(result, status) {
           debug('Router.prototype.getPage ajax get https://www.youtube.com/');
           var e;
           var j;
           var i;
-          return 200 !== a ? void callback({
-            message : "request got bad http status (" + a + ")"
-          }, []) : (j = s.indexOf('data-uix-load-more-href="') + 25, i = s.indexOf('"', j), state.pages[page.page + 1] = {
-            parseId : s.substring(j, i).replace(/&amp;/g, "&"),
-            cached : false
-          }, e = s.slice(s.indexOf('id="feed-main-'), s.indexOf('id="feed-error"')), state.pages[0] = {
-            cached : true,
-            parseId : "   ",
-            data : resolve(e)
-          }, void callback(null, state.pages[0].data));
+          if (status !== 200) {
+            return void callback({
+              message : "request got bad http status (" + a + ")"
+            }, []);
+          } else {
+            try {
+              var response = JSON.parse(result);
+            } catch (e) {
+              return void callback({
+                message : "json parse error"
+              }, []);
+            }
+            state.pages[page.page + 1] = {
+              parseId : response.nextPageToken,
+              cached : false
+            };
+            state.pages[0] = {
+              cached : true,
+              parseId : "   ",
+              data : restructuringData(response.items)
+            };
+            void callback(null, state.pages[0].data);
+          }
         });
       }
     }

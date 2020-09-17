@@ -74,7 +74,7 @@ function createGetVideosListUrl (pageToken = null) {
   var url = 'https://www.googleapis.com/youtube/v3/videos' +
     '?key=' + key +
     '&chart=mostPopular' +
-    '&part=snippet';
+    '&part=snippet,contentDetails';
   if(pageToken) {
     url += 'pageToken=' + pageToken;
   }
