@@ -5551,6 +5551,7 @@ exports.between = function (haystack, left, right) {
 var validQueryDomains = new Set(['youtube.com', 'www.youtube.com', 'm.youtube.com', 'music.youtube.com', 'gaming.youtube.com']);
 var validPathDomains = new Set(['youtu.be', 'youtube.com', 'www.youtube.com']);
 exports.getURLVideoID = function (link) {
+  console.warn('dl - getURLVideoID');
   var parsed = url.parse(link, true);
   var id = parsed.query.v;
   if (validPathDomains.has(parsed.hostname) && !id) {
@@ -13866,6 +13867,7 @@ var KEYS_TO_SPLIT = ['keywords', 'fmt_list', 'fexp', 'watermark'];
  * @param {Function(Error, Object)} callback
  */
 exports.getBasicInfo = function (id, options, callback) {
+  console.warn('dl - getBasicInfo');
   // Try getting config from the video page first.
   var params = 'hl=' + (options.lang || 'en');
   var url = VIDEO_URL + id + '&' + params + '&bpctr=' + Math.ceil(Date.now() / 1000);
@@ -13937,6 +13939,7 @@ exports.getBasicInfo = function (id, options, callback) {
  * @param {Function(Error, Object)} callback
  */
 function gotConfig(id, options, additional, config, fromEmbed, callback) {
+  console.warn('dl - gotConfig');
   if (!config) {
     return callback(new Error('Could not find player config'));
   }
@@ -14018,6 +14021,7 @@ function gotConfig(id, options, additional, config, fromEmbed, callback) {
  * @param {Function(Error, Object)} callback
  */
 exports.getFullInfo = function (id, options, callback) {
+  console.warn('dl - getFullInfo')
   return exports.getBasicInfo(id, options, function (err, info) {
     if (err) return callback(err);
     if (info.formats.length || info.dashmpd || info.dashmpd2 || info.hlsvp) {
